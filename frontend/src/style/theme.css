@@ -1,0 +1,123 @@
+body[theme="dark"] {
+    --background-color-rgb: 29, 31, 33;
+    --text-color-rgb: 240, 240, 240;
+}
+
+body {
+    --strong-color-rgb: 255, 255, 255;
+    --background-color-rgb: 240, 240, 240;
+    --text-color-rgb: 40, 40, 40;
+}
+
+body {
+    --testshit: rgb(67, 185, 194);
+    /*--primary-color-rgb: 67, 15, 5;*/
+    --primary-color-rgb: 7, 94, 84;
+    --primary-color: rgb(var(--primary-color-rgb));
+    --primary-color-90: rgba(var(--primary-color-rgb),0.90);
+    --danger-color: #cc4030;
+    --warning-color: #caa050;
+
+    --background-color: #fcfcfc;
+    --background-strong-05: rgba(var(--strong-color-rgb), 0.15);
+    --background-strong-1: rgba(var(--strong-color-rgb), 0.3);
+    --background-strong-2: rgba(var(--strong-color-rgb), 0.7);
+    --background-weak-1: rgba(var(--text-color-rgb), 0.05);
+    --background-weak-2: rgba(var(--text-color-rgb), 0.02);
+    --text-color: rgb(var(--text-color-rgb));
+    --text-color-weak-05: rgb(var(--text-color-rgb), 0.75);
+    --text-color-weak-1: rgb(var(--text-color-rgb), 0.5);
+    --text-color-weak-2: rgb(var(--text-color-rgb), 0.3);
+    --text-color-weak-3: rgb(var(--text-color-rgb), 0.1);
+    --text-color-on-secondary: var(--background-color);
+    --hover-color: rgba(var(--text-color-rgb), 0.05);
+    --active-color: rgba(188, 188, 188, 0.341);
+    --shadow-color: #00000042;
+    --btn-shadow: 0px 2px 8px rgba(40,41,61,.08), -15px 22px 54px rgba(96,97,112,.07);
+    --btn-active-shadow: inset 0px 2px 8px rgba(40,41,61,.08),inset -15px 22px 54px rgba(96,97,112,.07);
+    --btn-hover-text-color: #FDFDFD;
+    --campign-card-hover-border: 10px solid var(--primary-color-90);
+    --campign-card-hover-padding: 20px 20px 20px 10px;
+    --modal-overlay: rgba(0,0,0,0.6);
+    --modal-background: #FEFEFE;
+    --secondary-background-color: #2b2d30;
+    --secondary-background-weak-1: rgba(var(--text-color-rgb), 0.1);
+}
+
+button {
+    background-color: var(--background-weak-1);
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+}
+
+button[disabled] {
+    opacity: 0.2;
+    cursor: default;
+}
+
+button.fab {
+    border-radius: 1000px;
+    position: fixed;
+    right: 10%;
+    bottom: 30px;
+    color: var(--text-color-on-secondary);
+    width: 40px;
+    height: 40px;
+    background-color: var(--primary-color);
+    align-items: center;
+    display: flex;
+    box-shadow: 0px 0px 2px 1px #00000054;
+}
+
+input,textarea {
+    border-radius: 5px;
+    font-size: 18px;
+
+    width: -webkit-fill-available;
+    width: -moz-available;
+    border: none;
+    outline: none;
+    background-color: var(--background-color, #00000010);
+    padding: var(--padding, 10px 20px);
+
+    caret-color: #404040;
+    color: inherit;
+    font-family: inherit;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #404040;
+    opacity: 0.6; /* Firefox */
+    user-select: none;
+}
+
+.notyf__wrapper,.notyf__message {
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 400px;
+}
+
+.notyf__ripple {
+    height: 1500px;
+    width: 1500px;
+}
+
+.notyf__dismiss {
+    position: relative;
+}
+
+.ReactModal__Content {
+    font-family: Poppins;
+}
+
+.MuiPopover-paper {
+    font-family: Poppins;
+}
+
+.MuiInput-underline:before, .MuiInput-underline:after {
+    border-bottom: none !important;
+    border-bottom-style: none !important;
+}

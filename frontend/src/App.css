@@ -1,21 +1,43 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.App {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.App > .content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+}
+
+.TitleButtons {
+  display: flex;
+}
+
+.TitleButtons > button {
+  flex: 1;
+  border-radius: 0;
+}
+
+.TitleButtons > button[data-selected=true] {
+  border-bottom: 2px solid var(--primary-color);
+}
+
+button.logo {
+  margin-bottom: 10px;
+}
+
+img.logo {
+  border-radius: 20px;
 }
 
 .logo {
+  background-color: #00000000;
   height: 6em;
-  padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+
 }
 
 @keyframes logo-spin {
@@ -40,3 +62,106 @@
 .read-the-docs {
   color: #888;
 }
+
+.app-loader {
+  font-size: 50px;
+  align-items: center;
+  align-self: center;
+  display: flex;
+  height: -webkit-fill-available;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.App > .content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+}
+
+.App > .content > #pricing-header {
+  background-color: var(--warning-color);
+  display: flex;
+  align-items: center;
+  padding: 8px 30px;
+  font-size: 18px;
+}
+
+.App > .content > #pricing-header > button {
+  margin-left: auto;
+  background-color: #ffffff20;
+  /*color: var(--text-color-on-secondary);*/
+}
+
+.TitleButtons {
+  display: flex;
+}
+
+.TitleButtons > button {
+  flex: 1;
+  border-radius: 0;
+}
+
+.TitleButtons > button[data-selected=true] {
+  border-bottom: 2px solid var(--primary-color);
+}
+
+button.logo {
+  margin-bottom: 10px;
+}
+
+img.logo {
+  border-radius: 20px;
+}
+
+.logo {
+  background-color: #00000000;
+  height: 6em;
+  will-change: filter;
+  transition: filter 300ms;
+  gap: 17px;
+  padding: 10px 32px;
+}
+
+.doghouse-title {
+  color: var(--text-color-on-secondary);
+  opacity: 0.9;
+  font-size: 40px;
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.app-loader {
+  font-size: 50px;
+  align-items: center;
+  align-self: center;
+  display: flex;
+  height: -webkit-fill-available;
+}
+
