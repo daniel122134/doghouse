@@ -9,7 +9,7 @@
     "all-dev" : "npm-run-all --parallel dev-front server",
     "all-prod" : "npm-run-all --parallel prod-front server"
   },
-  "author": "",
+  "author": "daniel & hadar",
   "license": "ISC",
   "description": "",
   "dependencies": {
