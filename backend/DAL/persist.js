@@ -1,5 +1,5 @@
 const sqlite3 = require('sqlite3').verbose();
-let db = new sqlite3.Database('./doghouse.db', (err) => {
+const db = new sqlite3.Database('./doghouse.db', (err) => {
   if (err) {
     return console.error(err.message);
   }
@@ -23,10 +23,6 @@ db.serialize(() => {
   
 });
 
-
-db.close((err) => {
-  if (err) {
-    return console.error(err.message);
-  }
-  console.log('Close the database connection.');
-});
+module.exports = {
+  db
+};
