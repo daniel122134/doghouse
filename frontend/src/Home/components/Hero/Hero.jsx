@@ -8,8 +8,8 @@ const Hero = () => {
   return (
     <div id="hero">
       <div className="hero-text">
-        <h1>{"home title"}</h1>
-        <h2>{"home subtitle"}</h2>
+        <h1>{"DogHouse"}</h1>
+        <h2>{"Welcome to the first ever dog social network"}</h2>
         <Link to="/app" className="hero-btn" >
           {"Start Now"}
         </Link>
