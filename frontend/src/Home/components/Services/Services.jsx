@@ -1,32 +1,32 @@
 import React from 'react'
 import ServiceCard from './ServiceCard'
 import './Services.css'
-import whatsappAutomationToolSvg from '../../assets/automationToolForPersonalAccounts.svg'
-import leadsOrganizationSvg from '../../assets/organizeLeads.svg'
-import campaignPreformance from '../../assets/campaignPreformance.svg'
-import scheduleMessages from '../../assets/scheduleMessages.svg'
+import Explore from '../../assets/Explore.svg'
+import dogodex from '../../assets/dogodex.svg'
+import makeFriends from '../../assets/makeFriends.svg'
+import shareYourThoughts from '../../assets/shareYourThoughts.svg'
 
 
 const services = [
   {
-    "title": "WhatsApp Automation Tool",
-    "description": "Automation tool for WhatsApp personal and business accounts",
-    "image": whatsappAutomationToolSvg
+    "title": "Find new dogs in your area",
+    "description": "browse dogs in your area and find new friends",
+    "image": Explore
   },
   {
-    "title": "Leads Organization",
-    "description": "Organize your leads and customers in one place",
-    "image": leadsOrganizationSvg
+    "title": "DogoDex",
+    "description": "Find all the information you need about dogs",
+    "image": dogodex
   },
   {
-    "title": "Campaigns Performance Tracking",
-    "description": "Track your campaigns' performance and optimize them",
-    "image": campaignPreformance
+    "title": "Make new friends ",
+    "description": "Make friends with other dogs and their owners",
+    "image": makeFriends
   },
   {
-    "title": "Schedule Messaging",
-    "description": "Schedule your messages to be sent at a specific time",
-    "image": scheduleMessages
+    "title": "Share your thoughts",
+    "description": "Post your thoughts and share them with the world",
+    "image": shareYourThoughts
   }
 ]
 
