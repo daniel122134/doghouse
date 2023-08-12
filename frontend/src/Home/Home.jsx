@@ -11,12 +11,12 @@ const Home = () => {
       <header>
         <Navbar />
         <div className="home-page-texture">
-          <img src={texture} alt="pingo" />
+          <img src={texture} alt="DogHouse" />
         </div>
         <Hero />
       </header>
       <Services />
-      <a href="https://storyset.com/people">People illustrations by Storyset</a>
+      <a href="https://storyset.com/people">Dogs illustrations by Storyset</a>
     </div>
   )
 }

@@ -1,7 +1,7 @@
 // @ts-nocheck
 /* eslint-disable */
 import React, { useEffect } from 'react'
-import dogCover from '../../assets/dogBigCoverImage.svg'
+import dogCover from '../../assets/shareYourThoughts.svg'
 
 // @ts-ignore
 const HeroImage = () => {

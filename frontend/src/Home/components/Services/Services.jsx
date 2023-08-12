@@ -4,7 +4,7 @@ import './Services.css'
 import Explore from '../../assets/Explore.svg'
 import dogodex from '../../assets/dogodex.svg'
 import makeFriends from '../../assets/makeFriends.svg'
-import shareYourThoughts from '../../assets/shareYourThoughts.svg'
+import shareYourThoughts from '../../assets/dogBigCoverImage.svg'
 
 
 const services = [
