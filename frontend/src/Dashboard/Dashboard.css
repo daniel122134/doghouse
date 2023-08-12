@@ -11,6 +11,20 @@
     overflow: hidden;
 }
 
+.App > .content > #pricing-header {
+    background-color: var(--warning-color);
+    display: flex;
+    align-items: center;
+    padding: 8px 30px;
+    font-size: 18px;
+}
+
+.App > .content > #pricing-header > button {
+    margin-left: auto;
+    background-color: #ffffff20;
+    /*color: var(--text-color-on-secondary);*/
+}
+
 .TitleButtons {
     display: flex;
 }
@@ -37,7 +51,14 @@ img.logo {
     height: 6em;
     will-change: filter;
     transition: filter 300ms;
+    gap: 17px;
+    padding: 10px 32px;
+}
 
+.pingo-title {
+    color: var(--text-color-on-secondary);
+    opacity: 0.9;
+    font-size: 40px;
 }
 
 @keyframes logo-spin {

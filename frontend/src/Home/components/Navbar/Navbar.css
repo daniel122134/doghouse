@@ -1,0 +1,50 @@
+nav {
+    background-color: rgba(255, 255, 255, 0.30);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(3px);
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.12);
+    display: flex;
+    flex-direction: row;
+    max-height: var(--space-3xl);
+    justify-content: space-between;
+    padding: 0.5em 1.5em;
+}
+
+nav > .nav-logo {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    gap: 0.5em;
+}
+
+nav > h2 {
+    font-size: 2em;
+    font-weight: bold;
+    color: #222222;
+    margin: 0;
+    flex: 1;
+}
+
+nav img {
+    height: 3em;
+}
+
+nav > .nav-btn {
+    background: #075E54;
+    border-radius: 10px;
+    color: #FCFCFC;
+    box-shadow: 0 20px 35px 0 rgba(7, 94, 84,0.15);
+    padding: 0.5em 1.5em;
+    text-align: center;
+    align-self: center;
+    font-size: var(--step-0);
+}
+
+
+nav > .nav-btn:hover {
+    background: #9adfc0;
+    color: #222222;
+}

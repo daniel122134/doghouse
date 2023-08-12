@@ -2,7 +2,7 @@ import './Sidebar.css'
 import logo from '../assets/react.svg'
 import Icon from '../components/Icon'
 
-import {useContext, useState} from "react";
+// import {useContext, useState} from "react";
 const Sidebar = (props) => {
   
   // const [tokens, setTokens] = useContext(TokensContext)

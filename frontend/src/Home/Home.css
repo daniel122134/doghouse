@@ -1,0 +1,219 @@
+@import url('https://fonts.googleapis.com/css2?family=Assistant:wght@200;300;400;500;600;700;800&family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+#landing-page * {
+    box-sizing: border-box;
+    font-family: 'Assistant', 'Inter', sans-serif;
+}
+
+#root {
+    /* Step -2: 11.11px → 12.80px */
+    --step--2: clamp(0.69rem, calc(0.68rem + 0.08vw), 0.80rem);
+
+    /* Step -1: 13.33px → 16.00px */
+    --step--1: clamp(0.83rem, calc(0.80rem + 0.12vw), 1.00rem);
+
+    /* Step 0: 16.00px → 20.00px */
+    --step-0: clamp(1.00rem, calc(0.96rem + 0.18vw), 1.25rem);
+
+    /* Step 1: 19.20px → 25.00px */
+    --step-1: clamp(1.20rem, calc(1.13rem + 0.27vw), 1.56rem);
+
+    /* Step 2: 23.04px → 31.25px */
+    --step-2: clamp(1.44rem, calc(1.35rem + 0.38vw), 1.95rem);
+
+    /* Step 3: 27.65px → 39.06px */
+    --step-3: clamp(1.73rem, calc(1.60rem + 0.53vw), 2.44rem);
+
+    /* Step 4: 33.18px → 48.83px */
+    --step-4: clamp(2.07rem, calc(1.90rem + 0.72vw), 3.05rem);
+
+    /* Step 5: 39.81px → 61.04px */
+    --step-5: clamp(2.49rem, calc(2.25rem + 0.98vw), 3.82rem);
+
+    /* Space 3xs: 4px → 5px */
+    --space-3xs: clamp(0.25rem, calc(0.24rem + 0.05vw), 0.31rem);
+
+    /* Space 2xs: 8px → 10px */
+    --space-2xs: clamp(0.50rem, calc(0.48rem + 0.09vw), 0.63rem);
+
+    /* Space xs: 12px → 15px */
+    --space-xs: clamp(0.75rem, calc(0.72rem + 0.14vw), 0.94rem);
+
+    /* Space s: 16px → 20px */
+    --space-s: clamp(1.00rem, calc(0.96rem + 0.18vw), 1.25rem);
+
+    /* Space m: 24px → 30px */
+    --space-m: clamp(1.50rem, calc(1.43rem + 0.28vw), 1.88rem);
+
+    /* Space l: 32px → 40px */
+    --space-l: clamp(2.00rem, calc(1.91rem + 0.37vw), 2.50rem);
+
+    /* Space xl: 48px → 60px */
+    --space-xl: clamp(3.00rem, calc(2.87rem + 0.55vw), 3.75rem);
+
+    /* Space 2xl: 64px → 80px */
+    --space-2xl: clamp(4.00rem, calc(3.82rem + 0.74vw), 5.00rem);
+
+    /* Space 3xl: 96px → 120px */
+    --space-3xl: clamp(6.00rem, calc(5.73rem + 1.11vw), 7.50rem);
+
+    /* One-up pairs */
+    /* Space 3xs-2xs: 4px → 10px */
+    --space-3xs-2xs: clamp(0.25rem, calc(0.18rem + 0.28vw), 0.63rem);
+
+    /* Space 2xs-xs: 8px → 15px */
+    --space-2xs-xs: clamp(0.50rem, calc(0.42rem + 0.32vw), 0.94rem);
+
+    /* Space xs-s: 12px → 20px */
+    --space-xs-s: clamp(0.75rem, calc(0.66rem + 0.37vw), 1.25rem);
+
+    /* Space s-m: 16px → 30px */
+    --space-s-m: clamp(1.00rem, calc(0.84rem + 0.65vw), 1.88rem);
+
+    /* Space m-l: 24px → 40px */
+    --space-m-l: clamp(1.50rem, calc(1.32rem + 0.74vw), 2.50rem);
+
+    /* Space l-xl: 32px → 60px */
+    --space-l-xl: clamp(2.00rem, calc(1.69rem + 1.29vw), 3.75rem);
+
+    /* Space xl-2xl: 48px → 80px */
+    --space-xl-2xl: clamp(3.00rem, calc(2.64rem + 1.47vw), 5.00rem);
+
+    /* Space 2xl-3xl: 64px → 120px */
+    --space-2xl-3xl: clamp(4.00rem, calc(3.37rem + 2.58vw), 7.50rem);
+
+    /* Space s-l: 16px → 40px */
+    --space-s-l: clamp(1.00rem, calc(0.73rem + 1.11vw), 2.50rem);
+
+}
+
+#landing-page,
+#invalid-mail-page {
+    position: relative;
+    overflow-y: auto;
+    width: 100vw;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Assistant', 'Inter', sans-serif;
+}
+
+#invalid-mail-page {
+    overflow: hidden;
+}
+
+#invalid-mail-page #header-wrapper {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    padding: var(--space-m);
+    margin: 0 auto;
+    max-width: 1000px;
+    height: 100vh;
+    z-index: 10;
+}
+
+#invalid-mail-page #header-wrapper > img {
+    width: 100%;
+    max-width: 600px;
+}
+
+#invalid-mail-page #title {
+    font-size: var(--step-4);
+    font-weight: 600;
+    width: max-content;
+    max-width: 91.66%;
+    text-wrap: balance;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+#invalid-mail-page #title small {
+    font-size: var(--step-2);
+    font-weight: 400;
+    text-align: center;
+}
+
+#invalid-mail-page p {
+    font-size: var(--step-2);
+}
+
+#invalid-mail-page #header-wrapper .buttons-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+}
+
+#invalid-mail-page #header-wrapper .buttons-container #logout-button {
+    background: none;
+    text-decoration: underline;
+    font-size: var(--step-1);
+}
+
+#invalid-mail-page #header-wrapper .buttons-container #resend-button {
+    background: #075E54;
+    border-radius: 10px;
+    color: #FCFCFC;
+    box-shadow: 0 20px 35px 0 rgba(7, 94, 84,0.15);
+    padding: 0.5em 1em;
+    font-size: var(--step-2);
+}
+
+#invalid-mail-page #header-wrapper .buttons-container #resend-button:hover {
+    background: #9adfc0;
+    color: #222222;
+}
+
+#landing-page *,
+#invalid-mail-page *{
+    box-sizing: border-box;
+    font-family: 'Assistant', 'Inter', sans-serif;
+}
+
+#invalid-mail-page header {
+    height: 100%;
+}
+
+
+#landing-page header,
+#invalid-mail-page header {
+    width: 100%;
+    --bg-gradient: linear-gradient(180deg, #ECFFFF 50vh, #FDFDFD 100%);
+    background-image: var(--bg-gradient);
+}
+
+#landing-page .home-page-texture > img,
+#invalid-mail-page .home-page-texture > img{
+    opacity: 7.5%;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 1920px;
+    height: 1080px;
+    z-index: 0;
+}
+
+@media (min-width: 1920px) {
+    #landing-page .home-page-texture > img {
+        height: unset;
+    }
+}
+
+@media (min-width: 2560px) {
+    #landing-page .home-page-texture > img {
+        width: 100%;
+    }
+}
+
+
+.sevices-container {
+    margin-left: 5em;
+}

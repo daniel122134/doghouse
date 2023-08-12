@@ -1,28 +1,34 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import {BrowserRouter, Route, Routes} from 'react-router-dom'
+
 import './App.css'
-import Sidebar from "./sidebar/Sidebar.jsx";
+import Dashboard from './Dashboard/Dashboard.jsx'
+import React from "react";
+
+import Home from "./Home/Home.jsx";
+
 
 function App() {
-  const [count, setCount] = useState(0)
-  const [currentPage, setCurrentPage] = useState('profile')
-
   return (
-    <div>
-      <Sidebar
-        currentPage={currentPage}
-        
-        onLogoClick={async () => {
-          setCurrentPage('profile')
-        }}
-        onPricingClicked={() => setCurrentPage('pricing')}
-        onContactsClicked={() => setCurrentPage('contacts')}
-      ></Sidebar>
-      
-
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" Component={Home}/>
+        <Route
+          path="/app"
+          Component={PingoApp}
+        />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
+
+function PingoApp() {
+
+  return (
+    <Dashboard/>
+  )
+
+}
+
 export default App
+

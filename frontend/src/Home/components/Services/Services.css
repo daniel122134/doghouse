@@ -1,0 +1,22 @@
+.services-container {
+    display: grid;
+    gap: 2em;
+    width: 100%;
+    margin: 0 auto 10rem;
+    background-image: linear-gradient(180deg, transparent 0%, #FDFDFD 100%);
+    max-width: 2240px;
+}
+
+@media (min-width: 768px) {
+    .services-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        justify-content: space-evenly;
+    }
+}
+
+@media (min-width: 1280px) {
+    .services-container {
+        grid-template-columns: repeat(4, 22.5%);
+    }
+}
