@@ -21,8 +21,22 @@ db.serialize(() => {
   //posts
   db.run("CREATE TABLE IF NOT EXISTS posts (id INTEGER PRIMARY KEY, userId INTEGER, content TEXT, imagePath TEXT, created_at TEXT NOT NULL, updated_at TEXT NOT NULL, FOREIGN KEY(userId) REFERENCES users(id))");
   
+  db.run("INSERT INTO users (email, passwordHash, created_at, updated_at) VALUES ('admin@admin.com', 'hash', '2019-01-01 00:00:00', '2019-01-01 00:00:00')");
+  
 });
 
+async function getUsers() {
+  return new Promise((resolve, reject) => {
+    db.all("SELECT * FROM users", (err, rows) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(rows);
+    });
+  });
+}
+
 module.exports = {
+  getUsers,
   db
 };

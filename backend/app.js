@@ -2,7 +2,7 @@ const express = require('express')
 const bodyParser = require("body-parser");
 const path = require("path");
 const cors = require('cors')
-const {db} = require("./DAL/persist");
+const {db, getUsers} = require("./DAL/persist");
 
 const app = express()
 const port = 8080
@@ -25,8 +25,9 @@ app.get('*', (req,res) =>{
   res.sendFile(path.join(__dirname, '..', 'frontend', 'dist'))
 })
 
-app.post('/api/pee', (req, res) => {
+app.post('/api/pee',async  (req, res) => {
   console.log(req.body)
+  console.log(await getUsers())
   res.send('Hello World!')
 })
 

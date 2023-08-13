@@ -5,9 +5,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev-front" : "cd frontend && npm install && npm run dev",
     "prod-front" : "cd frontend && npm install && npm run build",
-    "server" : "cd backend && npm install && npm run start",
-    "all-dev" : "npm-run-all --parallel dev-front server",
-    "all-prod" : "npm-run-all --parallel prod-front server"
+    "dev-server" : "cd backend && npm install && npm run dev",
+    "prod-server" : "cd backend && npm install && npm run start",
+    "all-dev" : "npm-run-all --parallel dev-front dev-server",
+    "all-prod" : "npm-run-all --parallel prod-front prod-server"
   },
   "author": "daniel & hadar",
   "license": "ISC",
