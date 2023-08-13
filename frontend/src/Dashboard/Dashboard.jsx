@@ -3,6 +3,8 @@ import './Dashboard.css'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import Sidebar from '../sidebar/Sidebar'
+import Icon from "../components/Icon.jsx";
+import ProfilePage from "../ProfilePage/ProfilePage.jsx";
 
 dayjs.extend(relativeTime)
 
@@ -11,7 +13,7 @@ const IsLoadingContext = createContext(null)
 function App() {
   const [isLoading, setIsLoading] = useState(false)
   const [isInitialLoading, setInitialLoading] = useState(true)
-  const [currentPage, setCurrentPage] = useState('campaigns')
+  const [currentPage, setCurrentPage] = useState('Feed')
   window.setCurrentPageCache = setCurrentPage
 
   const downloadInitialData = async () => {
@@ -40,7 +42,7 @@ function App() {
         {(
           <Sidebar
             currentPage={currentPage}
-            onLogoClick={async () => {setCurrentPage('campaigns')}}
+            onLogoClick={async () => {setCurrentPage('Feed')}}
             onProfileClicked={() => setCurrentPage('Profile')}
             onFeedClicked={() => setCurrentPage('Feed')}
             onExploreClicked={() => setCurrentPage('Explore')}
@@ -49,6 +51,25 @@ function App() {
             onAdminClicked={() => setCurrentPage('Admin')}
           ></Sidebar>
         )}
+
+        <div className="content">
+
+          {isInitialLoading ? (
+            <div className="app-loader">
+              <Icon icon="fa fa-spinner fa-spin"></Icon>
+            </div>
+          ) : null}
+          {!isInitialLoading && currentPage === 'Profile' ? (
+            <ProfilePage />
+          ) : null}
+
+          {!isInitialLoading && currentPage === 'Feed' ? (
+            <ProfilePage />
+          ) : null}
+          
+        </div>
+
+
       </div>
     </Contexts>
   )

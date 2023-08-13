@@ -16,7 +16,6 @@ const Home = () => {
         <HomeMain />
       </header>
       <Services />
-      <a href="https://storyset.com/people">Dogs illustrations by Storyset</a>
     </div>
   )
 }

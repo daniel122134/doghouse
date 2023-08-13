@@ -14,21 +14,13 @@ function App() {
         <Route path="/" Component={Home}/>
         <Route
           path="/app"
-          Component={DogHouseApp}
+          Component={Dashboard}
         />
       </Routes>
     </BrowserRouter>
   )
 }
 
-
-function DogHouseApp() {
-
-  return (
-    <Dashboard/>
-  )
-
-}
 
 export default App
 

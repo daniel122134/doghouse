@@ -1,34 +1,28 @@
 import './Sidebar.css'
-// import logo from '../assets/react.svg'
 import Icon from '../components/Icon'
 import logo from "../assets/houseCover.png";
 
 
-// import {useContext, useState} from "react";
 const Sidebar = (props) => {
-  
-  // const [tokens, setTokens] = useContext(TokensContext)
   
   return (
     <div className="sidebar">
 
-        {/* eslint-disable-next-line react/prop-types */}
       <button className="logo" onClick={() => props.onLogoClick()}>
         <img src={logo} alt="logo"/>
-        {/*<div className="doghouse-title">DogHouse</div>*/}
       </button>
     
       
       <div className="sidebar-button"
-        onClick={() => props.onContactsClicked()}
-        data-selected={props.currentPage === 'My profile'}
+        onClick={() => props.onProfileClicked()}
+        data-selected={props.currentPage === 'Profile'}
       >
         <Icon icon="fa fa-address-book"></Icon>
         {"My profile"}
       </div>
 
       <div className="sidebar-button"
-        onClick={() => props.onPricingClicked()}
+        onClick={() => props.onFeedClicked()}
         data-selected={props.currentPage === 'Feed'}
       >
         <Icon icon="fa fa-dollar"></Icon>
@@ -36,7 +30,7 @@ const Sidebar = (props) => {
       </div>
 
         <div className="sidebar-button"
-             onClick={() => props.onPricingClicked()}
+             onClick={() => props.onExploreClicked()}
              data-selected={props.currentPage === 'Explore'}
         >
             <Icon icon="fa fa-dollar"></Icon>
@@ -44,15 +38,15 @@ const Sidebar = (props) => {
         </div>
 
         <div className="sidebar-button"
-             onClick={() => props.onPricingClicked()}
-             data-selected={props.currentPage === 'Pee Poles'}
+             onClick={() => props.onPolesClicked()}
+             data-selected={props.currentPage === 'Poles'}
         >
             <Icon icon="fa fa-dollar"></Icon>
             {"Pee Poles"}
         </div>
 
         <div className="sidebar-button"
-             onClick={() => props.onPricingClicked()}
+             onClick={() => props.onDogedexClicked()}
              data-selected={props.currentPage === 'Dogedex'}
         >
             <Icon icon="fa fa-dollar"></Icon>
@@ -60,7 +54,7 @@ const Sidebar = (props) => {
         </div>
 
         <div className="sidebar-button"
-             onClick={() => props.onPricingClicked()}
+             onClick={() => props.onAdminClicked()}
              data-selected={props.currentPage === 'Admin'}
         >
             <Icon icon="fa fa-dollar"></Icon>
