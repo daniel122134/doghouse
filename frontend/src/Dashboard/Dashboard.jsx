@@ -5,6 +5,9 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import Sidebar from '../sidebar/Sidebar'
 import Icon from "../components/Icon.jsx";
 import ProfilePage from "../ProfilePage/ProfilePage.jsx";
+import ExplorePage from "../ExplorePage/ExplorePage.jsx";
+import PeePolesPage from "../PeePolesPage/PeePolesPage.jsx";
+import DogedexPage from "../DogedexPage/DogedexPage.jsx";
 import AdminPage from "../AdminPage/AdminPage.jsx";
 
 dayjs.extend(relativeTime)
@@ -60,16 +63,23 @@ function App() {
               <Icon icon="fa fa-spinner fa-spin"></Icon>
             </div>
           ) : null}
-          {!isInitialLoading && currentPage === 'Profile' ? (
+          {!isInitialLoading && currentPage === 'ProfilePage' ? (
             <ProfilePage />
           ) : null}
-
           {!isInitialLoading && currentPage === 'FeedPage' ? (
             <ProfilePage />
           ) : null}
-
+          {!isInitialLoading && currentPage === 'ExplorePage' ? (
+              <ExplorePage />
+          ) : null}
+          {!isInitialLoading && currentPage === 'PeePolesPage' ? (
+              <PeePolesPage />
+          ) : null}
+          {!isInitialLoading && currentPage === 'DogedexPage' ? (
+              <DogedexPage />
+          ) : null}
           {!isInitialLoading && currentPage === 'AdminPage' ? (
-            <AdminPage />
+              <AdminPage />
           ) : null}
           
         </div>

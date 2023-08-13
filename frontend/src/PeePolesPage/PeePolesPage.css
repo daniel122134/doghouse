@@ -1,0 +1,47 @@
+.pole {
+    width: 300px;
+    padding: 20px;
+    border: 1px solid #6e4141;
+    border-radius: 10px;
+    text-align: center;
+    margin: 2vw;
+    box-shadow: 0 10px 35px 0 rgba(9, 30, 27, 0.15);
+    display: inline-block;
+}
+
+.pole img {
+    width: 200px;
+    height: 250px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    padding-right: 40px;
+    padding-left: 40px;
+}
+
+.pole h2 {
+    font-size: 25px;
+    align-items: center;
+    font-family: "Droid Serif", serif;
+}
+
+.pee {
+    width: 80%;
+    border: 1px solid #6e4141;
+    align-items: center;
+
+    background: #FDFDFD;
+    border-radius: 10px;
+    color: #6e4141;
+    box-shadow: 0 10px 35px 0 rgba(9, 30, 27, 0.15);
+    padding: 0.4em 0.7em;
+    font-size: var(--step-2);
+}
+
+.pee:hover {
+    background: #c5bcbc;
+    color: #222222;
+}
+
+.poles{
+    display: inline-block;
+}
