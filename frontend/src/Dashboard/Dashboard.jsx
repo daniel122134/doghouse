@@ -13,7 +13,7 @@ const IsLoadingContext = createContext(null)
 function App() {
   const [isLoading, setIsLoading] = useState(false)
   const [isInitialLoading, setInitialLoading] = useState(true)
-  const [currentPage, setCurrentPage] = useState('Feed')
+  const [currentPage, setCurrentPage] = useState('FeedPage')
   window.setCurrentPageCache = setCurrentPage
 
   const downloadInitialData = async () => {
@@ -42,13 +42,13 @@ function App() {
         {(
           <Sidebar
             currentPage={currentPage}
-            onLogoClick={() => {setCurrentPage('Feed')}}
-            onProfileClicked={() => setCurrentPage('Profile')}
-            onFeedClicked={() => setCurrentPage('Feed')}
-            onExploreClicked={() => setCurrentPage('Explore')}
-            onPolesClicked={() => setCurrentPage('Poles')}
-            onDogedexClicked={() => setCurrentPage('Dogedex')}
-            onAdminClicked={() => setCurrentPage('Admin')}
+            onLogoClick={() => {setCurrentPage('FeedPage')}}
+            onProfileClicked={() => setCurrentPage('ProfilePage')}
+            onFeedClicked={() => setCurrentPage('FeedPage')}
+            onExploreClicked={() => setCurrentPage('ExplorePage')}
+            onPolesClicked={() => setCurrentPage('PeePolesPage')}
+            onDogedexClicked={() => setCurrentPage('DogedexPage')}
+            onAdminClicked={() => setCurrentPage('AdminPage')}
           ></Sidebar>
         )}
 
@@ -63,7 +63,7 @@ function App() {
             <ProfilePage />
           ) : null}
 
-          {!isInitialLoading && currentPage === 'Feed' ? (
+          {!isInitialLoading && currentPage === 'FeedPage' ? (
             <ProfilePage />
           ) : null}
           

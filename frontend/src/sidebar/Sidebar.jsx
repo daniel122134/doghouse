@@ -1,6 +1,8 @@
 import './Sidebar.css'
 import Icon from '../components/Icon'
 import logo from "../assets/houseCover.png";
+import {Link} from "react-router-dom";
+import React from "react";
 
 
 const Sidebar = (props) => {
@@ -15,7 +17,7 @@ const Sidebar = (props) => {
       
       <div className="sidebar-button"
         onClick={() => props.onProfileClicked()}
-        data-selected={props.currentPage === 'Profile'}
+        data-selected={props.currentPage === 'ProfilePage'}
       >
         <Icon icon="fa fa-address-book"></Icon>
         {"My profile"}
@@ -23,23 +25,23 @@ const Sidebar = (props) => {
 
       <div className="sidebar-button"
         onClick={() => props.onFeedClicked()}
-        data-selected={props.currentPage === 'Feed'}
+        data-selected={props.currentPage === 'FeedPage'}
       >
         <Icon icon="fa fa-dollar"></Icon>
-        {"Feed"}
+        {"FeedPage"}
       </div>
 
         <div className="sidebar-button"
              onClick={() => props.onExploreClicked()}
-             data-selected={props.currentPage === 'Explore'}
+             data-selected={props.currentPage === 'ExplorePage'}
         >
             <Icon icon="fa fa-dollar"></Icon>
-            {"Explore"}
+            {"ExplorePage"}
         </div>
 
         <div className="sidebar-button"
              onClick={() => props.onPolesClicked()}
-             data-selected={props.currentPage === 'Poles'}
+             data-selected={props.currentPage === 'PeePolesPage'}
         >
             <Icon icon="fa fa-dollar"></Icon>
             {"Pee Poles"}
@@ -47,22 +49,27 @@ const Sidebar = (props) => {
 
         <div className="sidebar-button"
              onClick={() => props.onDogedexClicked()}
-             data-selected={props.currentPage === 'Dogedex'}
+             data-selected={props.currentPage === 'DogedexPage'}
         >
             <Icon icon="fa fa-dollar"></Icon>
-            {"Dogedex"}
+            {"DogedexPage"}
         </div>
 
         <div className="sidebar-button"
              onClick={() => props.onAdminClicked()}
-             data-selected={props.currentPage === 'Admin'}
+             data-selected={props.currentPage === 'AdminPage'}
         >
             <Icon icon="fa fa-dollar"></Icon>
             {"Admin"}
         </div>
 
 
+
+
       <div className="tokens-container">
+          <Link to="/app" className="logout-btn">
+              {"Log out"}
+          </Link>
         <div>{"DogHouse.com"}</div>
         <div>{"By Daniel & Hadar"} </div>
       </div>

@@ -111,3 +111,19 @@
 /*  width: 30px;*/
 /*  border-radius: 100px;*/
 /*}*/
+
+.logout-btn{
+  background: #6e4141;
+  border-radius: 10px;
+  color: #FCFCFC;
+  box-shadow: 0 20px 35px 0 rgba(7, 94, 84,0.15);
+  padding: 0.2em 0.5em;
+  font-size: var(--step-1);
+  display: inline-block;
+  margin: 20px;
+}
+
+.logout-btn:hover {
+  background: #c5bcbc;
+  color: #222222;
+}
