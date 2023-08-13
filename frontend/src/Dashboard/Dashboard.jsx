@@ -5,6 +5,7 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import Sidebar from '../sidebar/Sidebar'
 import Icon from "../components/Icon.jsx";
 import ProfilePage from "../ProfilePage/ProfilePage.jsx";
+import AdminPage from "../AdminPage/AdminPage.jsx";
 
 dayjs.extend(relativeTime)
 
@@ -65,6 +66,10 @@ function App() {
 
           {!isInitialLoading && currentPage === 'FeedPage' ? (
             <ProfilePage />
+          ) : null}
+
+          {!isInitialLoading && currentPage === 'AdminPage' ? (
+            <AdminPage />
           ) : null}
           
         </div>

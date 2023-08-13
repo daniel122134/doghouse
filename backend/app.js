@@ -2,7 +2,7 @@ const express = require('express')
 const bodyParser = require("body-parser");
 const path = require("path");
 const cors = require('cors')
-const {db, getAllUsers, setFeatureState} = require("./DAL/persist");
+const {db, getAllUsers, setFeatureState, getAllFeatures} = require("./DAL/persist");
 
 const app = express()
 const port = 8080
@@ -38,6 +38,16 @@ app.post('/api/setFeatureState', async (req, res) => {
   let results = await setFeatureState(featureName, state)
   res.send(results)
 } )
+
+app.get('/api/getFeatures', async (req, res) => {
+  console.log(req.query)
+  let results = await getAllFeatures()
+  let dict = {}
+  results.forEach((item) => {
+    dict[item.name] = item.state
+  })
+  res.send(dict)
+})
 
 
 app.listen(port, () => {
