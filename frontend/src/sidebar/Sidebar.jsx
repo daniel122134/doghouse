@@ -10,6 +10,7 @@ const Sidebar = (props) => {
   return (
     <div className="sidebar">
 
+        {/* eslint-disable-next-line react/prop-types */}
       <button className="logo" onClick={() => props.onLogoClick()}>
         <img
           src={logo}

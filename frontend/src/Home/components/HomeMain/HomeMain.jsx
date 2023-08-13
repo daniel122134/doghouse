@@ -1,24 +1,22 @@
 import React from 'react'
-import './Hero.css'
-import HeroImage from './HeroImage.jsx'
+import './HomeMain.css'
 import {Link} from "react-router-dom";
+import cover from "../../assets/houseCover.png";
 
-const Hero = () => {
+const HomeMain = () => {
 
   return (
     <div id="hero">
       <div className="hero-text">
-        <h1>{"DogHouse"}</h1>
+          <img src={cover} alt="logo" />
+          {/*<HeroImage className="hero-image"/>*/}
         <h2>{"Welcome to the first ever dog social network"}</h2>
         <Link to="/app" className="hero-btn" >
           {"Start Now"}
         </Link>
       </div>
-      <div className="hero-image">
-        <HeroImage />
-      </div>
     </div>
   )
 }
 
-export default Hero
+export default HomeMain

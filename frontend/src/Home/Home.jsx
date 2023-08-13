@@ -1,8 +1,8 @@
 import React from 'react'
-import texture from './assets/texture.svg'
+import texture from './assets/background.jpg'
 import './Home.css'
 import Navbar from './components/Navbar/Navbar.jsx'
-import Hero from './components/Hero/Hero.jsx'
+import HomeMain from './components/HomeMain/HomeMain.jsx'
 import Services from './components/Services/Services.jsx'
 
 const Home = () => {
@@ -13,7 +13,7 @@ const Home = () => {
         <div className="home-page-texture">
           <img src={texture} alt="DogHouse" />
         </div>
-        <Hero />
+        <HomeMain />
       </header>
       <Services />
       <a href="https://storyset.com/people">Dogs illustrations by Storyset</a>

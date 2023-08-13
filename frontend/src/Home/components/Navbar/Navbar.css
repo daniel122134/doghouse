@@ -33,7 +33,7 @@ nav img {
 }
 
 nav > .nav-btn {
-    background: #075E54;
+    background: #6e4141;
     border-radius: 10px;
     color: #FCFCFC;
     box-shadow: 0 20px 35px 0 rgba(7, 94, 84,0.15);
@@ -45,6 +45,6 @@ nav > .nav-btn {
 
 
 nav > .nav-btn:hover {
-    background: #9adfc0;
+    background: #c5bcbc;
     color: #222222;
 }

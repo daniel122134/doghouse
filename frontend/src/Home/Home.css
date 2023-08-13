@@ -157,19 +157,19 @@
     font-size: var(--step-1);
 }
 
-#invalid-mail-page #header-wrapper .buttons-container #resend-button {
-    background: #075E54;
-    border-radius: 10px;
-    color: #FCFCFC;
-    box-shadow: 0 20px 35px 0 rgba(7, 94, 84,0.15);
-    padding: 0.5em 1em;
-    font-size: var(--step-2);
-}
+/*#invalid-mail-page #header-wrapper .buttons-container #resend-button {*/
+/*    background: #1c4277;*/
+/*    border-radius: 10px;*/
+/*    color: #FCFCFC;*/
+/*    box-shadow: 0 20px 35px 0 rgba(7, 94, 84,0.15);*/
+/*    padding: 0.5em 1em;*/
+/*    font-size: var(--step-2);*/
+/*}*/
 
-#invalid-mail-page #header-wrapper .buttons-container #resend-button:hover {
-    background: #9adfc0;
-    color: #222222;
-}
+/*#invalid-mail-page #header-wrapper .buttons-container #resend-button:hover {*/
+/*    background: #9adfc0;*/
+/*    color: #222222;*/
+/*}*/
 
 #landing-page *,
 #invalid-mail-page *{
@@ -185,13 +185,13 @@
 #landing-page header,
 #invalid-mail-page header {
     width: 100%;
-    --bg-gradient: linear-gradient(180deg, #ECFFFF 50vh, #FDFDFD 100%);
+    --bg-gradient: linear-gradient(180deg, #c4b2b2 50vh, #FDFDFD 100%);
     background-image: var(--bg-gradient);
 }
 
 #landing-page .home-page-texture > img,
 #invalid-mail-page .home-page-texture > img{
-    opacity: 7.5%;
+    opacity: 30%;
     position: absolute;
     top: 0;
     left: 50%;
