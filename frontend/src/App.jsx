@@ -14,7 +14,7 @@ function App() {
         <Route path="/" Component={Home}/>
         <Route
           path="/app"
-          Component={PingoApp}
+          Component={DogHouseApp}
         />
       </Routes>
     </BrowserRouter>
@@ -22,7 +22,7 @@ function App() {
 }
 
 
-function PingoApp() {
+function DogHouseApp() {
 
   return (
     <Dashboard/>

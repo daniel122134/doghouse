@@ -8,12 +8,17 @@ const Navbar = () => {
   return (
     <nav>
       <a href="/" className="nav-logo">
-        <img src={logo} alt="ping logo" />
+        <img src={logo} alt="dog house logo" />
       </a>
       {/*<h2 style={{marginLeft: "15px"}}>DogHouse</h2>*/}
-      <Link to="/app" className="nav-btn">
-        {"Start Now"}
-      </Link>
+        <div>
+            <Link to="/app" className="nav-btn" >
+                {"Log In"}
+            </Link>
+            <Link to="/app" className="nav-btn">
+                {"Sign up"}
+            </Link>
+        </div>
     </nav>
   )
 }

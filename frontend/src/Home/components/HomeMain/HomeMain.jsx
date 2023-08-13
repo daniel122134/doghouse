@@ -1,19 +1,25 @@
 import React from 'react'
 import './HomeMain.css'
 import {Link} from "react-router-dom";
-import cover from "../../assets/houseCover.png";
+import logo from "../../assets/houseCover.png";
 
 const HomeMain = () => {
 
   return (
-    <div id="hero">
-      <div className="hero-text">
-          <img src={cover} alt="logo" />
-          {/*<HeroImage className="hero-image"/>*/}
-        <h2>{"Welcome to the first ever dog social network"}</h2>
-        <Link to="/app" className="hero-btn" >
-          {"Start Now"}
-        </Link>
+    <div id="main">
+      <div className="main-text">
+          <img src={logo} alt="logo" />
+          {/*<mainImage className="main-image"/>*/}
+          <h2>{"Welcome to the first ever dog social network"}</h2>
+          <div>
+              <Link to="/app" className="main-btn" >
+                  {"Log In"}
+              </Link>
+              <Link to="/app" className="main-btn">
+                  {"Sign up"}
+              </Link>
+          </div>
+
       </div>
     </div>
   )

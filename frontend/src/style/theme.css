@@ -16,7 +16,7 @@ body {
     --primary-color: rgb(var(--primary-color-rgb));
     --primary-color-90: rgba(var(--primary-color-rgb),0.90);
     --danger-color: #cc4030;
-    --warning-color: #caa050;
+    --warning-color: #caa750;
 
     --background-color: #fcfcfc;
     --background-strong-05: rgba(var(--strong-color-rgb), 0.15);

@@ -1,6 +1,8 @@
 import './Sidebar.css'
-import logo from '../assets/react.svg'
+// import logo from '../assets/react.svg'
 import Icon from '../components/Icon'
+import logo from "../assets/houseCover.png";
+
 
 // import {useContext, useState} from "react";
 const Sidebar = (props) => {
@@ -12,32 +14,59 @@ const Sidebar = (props) => {
 
         {/* eslint-disable-next-line react/prop-types */}
       <button className="logo" onClick={() => props.onLogoClick()}>
-        <img
-          src={logo}
-          alt="logo"
-          style={{ width: '50px', height: '50px' }}
-        />
-        <div className="doghouse-title">DogHouse</div>
+        <img src={logo} alt="logo"/>
+        {/*<div className="doghouse-title">DogHouse</div>*/}
       </button>
     
       
-      <div
-        className="sidebar-button"
+      <div className="sidebar-button"
         onClick={() => props.onContactsClicked()}
-        data-selected={props.currentPage === 'contacts'}
+        data-selected={props.currentPage === 'My profile'}
       >
         <Icon icon="fa fa-address-book"></Icon>
-        {"Contacts"}
+        {"My profile"}
       </div>
 
-      <div
-        className="sidebar-button"
+      <div className="sidebar-button"
         onClick={() => props.onPricingClicked()}
-        data-selected={props.currentPage === 'pricing'}
+        data-selected={props.currentPage === 'Feed'}
       >
         <Icon icon="fa fa-dollar"></Icon>
-        {"Pricing"}
+        {"Feed"}
       </div>
+
+        <div className="sidebar-button"
+             onClick={() => props.onPricingClicked()}
+             data-selected={props.currentPage === 'Explore'}
+        >
+            <Icon icon="fa fa-dollar"></Icon>
+            {"Explore"}
+        </div>
+
+        <div className="sidebar-button"
+             onClick={() => props.onPricingClicked()}
+             data-selected={props.currentPage === 'Pee Poles'}
+        >
+            <Icon icon="fa fa-dollar"></Icon>
+            {"Pee Poles"}
+        </div>
+
+        <div className="sidebar-button"
+             onClick={() => props.onPricingClicked()}
+             data-selected={props.currentPage === 'Dogedex'}
+        >
+            <Icon icon="fa fa-dollar"></Icon>
+            {"Dogedex"}
+        </div>
+
+        <div className="sidebar-button"
+             onClick={() => props.onPricingClicked()}
+             data-selected={props.currentPage === 'Admin'}
+        >
+            <Icon icon="fa fa-dollar"></Icon>
+            {"Admin"}
+        </div>
+
 
       <div className="tokens-container">
         <div>{"DogHouse.com"}</div>

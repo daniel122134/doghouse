@@ -40,15 +40,13 @@ function App() {
         {(
           <Sidebar
             currentPage={currentPage}
-            onContactsClicked={async () => {
-              setCurrentPage('contacts')
-            }}
-
-            onLogoClick={async () => {
-              setCurrentPage('campaigns')
-            }}
-            onNumbersClicked={() => setCurrentPage('numbers')}
-            onPricingClicked={() => setCurrentPage('pricing')}
+            onLogoClick={async () => {setCurrentPage('campaigns')}}
+            onProfileClicked={() => setCurrentPage('Profile')}
+            onFeedClicked={() => setCurrentPage('Feed')}
+            onExploreClicked={() => setCurrentPage('Explore')}
+            onPolesClicked={() => setCurrentPage('Poles')}
+            onDogedexClicked={() => setCurrentPage('Dogedex')}
+            onAdminClicked={() => setCurrentPage('Admin')}
           ></Sidebar>
         )}
       </div>

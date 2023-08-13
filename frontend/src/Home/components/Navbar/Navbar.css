@@ -29,22 +29,24 @@ nav > h2 {
 }
 
 nav img {
-    height: 3em;
+    height: 3.5em;
 }
 
-nav > .nav-btn {
+.nav-btn {
     background: #6e4141;
     border-radius: 10px;
     color: #FCFCFC;
-    box-shadow: 0 20px 35px 0 rgba(7, 94, 84,0.15);
+    box-shadow: 0 20px 35px 0 rgba(7, 94, 84, 0.15);
     padding: 0.5em 1.5em;
     text-align: center;
     align-self: center;
     font-size: var(--step-0);
+    display: inline-block;
+    margin: 5px;
 }
 
 
-nav > .nav-btn:hover {
+.nav-btn:hover {
     background: #c5bcbc;
     color: #222222;
 }
