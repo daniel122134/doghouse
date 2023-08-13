@@ -7,7 +7,7 @@ yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
 
-
+*/doghouse.db
 .idea
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
