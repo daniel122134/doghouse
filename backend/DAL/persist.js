@@ -24,12 +24,16 @@ db.serialize(() => {
   db.run("CREATE TABLE IF NOT EXISTS likes (userId INTEGER, postId INTEGER, created_at TEXT NOT NULL, updated_at TEXT NOT NULL, FOREIGN KEY(userId) REFERENCES users(id), FOREIGN KEY(postId) REFERENCES posts(id))");
   //posts
   db.run("CREATE TABLE IF NOT EXISTS posts (id INTEGER PRIMARY KEY, userId INTEGER, content TEXT, imagePath TEXT, created_at TEXT NOT NULL, updated_at TEXT NOT NULL, FOREIGN KEY(userId) REFERENCES users(id))");
-
+  //features
+  db.run("CREATE TABLE IF NOT EXISTS features (id INTEGER PRIMARY KEY, name TEXT NOT NULL unique, state INTEGER NOT NULL, created_at TEXT NOT NULL, updated_at TEXT NOT NULL)");
+  //activityLogs
+  db.run("CREATE TABLE IF NOT EXISTS activityLogs (id INTEGER PRIMARY KEY, userId INTEGER, activity TEXT NOT NULL, created_at TEXT NOT NULL, FOREIGN KEY(userId) REFERENCES users(id))");
+  
   db.run(`INSERT OR IGNORE INTO users (username, email, passwordHash, created_at, updated_at) VALUES ('admin', 'admin@admin.com', '${md5('admin')}', '2019-01-01 00:00:00', '2019-01-01 00:00:00')`);
   
 });
 
-async function getUsers() {
+async function getAllUsers() {
   return new Promise((resolve, reject) => {
     db.all("SELECT * FROM users", (err, rows) => {
       if (err) {
@@ -40,7 +44,51 @@ async function getUsers() {
   });
 }
 
+async function getAllFeatures() {
+  return new Promise((resolve, reject) => {
+    db.all("SELECT * FROM features", (err, rows) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(rows);
+    });
+  });
+}
+
+async function setFeatureState(featureName, state) {
+  
+  
+  return new Promise((resolve, reject) => {
+    db.run(`UPDATE features SET state = ${state} WHERE name = '${featureName}'`, async (err) => {
+      if (err) {
+        reject(err);
+      }
+
+      const allFeatures = await getAllFeatures();
+      if (!allFeatures.find(feature => feature.name === featureName)) {
+        resolve("feature not found");
+      }
+      
+      resolve("success");
+    });
+  });
+}
+
+async function getActivityLogs() {
+  return new Promise((resolve, reject) => {
+    db.all("SELECT * FROM activityLogs", (err, rows) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(rows);
+    });
+  });
+}
+
 module.exports = {
-  getUsers,
+  getAllUsers,
+  getAllFeatures,
+  setFeatureState,
+  getActivityLogs,
   db
 };
