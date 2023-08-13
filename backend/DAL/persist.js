@@ -1,3 +1,7 @@
+
+var md5 = require('md5');
+
+
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('./doghouse.db', (err) => {
   if (err) {
@@ -9,7 +13,7 @@ const db = new sqlite3.Database('./doghouse.db', (err) => {
 
 db.serialize(() => {
   //users
-  db.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, email TEXT NOT NULL unique, toy TEXT, passwordHash TEXT NOT NULL, created_at TEXT NOT NULL, updated_at TEXT NOT NULL)");
+  db.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT NOT NULL unique, email TEXT NOT NULL unique, toy TEXT, passwordHash TEXT NOT NULL, created_at TEXT NOT NULL, updated_at TEXT NOT NULL)");
   //poles
   db.run("CREATE TABLE IF NOT EXISTS poles (userId INTEGER , name TEXT NOT NULL unique, created_at TEXT NOT NULL, updated_at TEXT NOT NULL, FOREIGN KEY(userId) REFERENCES users(id))");
   //ads
@@ -20,8 +24,8 @@ db.serialize(() => {
   db.run("CREATE TABLE IF NOT EXISTS likes (userId INTEGER, postId INTEGER, created_at TEXT NOT NULL, updated_at TEXT NOT NULL, FOREIGN KEY(userId) REFERENCES users(id), FOREIGN KEY(postId) REFERENCES posts(id))");
   //posts
   db.run("CREATE TABLE IF NOT EXISTS posts (id INTEGER PRIMARY KEY, userId INTEGER, content TEXT, imagePath TEXT, created_at TEXT NOT NULL, updated_at TEXT NOT NULL, FOREIGN KEY(userId) REFERENCES users(id))");
-  
-  db.run("INSERT INTO users (email, passwordHash, created_at, updated_at) VALUES ('admin@admin.com', 'hash', '2019-01-01 00:00:00', '2019-01-01 00:00:00')");
+
+  db.run(`INSERT OR IGNORE INTO users (username, email, passwordHash, created_at, updated_at) VALUES ('admin', 'admin@admin.com', '${md5('admin')}', '2019-01-01 00:00:00', '2019-01-01 00:00:00')`);
   
 });
 
