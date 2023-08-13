@@ -25,7 +25,10 @@ app.get('*', (req,res) =>{
   res.sendFile(path.join(__dirname, '..', 'frontend', 'dist'))
 })
 
-
+app.post('/api/pee', (req, res) => {
+  console.log(req.body)
+  res.send('Hello World!')
+})
 
 
 app.listen(port, () => {

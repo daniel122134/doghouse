@@ -42,7 +42,7 @@ function App() {
         {(
           <Sidebar
             currentPage={currentPage}
-            onLogoClick={async () => {setCurrentPage('Feed')}}
+            onLogoClick={() => {setCurrentPage('Feed')}}
             onProfileClicked={() => setCurrentPage('Profile')}
             onFeedClicked={() => setCurrentPage('Feed')}
             onExploreClicked={() => setCurrentPage('Explore')}
