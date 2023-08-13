@@ -27,8 +27,8 @@ app.get('*', (req,res) =>{
 
 app.post('/api/pee',async  (req, res) => {
   console.log(req.body)
-  console.log(await getUsers())
-  res.send('Hello World!')
+  let results = await getUsers()
+  res.send(results)
 })
 
 
