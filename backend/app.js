@@ -2,7 +2,8 @@ const express = require('express')
 const bodyParser = require("body-parser");
 const path = require("path");
 const cors = require('cors')
-const {db, getAllUsers, setFeatureState, getAllFeatures} = require("./DAL/persist");
+const {getAllUsers, setFeatureState, getAllFeatures} = require("./DAL/persist");
+const {rapper} = require("./responseRapper");
 
 const app = express()
 const port = 8080
@@ -25,6 +26,21 @@ app.get('*', (req,res) =>{
   res.sendFile(path.join(__dirname, '..', 'frontend', 'dist'))
 })
 
+
+app.use((req, res, next) => {
+  let oldSend = res.send
+  res.send = function(data) {
+    console.log(data) // do something with the data
+    res.send = oldSend // set function back to avoid the 'double-send'
+    if (typeof data === 'string') {
+      data = {status: 'success', data: res.body}
+    }
+    return res.send(data) // just call as normal with data
+  }
+  next()
+})
+
+
 app.post('/api/pee',async  (req, res) => {
   console.log(req.body)
   let results = await getAllUsers()
@@ -34,7 +50,7 @@ app.post('/api/pee',async  (req, res) => {
 app.post('/api/setFeatureState', async (req, res) => {
   console.log(req.body)
   const featureName = req.body.featureName
-  const state = req.body.feaureState
+  const state = req.body.featureState
   let results = await setFeatureState(featureName, state)
   res.send(results)
 } )
@@ -48,6 +64,9 @@ app.get('/api/getFeatures', async (req, res) => {
   })
   res.send(dict)
 })
+
+
+
 
 
 app.listen(port, () => {

@@ -1,6 +1,8 @@
 import Switch from 'react-ios-switch'
 
 import React, {useState} from "react";
+import './Feature.css'
+import {api} from "../../api.jsx";
 
 
 function Feature(props) {
@@ -10,7 +12,7 @@ function Feature(props) {
   return (
     <div className={"feature"}>
       
-        <div>
+        <div className={"feature-name"}>
           {props.featureName}
         </div>
 
@@ -21,7 +23,8 @@ function Feature(props) {
           handleColor="white"
           name={'shouldEnablePeeOnPolePage'}
           offColor="white"
-          onChange={() => {
+          onChange={async () => {
+            await api.setFeatureState(props.featureName, !isFeatureEnabled)
             setFeatureState(!isFeatureEnabled)
           }}
           onColor="rgb(76, 217, 100)"

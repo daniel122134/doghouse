@@ -5,6 +5,7 @@ import './index.css'
 import './style/theme.css'
 import './style/scrollbar-style.css'
 
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <App />

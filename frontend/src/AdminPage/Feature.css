@@ -1,0 +1,10 @@
+.feature {
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+    width: 20vh;
+} 
+.toggle {
+    margin-left: 10px;
+    margin-left: auto;
+}
