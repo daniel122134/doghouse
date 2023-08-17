@@ -2,7 +2,7 @@ const express = require('express')
 const bodyParser = require("body-parser");
 const path = require("path");
 const cors = require('cors')
-const {getAllUsers, setFeatureState, getAllFeatures} = require("./DAL/persist");
+const {getAllUsers, setFeatureState, getAllFeatures, setPeePoleOwner} = require("./DAL/persist");
 const {rapper} = require("./responseRapper");
 
 const app = express()
@@ -43,7 +43,9 @@ app.use((req, res, next) => {
 
 app.post('/api/pee',async  (req, res) => {
   console.log(req.body)
-  let results = await getAllUsers()
+  const poleName = req.body.poleName
+  const ownerId = req.body.ownerId
+  let results = await setPeePoleOwner(featureName, state)
   res.send(results)
 })
 

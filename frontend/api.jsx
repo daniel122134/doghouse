@@ -70,9 +70,14 @@ async function setFeatureState(featureName, featureState) {
   return await post(HOST + 'api/setFeatureState', {featureName, featureState}, {})
 }
 
+async function setPeePoleOwner(poleName, ownerId) {
+  return await post(HOST + 'api/pee', {poleName, ownerId}, {})
+}
+
 const api = {
   getFeatures,
-  setFeatureState
+  setFeatureState,
+  setPeePoleOwner
 }
 
 export {

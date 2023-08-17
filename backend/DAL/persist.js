@@ -1,7 +1,7 @@
 
 var md5 = require('md5');
 
-
+const dayjs = require('dayjs');
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('./doghouse.db', (err) => {
   if (err) {
@@ -28,7 +28,8 @@ db.serialize(() => {
   db.run("CREATE TABLE IF NOT EXISTS features (id INTEGER PRIMARY KEY, name TEXT NOT NULL unique, state INTEGER NOT NULL, updated_at TEXT NOT NULL)");
   //activityLogs
   db.run("CREATE TABLE IF NOT EXISTS activityLogs (id INTEGER PRIMARY KEY, userId INTEGER, activity TEXT NOT NULL, created_at TEXT NOT NULL, FOREIGN KEY(userId) REFERENCES users(id))");
-  
+
+  //insert admin
   db.run(`INSERT OR IGNORE INTO users (username, email, passwordHash, created_at, updated_at) VALUES ('admin', 'admin@admin.com', '${md5('admin')}', '2019-01-01 00:00:00', '2019-01-01 00:00:00')`);
   //insert features
   db.run(`INSERT OR IGNORE INTO features (name, state, updated_at) VALUES ('Pee On a Pole Page', 1, '2023-01-01 00:00:00')`);
@@ -40,7 +41,13 @@ db.serialize(() => {
   db.run(`INSERT OR IGNORE INTO features (name, state, updated_at) VALUES ('Ads', 0, '2023-01-01 00:00:00')`);
   db.run(`INSERT OR IGNORE INTO features (name, state, updated_at) VALUES ('Statistics Page', 1, '2023-01-01 00:00:00')`);
   db.run(`INSERT OR IGNORE INTO features (name, state, updated_at) VALUES ('Dogedex Page', 1, '2023-01-01 00:00:00')`);
-  
+  //insert pee poles
+  db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (null, "fire-hydrant", '2023-01-01 00:00:00')`);
+  db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (null, "lamp", '2023-01-01 00:00:00')`);
+  db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (null, "traffic-light", '2023-01-01 00:00:00')`);
+  db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (null, "cone", '2023-01-01 00:00:00')`);
+  db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (null, "tree", '2023-01-01 00:00:00')`);
+  db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (null, "fence", '2023-01-01 00:00:00')`);
 });
 
 async function getAllUsers() {
@@ -65,8 +72,18 @@ async function getAllFeatures() {
   });
 }
 
+async function getAllPoles() {
+  return new Promise((resolve, reject) => {
+    db.all("SELECT * FROM poles", (err, rows) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(rows);
+    });
+  });
+}
+
 async function setFeatureState(featureName, state) {
-  
   
   return new Promise((resolve, reject) => {
     db.run(`UPDATE features SET state = ${state} WHERE name = '${featureName}'`, async (err) => {
@@ -95,10 +112,31 @@ async function getActivityLogs() {
   });
 }
 
+async function setPeePoleOwner(poleName, ownerId) {
+
+  return new Promise((resolve, reject) => {
+    db.run(`UPDATE poles SET userId = ${ownerId}, updated_at = ${dayjs.now()} WHERE name = '${poleName}'`,
+        async (err) => {
+      if (err) {
+        reject(err);
+      }
+
+      const allPoles = await getAllPoles();
+      if (!allPoles.find(pole => pole.name === poleName)) {
+        resolve("pole not found");
+      }
+
+      resolve("success");
+    });
+  });
+}
+
 module.exports = {
   getAllUsers,
   getAllFeatures,
+  getAllPoles,
   setFeatureState,
+  setPeePoleOwner,
   getActivityLogs,
   db
 };

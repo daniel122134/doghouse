@@ -1,5 +1,5 @@
 .pole {
-    width: 300px;
+    width: 400px;
     padding: 20px;
     border: 1px solid #6e4141;
     border-radius: 10px;
@@ -44,4 +44,5 @@
 
 .poles{
     display: inline-block;
+    overflow-y: auto;
 }

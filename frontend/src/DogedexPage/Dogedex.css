@@ -6,7 +6,6 @@
     margin: 2vw;
     box-shadow: 0 10px 35px 0 rgba(9, 30, 27, 0.15);
     display: inline-block;
-
 }
 
 .dog img {
@@ -19,7 +18,6 @@
 .dogs {
     display: inline-block;
     overflow-y: auto;
-
 }
 
 .dog h2 {
