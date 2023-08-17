@@ -19,6 +19,9 @@ const HomeMain = () => {
                   {"Sign up"}
               </Link>
           </div>
+          <Link to="/app" className="main-btn">
+              {"feed"}
+          </Link>
 
       </div>
     </div>
