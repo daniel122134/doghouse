@@ -12,10 +12,10 @@ const Navbar = () => {
       </a>
       {/*<h2 style={{marginLeft: "15px"}}>DogHouse</h2>*/}
         <div>
-            <Link to="/app" className="nav-btn" >
+            <Link to="/login" className="nav-btn" >
                 {"Log In"}
             </Link>
-            <Link to="/app" className="nav-btn">
+            <Link to="/signup" className="nav-btn">
                 {"Sign up"}
             </Link>
         </div>

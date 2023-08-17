@@ -3,17 +3,18 @@
   "version": "1.0.0",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev-front" : "cd frontend && npm install && npm run dev",
-    "prod-front" : "cd frontend && npm install && npm run build",
-    "dev-server" : "cd backend && npm install && npm run dev",
-    "prod-server" : "cd backend && npm install && npm run start",
-    "all-dev" : "npm-run-all --parallel dev-front dev-server",
-    "all-prod" : "npm-run-all --parallel prod-front prod-server"
+    "dev-front": "cd frontend && npm install && npm run dev",
+    "prod-front": "cd frontend && npm install && npm run build",
+    "dev-server": "cd backend && npm install && npm run dev",
+    "prod-server": "cd backend && npm install && npm run start",
+    "all-dev": "npm-run-all --parallel dev-front dev-server",
+    "all-prod": "npm-run-all --parallel prod-front prod-server"
   },
   "author": "daniel & hadar",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "nodemon": "^3.0.1",
     "npm-run-all": "^4.1.5"
   }
 }

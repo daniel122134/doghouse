@@ -12,10 +12,10 @@ const HomeMain = () => {
           {/*<mainImage className="main-image"/>*/}
           <h2>{"Welcome to the first ever dog social network"}</h2>
           <div>
-              <Link to="/app" className="main-btn" >
+              <Link to="/login" className="main-btn" >
                   {"Log In"}
               </Link>
-              <Link to="/app" className="main-btn">
+              <Link to="/signup" className="main-btn">
                   {"Sign up"}
               </Link>
           </div>
