@@ -42,12 +42,12 @@ db.serialize(() => {
   db.run(`INSERT OR IGNORE INTO features (name, state, updated_at) VALUES ('Statistics Page', 1, '2023-01-01 00:00:00')`);
   db.run(`INSERT OR IGNORE INTO features (name, state, updated_at) VALUES ('Dogedex Page', 1, '2023-01-01 00:00:00')`);
   //insert pee poles
-  db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (null, "fire-hydrant", '2023-01-01 00:00:00')`);
-  db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (null, "lamp", '2023-01-01 00:00:00')`);
-  db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (null, "traffic-light", '2023-01-01 00:00:00')`);
-  db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (null, "cone", '2023-01-01 00:00:00')`);
-  db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (null, "tree", '2023-01-01 00:00:00')`);
-  db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (null, "fence", '2023-01-01 00:00:00')`);
+  db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (1, "fire-hydrant", '2023-01-01 00:00:00')`);
+  db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (1, "lamp", '2023-01-01 00:00:00')`);
+  db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (1, "traffic-light", '2023-01-01 00:00:00')`);
+  db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (1, "cone", '2023-01-01 00:00:00')`);
+  db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (1, "tree", '2023-01-01 00:00:00')`);
+  db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (1, "fence", '2023-01-01 00:00:00')`);
 });
 
 async function getAllUsers() {

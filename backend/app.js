@@ -45,7 +45,7 @@ app.post('/api/pee',async  (req, res) => {
   console.log(req.body)
   const poleName = req.body.poleName
   const ownerId = req.body.ownerId
-  let results = await setPeePoleOwner(featureName, state)
+  let results = await setPeePoleOwner(poleName, ownerId)
   res.send(results)
 })
 
