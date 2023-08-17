@@ -42,9 +42,9 @@ db.serialize(() => {
   db.run(`INSERT OR IGNORE INTO features (name, state, updated_at) VALUES ('Statistics Page', 1, '2023-01-01 00:00:00')`);
   db.run(`INSERT OR IGNORE INTO features (name, state, updated_at) VALUES ('Dogedex Page', 1, '2023-01-01 00:00:00')`);
   //insert pee poles
-  db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (1, "fire-hydrant", '2023-01-01 00:00:00')`);
+  db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (1, "fire hydrent", '2023-01-01 00:00:00')`);
   db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (1, "lamp", '2023-01-01 00:00:00')`);
-  db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (1, "traffic-light", '2023-01-01 00:00:00')`);
+  db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (1, "traffic light", '2023-01-01 00:00:00')`);
   db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (1, "cone", '2023-01-01 00:00:00')`);
   db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (1, "tree", '2023-01-01 00:00:00')`);
   db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (1, "fence", '2023-01-01 00:00:00')`);
@@ -115,7 +115,8 @@ async function getActivityLogs() {
 async function setPeePoleOwner(poleName, ownerId) {
 
   return new Promise((resolve, reject) => {
-    db.run(`UPDATE poles SET userId = ${ownerId}, updated_at = ${dayjs.now()} WHERE name = '${poleName}'`,
+    let time = dayjs()
+    db.run(`UPDATE poles SET userId = ${ownerId}, updated_at = '${time}' WHERE name = '${poleName}'`,
         async (err) => {
       if (err) {
         reject(err);
