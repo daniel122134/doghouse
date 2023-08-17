@@ -26,18 +26,6 @@
   padding: 1.5em 0 1.5em 0;
 }
 
-/*.tokens-container > div {*/
-/*  display: flex;*/
-/*}*/
-
-/*.tokens-container > div > .icon {*/
-/*  margin: 0 7px 0 7px;*/
-/*}*/
-
-/*.coin_icon {*/
-/*    height: 2.5em;*/
-/*    aspect-ratio: 1/1;*/
-/*}*/
 
 .sidebar-button {
   display: flex;
@@ -49,8 +37,7 @@
   border-radius: 0;
   height: 24px;
   width: -webkit-fill-available;
-  font-size: 1.8vw;
-  font-family: "Droid Serif", serif;
+  font-size: 1.1vw;
 }
 
 .sidebar-button.campaign {
@@ -59,17 +46,6 @@
   width: 170px;
 }
 
-/*.add-campaign-button {*/
-/*  margin-left: auto;*/
-/*  color: var(--text-color-on-secondary);*/
-/*  background-color: #00000030;*/
-/*  font-size: 14px;*/
-/*  padding: 6px 12px;*/
-/*}*/
-
-/*.add-campaign-button:hover {*/
-/*  background-color: #00000050;*/
-/*}*/
 
 .sidebar-button:hover,.sidebar-button[data-selected=true]  {
   background-color: var(--background-strong-05);
@@ -80,37 +56,6 @@
   margin-left: 15px;
   width: 16px;
 }
-
-/*#campaigns-list {*/
-/*  display: flex;*/
-/*  flex-direction: column;*/
-/*  overflow-y: auto;*/
-/*  width: -webkit-fill-available;*/
-/*  overflow-x: hidden;*/
-/*}*/
-
-/*.country-selector {*/
-/*  border: 1px solid var(--active-color);*/
-/*  border-radius: 7px;*/
-/*  padding: 5px 10px;*/
-/*  display: flex;*/
-/*  align-items: center;*/
-/*  margin-left: 32px;*/
-/*  margin-right: 32px;*/
-/*  margin-top: 8px;*/
-/*  cursor: pointer;*/
-/*  gap: 10px;*/
-/*}*/
-
-/*.country-selector:hover {*/
-/*  background-color: var(--active-color);*/
-/*}*/
-
-/*.country-selector > .country-icon {*/
-/*  height: 30px;*/
-/*  width: 30px;*/
-/*  border-radius: 100px;*/
-/*}*/
 
 .logout-btn{
   background: #6e4141;
