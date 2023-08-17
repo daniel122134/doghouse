@@ -26,6 +26,7 @@ function Feature(props) {
           onChange={async () => {
             await api.setFeatureState(props.featureName, !isFeatureEnabled)
             setFeatureState(!isFeatureEnabled)
+            props.setFeatureStateCallback(!isFeatureEnabled)
           }}
           onColor="rgb(76, 217, 100)"
           style={undefined}

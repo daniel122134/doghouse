@@ -2,11 +2,13 @@ import './Sidebar.css'
 import Icon from '../components/Icon'
 import logo from "../assets/houseCover.png";
 import {Link} from "react-router-dom";
-import React from "react";
+import React, {useContext, useState} from "react";
+import {shouldEnableDogedexContext} from "../Dashboard/Dashboard.jsx";
 
 
 const Sidebar = (props) => {
-  
+  const [isDogedexActive, setIsDogedexActive] = useContext(shouldEnableDogedexContext)
+  debugger
   return (
     <div className="sidebar">
 
@@ -50,6 +52,7 @@ const Sidebar = (props) => {
         <div className="sidebar-button"
              onClick={() => props.onDogedexClicked()}
              data-selected={props.currentPage === 'DogedexPage'}
+             style={{display: isDogedexActive ? 'flex' : 'none'}}
         >
             <Icon icon="fa fa-dollar"></Icon>
             {"DogedexPage"}
