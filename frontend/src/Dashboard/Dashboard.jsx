@@ -44,8 +44,16 @@ function App() {
   const downloadInitialData = async () => {
     //todo add loading screen and load stuff
     api.getFeatures().then(data => {
-      debugger
-      setShouldEnableDogedexPage(data['Dogedex Page'] === 1)
+      setShouldEnablePeeOnPolePage(data['Pee On a Pole Page']===1)
+      setShouldEnableMyProfilePage(data['My Profile Page']===1)
+      setShouldEnableSharePostButton(data['Share Post Button']===1)
+      setShouldEnableEditPost(data['Edit Post']===1)
+      setShouldEnableUnlikePost(data['Unlike Post']===1)
+      setShouldEnableSearchOptions(data['Search Options']===1)
+      setShouldEnableAds(data['Ads']===1)
+      setShouldEnableStatisticsPage(data['Statistics Page']===1)
+      setShouldEnableDogedexPage(data['Dogedex Page']===1)
+
       setIsLoading(false)
     })
 
@@ -56,7 +64,7 @@ function App() {
 
   useEffect(() => {
     downloadInitialData()
-  }, [shouldEnableDogedexPage, shouldEnablePeeOnPolePage, shouldEnableMyProfilePage, shouldEnableSharePostButton, shouldEnableEditPost, shouldEnableUnlikePost, shouldEnableSearchOptions, shouldEnableAds, shouldEnableStatisticsPage])
+  }, [])
 
 
   return (

@@ -3,79 +3,84 @@ import Icon from '../components/Icon'
 import logo from "../assets/houseCover.png";
 import {Link} from "react-router-dom";
 import React, {useContext, useState} from "react";
-import {shouldEnableDogedexContext, shouldEnablePeeOnPolePageContext} from "../Dashboard/Dashboard.jsx";
+import {
+  shouldEnableDogedexContext,
+  shouldEnableMyProfilePageContext,
+  shouldEnablePeeOnPolePageContext
+} from "../Dashboard/Dashboard.jsx";
 
 
 const Sidebar = (props) => {
   const [shouldEnableDogedexPage, setShouldEnableDogedexPage] = useContext(shouldEnableDogedexContext)
   const [shouldEnablePeeOnPolePage, setShouldEnablePeeOnPolePage] = useContext(shouldEnablePeeOnPolePageContext)
-    
-  debugger
+  const [shouldEnableMyProfilePage, setShouldEnableMyProfilePage] = useContext(shouldEnableMyProfilePageContext)
+
   return (
     <div className="sidebar">
 
       <button className="logo" onClick={() => props.onLogoClick()}>
         <img src={logo} alt="logo"/>
       </button>
-    
-      
+
+
       <div className="sidebar-button"
-        onClick={() => props.onProfileClicked()}
-        data-selected={props.currentPage === 'ProfilePage'}
+           onClick={() => props.onProfileClicked()}
+           data-selected={props.currentPage === 'ProfilePage'}
+           style={{display: shouldEnableMyProfilePage ? 'flex' : 'none'}}
+
       >
         <Icon icon="fa fa-address-book"></Icon>
         {"My profile"}
       </div>
 
       <div className="sidebar-button"
-        onClick={() => props.onFeedClicked()}
-        data-selected={props.currentPage === 'FeedPage'}
+           onClick={() => props.onFeedClicked()}
+           data-selected={props.currentPage === 'FeedPage'}
+
       >
         <Icon icon="fa fa-dollar"></Icon>
         {"FeedPage"}
       </div>
 
-        <div className="sidebar-button"
-             onClick={() => props.onExploreClicked()}
-             data-selected={props.currentPage === 'ExplorePage'}
-        >
-            <Icon icon="fa fa-dollar"></Icon>
-            {"ExplorePage"}
-        </div>
+      <div className="sidebar-button"
+           onClick={() => props.onExploreClicked()}
+           data-selected={props.currentPage === 'ExplorePage'}
+      >
+        <Icon icon="fa fa-dollar"></Icon>
+        {"ExplorePage"}
+      </div>
 
-        <div className="sidebar-button"
-             onClick={() => props.onPolesClicked()}
-             data-selected={props.currentPage === 'PeePolesPage'}
-             style={{display: shouldEnablePeeOnPolePage ? 'flex' : 'none'}}
-        >
-            <Icon icon="fa fa-dollar"></Icon>
-            {"Pee Poles"}
-        </div>
+      <div className="sidebar-button"
+           onClick={() => props.onPolesClicked()}
+           data-selected={props.currentPage === 'PeePolesPage'}
+           style={{display: shouldEnablePeeOnPolePage ? 'flex' : 'none'}}
+      >
+        <Icon icon="fa fa-dollar"></Icon>
+        {"Pee Poles"}
+      </div>
 
-        <div className="sidebar-button"
-             onClick={() => props.onDogedexClicked()}
-             data-selected={props.currentPage === 'DogedexPage'}
-             style={{display: shouldEnableDogedexPage ? 'flex' : 'none'}}
-        >
-            <Icon icon="fa fa-dollar"></Icon>
-            {"DogedexPage"}
-        </div>
+      <div className="sidebar-button"
+           onClick={() => props.onDogedexClicked()}
+           data-selected={props.currentPage === 'DogedexPage'}
+           style={{display: shouldEnableDogedexPage ? 'flex' : 'none'}}
+      >
+        <Icon icon="fa fa-dollar"></Icon>
+        {"DogedexPage"}
+      </div>
 
-        <div className="sidebar-button"
-             onClick={() => props.onAdminClicked()}
-             data-selected={props.currentPage === 'AdminPage'}
-        >
-            <Icon icon="fa fa-dollar"></Icon>
-            {"Admin"}
-        </div>
-
-
+      <div className="sidebar-button"
+           onClick={() => props.onAdminClicked()}
+           data-selected={props.currentPage === 'AdminPage'}
+      >
+        <Icon icon="fa fa-dollar"></Icon>
+        {"Admin"}
+      </div>
 
 
       <div className="tokens-container">
-          <Link to="/app" className="logout-btn">
-              {"Log out"}
-          </Link>
+        <Link to="/app" className="logout-btn">
+          {"Log out"}
+        </Link>
         <div>{"DogHouse.com"}</div>
         <div>{"By Daniel & Hadar"} </div>
       </div>
