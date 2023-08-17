@@ -12,10 +12,12 @@ import AdminPage from "../AdminPage/AdminPage.jsx";
 
 dayjs.extend(relativeTime)
 
+const IsDogodexActiveContext = createContext(null)
 const IsLoadingContext = createContext(null)
 
 function App() {
   const [isLoading, setIsLoading] = useState(false)
+  const [isDogodexActive, setIsDogodexActive] = useState(false)
   const [isInitialLoading, setInitialLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState('FeedPage')
   window.setCurrentPageCache = setCurrentPage
@@ -31,7 +33,7 @@ function App() {
   }, [])
 
 
-  return  (
+  return (
     <Contexts
       isLoading={isLoading}
       setIsLoading={setIsLoading}
@@ -46,7 +48,9 @@ function App() {
         {(
           <Sidebar
             currentPage={currentPage}
-            onLogoClick={() => {setCurrentPage('FeedPage')}}
+            onLogoClick={() => {
+              setCurrentPage('FeedPage')
+            }}
             onProfileClicked={() => setCurrentPage('ProfilePage')}
             onFeedClicked={() => setCurrentPage('FeedPage')}
             onExploreClicked={() => setCurrentPage('ExplorePage')}
@@ -64,24 +68,24 @@ function App() {
             </div>
           ) : null}
           {!isInitialLoading && currentPage === 'ProfilePage' ? (
-            <ProfilePage />
+            <ProfilePage/>
           ) : null}
           {!isInitialLoading && currentPage === 'FeedPage' ? (
-            <ProfilePage />
+            <ProfilePage/>
           ) : null}
           {!isInitialLoading && currentPage === 'ExplorePage' ? (
-              <ExplorePage />
+            <ExplorePage/>
           ) : null}
           {!isInitialLoading && currentPage === 'PeePolesPage' ? (
-              <PeePolesPage />
+            <PeePolesPage/>
           ) : null}
           {!isInitialLoading && currentPage === 'DogedexPage' ? (
-              <DogedexPage />
+            <DogedexPage/>
           ) : null}
           {!isInitialLoading && currentPage === 'AdminPage' ? (
-              <AdminPage />
+            <AdminPage/>
           ) : null}
-          
+
         </div>
 
 
@@ -94,14 +98,16 @@ function Contexts({
                     children,
                     isLoading,
                     setIsLoading,
+                    isDogodexActive,
+                    setIsDogodexActive,
+
                   }) {
   return (
 
-
-    <IsLoadingContext.Provider
-      value={[isLoading, setIsLoading]}
-    >
-      {children}
+    <IsLoadingContext.Provider value={[isLoading, setIsLoading]}>
+      <IsDogodexActiveContext.Provider value={[isDogodexActive, setIsDogodexActive]}>
+        {children}
+      </IsDogodexActiveContext.Provider>
     </IsLoadingContext.Provider>
   )
 }
@@ -109,4 +115,5 @@ function Contexts({
 export default App
 export {
   IsLoadingContext,
+  IsDogodexActiveContext
 }
