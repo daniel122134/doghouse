@@ -3,11 +3,13 @@ import Icon from '../components/Icon'
 import logo from "../assets/houseCover.png";
 import {Link} from "react-router-dom";
 import React, {useContext, useState} from "react";
-import {shouldEnableDogedexContext} from "../Dashboard/Dashboard.jsx";
+import {shouldEnableDogedexContext, shouldEnablePeeOnPolePageContext} from "../Dashboard/Dashboard.jsx";
 
 
 const Sidebar = (props) => {
-  const [isDogedexActive, setIsDogedexActive] = useContext(shouldEnableDogedexContext)
+  const [shouldEnableDogedexPage, setShouldEnableDogedexPage] = useContext(shouldEnableDogedexContext)
+  const [shouldEnablePeeOnPolePage, setShouldEnablePeeOnPolePage] = useContext(shouldEnablePeeOnPolePageContext)
+    
   debugger
   return (
     <div className="sidebar">
@@ -44,6 +46,7 @@ const Sidebar = (props) => {
         <div className="sidebar-button"
              onClick={() => props.onPolesClicked()}
              data-selected={props.currentPage === 'PeePolesPage'}
+             style={{display: shouldEnablePeeOnPolePage ? 'flex' : 'none'}}
         >
             <Icon icon="fa fa-dollar"></Icon>
             {"Pee Poles"}
@@ -52,7 +55,7 @@ const Sidebar = (props) => {
         <div className="sidebar-button"
              onClick={() => props.onDogedexClicked()}
              data-selected={props.currentPage === 'DogedexPage'}
-             style={{display: isDogedexActive ? 'flex' : 'none'}}
+             style={{display: shouldEnableDogedexPage ? 'flex' : 'none'}}
         >
             <Icon icon="fa fa-dollar"></Icon>
             {"DogedexPage"}
