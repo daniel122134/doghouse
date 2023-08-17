@@ -67,7 +67,6 @@ async function getAllFeatures() {
 
 async function setFeatureState(featureName, state) {
   
-  
   return new Promise((resolve, reject) => {
     db.run(`UPDATE features SET state = ${state} WHERE name = '${featureName}'`, async (err) => {
       if (err) {
