@@ -15,7 +15,7 @@ function LogInPage() {
     };
 
     return (
-        <div className="App">
+        <div className="login">
             <div className="login-container">
                 <h2>Login</h2>
                 <form onSubmit={handleLogin}>

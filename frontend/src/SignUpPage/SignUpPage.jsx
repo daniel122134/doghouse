@@ -15,7 +15,7 @@ function SignUpPage() {
     };
 
     return (
-        <div className="App">
+        <div className="signup">
             <div className="signup-container">
                 <h2>Sign Up</h2>
                 <form onSubmit={handleSignup}>
