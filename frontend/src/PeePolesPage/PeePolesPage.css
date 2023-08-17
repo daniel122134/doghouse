@@ -25,10 +25,8 @@
 }
 
 .pee {
-    width: 80%;
+    width: 100%;
     border: 1px solid #6e4141;
-    align-items: center;
-
     background: #FDFDFD;
     border-radius: 10px;
     color: #6e4141;
