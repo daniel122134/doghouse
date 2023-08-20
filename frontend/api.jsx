@@ -74,10 +74,15 @@ async function setPeePoleOwner(poleName, ownerId) {
   return await post(HOST + 'api/pee', {poleName, ownerId}, {})
 }
 
+async function getPoleOwner(poleName) {
+  return await post(HOST + 'api/poleOwner', {poleName}, {})
+}
+
 const api = {
   getFeatures,
   setFeatureState,
-  setPeePoleOwner
+  setPeePoleOwner,
+  getPoleOwner
 }
 
 export {

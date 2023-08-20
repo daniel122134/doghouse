@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import pole1 from "./assets/fire-hydrant-pole.gif";
 import pole2 from "./assets/lamp-pole.gif";
 import pole3 from "./assets/traffic-light-pole.gif";
@@ -7,15 +7,27 @@ import pole5 from "./assets/tree-pole.png";
 import pole6 from "./assets/fence-pole.gif";
 import './PeePolesPage.css'
 import Pole from "./Pole.jsx";
+import {api} from "../../api.jsx";
 
 
 function PeePolesPage() {
+
     const [fireHydrentOwnerText, setfireHydrentOwnerText] = useState('owner: ?');
     const [lampOwnerText, setLampOwnerText] = useState('owner: ?');
     const [trafficLightOwnerText, setTrafficLightOwnerText] = useState('owner: ?');
     const [coneHydrentOwnerText, setConeOwnerText] = useState('owner: ?');
     const [TreeOwnerText, setTreeOwnerText] = useState('owner: ?');
     const [FenceOwnerText, setFenceOwnerText] = useState('owner: ?');
+
+    useEffect(async () => {
+
+        const currentFireHydrentOwner = async () => await api.getPoleOwner("fire hydrent");
+        const currentLampOwner = async () => await api.getPoleOwner("lamp");
+
+        setfireHydrentOwnerText(await currentFireHydrentOwner());
+        setLampOwnerText(await currentLampOwner());
+
+    }, [])
 
   return (
       <div className="poles">
