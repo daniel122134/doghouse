@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import pole1 from "./assets/fire-hydrant-pole.gif";
 import pole2 from "./assets/lamp-pole.gif";
 import pole3 from "./assets/traffic-light-pole.gif";
@@ -7,50 +7,21 @@ import pole5 from "./assets/tree-pole.png";
 import pole6 from "./assets/fence-pole.gif";
 import './PeePolesPage.css'
 import Pole from "./Pole.jsx";
-import {api} from "../../api.jsx";
 
 
 function PeePolesPage() {
-
-    const [fireHydrentOwnerText, setfireHydrentOwnerText] = useState('owner: ?');
-    const [lampOwnerText, setLampOwnerText] = useState('owner: ?');
-    const [trafficLightOwnerText, setTrafficLightOwnerText] = useState('owner: ?');
-    const [coneHydrentOwnerText, setConeOwnerText] = useState('owner: ?');
-    const [TreeOwnerText, setTreeOwnerText] = useState('owner: ?');
-    const [FenceOwnerText, setFenceOwnerText] = useState('owner: ?');
-
-    useEffect(async () => {
-
-        const currentFireHydrentOwner = async () => await api.getPoleOwner("fire hydrent");
-        const currentLampOwner = async () => await api.getPoleOwner("lamp");
-
-        setfireHydrentOwnerText(await currentFireHydrentOwner());
-        setLampOwnerText(await currentLampOwner());
-
-    }, [])
+  
 
   return (
-      <div className="poles">
-          <Pole poleName={"fire hydrent"} poleImg={pole1} currentOwner={fireHydrentOwnerText}
-                setOwmerText={setfireHydrentOwnerText}></Pole>
-          <Pole poleName={"lamp"} poleImg={pole2} currentOwner={lampOwnerText}
-                setOwmerText={setLampOwnerText}></Pole>
-          <Pole poleName={"traffic light"} poleImg={pole3} currentOwner={trafficLightOwnerText}
-                setOwmerText={setTrafficLightOwnerText}></Pole>
-          <Pole poleName={"cone"} poleImg={pole4} currentOwner={coneHydrentOwnerText}
-                setOwmerText={setConeOwnerText}></Pole>
-          <Pole poleName={"tree"} poleImg={pole5} currentOwner={TreeOwnerText}
-                setOwmerText={setTreeOwnerText}></Pole>
-          <Pole poleName={"fence"} poleImg={pole6} currentOwner={FenceOwnerText}
-                setOwmerText={setFenceOwnerText}></Pole>
-
-          {/*<div className="pole">*/}
-          {/*    <img src={pole1} alt="fire-hydrant-pole" />*/}
-          {/*    <h2>The fire hydrent pole</h2>*/}
-          {/*    <h2>{fire-hydrant-ownerText}</h2>*/}
-          {/*    <button className="pee" onClick={handlePeeButtonClick("fire-hydrant")}>Pee</button>*/}
-          {/*</div>*/}
-      </div>
+    <div className="poles">
+      <Pole poleName={"fire hydrent"} poleImg={pole1}></Pole>
+      <Pole poleName={"lamp"} poleImg={pole2}></Pole>
+      <Pole poleName={"traffic light"} poleImg={pole3}></Pole>
+      <Pole poleName={"cone"} poleImg={pole4}></Pole>
+      <Pole poleName={"tree"} poleImg={pole5}></Pole>
+      <Pole poleName={"fence"} poleImg={pole6}></Pole>
+      
+    </div>
   )
 }
 

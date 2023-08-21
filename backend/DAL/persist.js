@@ -85,12 +85,12 @@ async function getAllPoles() {
 
 async function getPoleOwner(pole) {
   return new Promise((resolve, reject) => {
-    db.all('SELECT username FROM poles JOIN users on id = userId WHERE poles.name = ${pole}',
+    db.all(`SELECT username FROM poles JOIN users on users.id = poles.userId WHERE poles.name = '${pole}'`,
         (err, rows) => {
       if (err) {
         reject(err);
       }
-      resolve(rows);
+      resolve(rows[0]);
     });
   });
 }
