@@ -42,9 +42,9 @@ db.serialize(() => {
   db.run(`INSERT OR IGNORE INTO features (name, state, updated_at) VALUES ('Statistics Page', 1, '2023-01-01 00:00:00')`);
   db.run(`INSERT OR IGNORE INTO features (name, state, updated_at) VALUES ('Dogedex Page', 1, '2023-01-01 00:00:00')`);
   //insert pee poles
-  db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (1, "fire-hydrant", '2023-01-01 00:00:00')`);
+  db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (1, "fire hydrent", '2023-01-01 00:00:00')`);
   db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (1, "lamp", '2023-01-01 00:00:00')`);
-  db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (1, "traffic-light", '2023-01-01 00:00:00')`);
+  db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (1, "traffic light", '2023-01-01 00:00:00')`);
   db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (1, "cone", '2023-01-01 00:00:00')`);
   db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (1, "tree", '2023-01-01 00:00:00')`);
   db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (1, "fence", '2023-01-01 00:00:00')`);
@@ -75,6 +75,18 @@ async function getAllFeatures() {
 async function getAllPoles() {
   return new Promise((resolve, reject) => {
     db.all("SELECT * FROM poles", (err, rows) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(rows);
+    });
+  });
+}
+
+async function getPoleOwner(pole) {
+  return new Promise((resolve, reject) => {
+    db.all('SELECT username FROM poles JOIN users on id = userId WHERE poles.name = ${pole}',
+        (err, rows) => {
       if (err) {
         reject(err);
       }
@@ -135,6 +147,7 @@ module.exports = {
   getAllUsers,
   getAllFeatures,
   getAllPoles,
+  getPoleOwner,
   setFeatureState,
   setPeePoleOwner,
   getActivityLogs,
