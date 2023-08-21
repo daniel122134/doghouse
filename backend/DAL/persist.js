@@ -115,7 +115,7 @@ async function getActivityLogs() {
 async function setPeePoleOwner(poleName, ownerId) {
 
   return new Promise((resolve, reject) => {
-    db.run(`UPDATE poles SET userId = ${ownerId}, updated_at = ${dayjs.now()} WHERE name = '${poleName}'`,
+    db.run(`UPDATE poles SET userId = ${ownerId}, updated_at = '${dayjs().format('YYYY-MM-DD HH:mm:ss')}' WHERE name = '${poleName}'`,
         async (err) => {
       if (err) {
         reject(err);

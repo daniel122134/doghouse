@@ -42,7 +42,7 @@ app.use((req, res, next) => {
 
 
 app.post('/api/pee',async  (req, res) => {
-  console.log(req.body)
+  console.log("dsa" + req.body)
   const poleName = req.body.poleName
   const ownerId = req.body.ownerId
   let results = await setPeePoleOwner(poleName, ownerId)
