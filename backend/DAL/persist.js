@@ -143,6 +143,20 @@ async function setPeePoleOwner(poleName, ownerId) {
   });
 }
 
+//create user
+async function createUser(username, email, passwordHash) {
+return new Promise((resolve, reject) => {
+    db.run(`INSERT INTO users (username, email, passwordHash, created_at, updated_at) VALUES ('${username}', '${email}', '${passwordHash}', '${dayjs().format('YYYY-MM-DD HH:mm:ss')}', '${dayjs().format('YYYY-MM-DD HH:mm:ss')}')`, (err) => {
+      if (err) {
+        reject(err);
+      }
+      resolve({username, email});
+    });
+  });
+  
+}
+
+
 module.exports = {
   getAllUsers,
   getAllFeatures,
@@ -151,5 +165,6 @@ module.exports = {
   setFeatureState,
   setPeePoleOwner,
   getActivityLogs,
+  createUser,
   db
 };

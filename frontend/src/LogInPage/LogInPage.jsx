@@ -2,16 +2,31 @@
 import './LogInPage.css'
 // import {Link} from "react-router-dom";
 import React, { useState } from 'react';
+import md5 from 'md5';
+import {api} from "../../api.jsx";
+import authService from "../../authService.jsx";
+import {useNavigate} from "react-router-dom";
 
 
 function LogInPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [remember, setRemember] = useState(false);
+    const navigate = useNavigate();
 
-    const handleLogin = (e) => {
+    const handleLogin = async  (e) => {
         e.preventDefault();
-        // In a real app, you would perform authentication here
-        console.log('Logging in with:', username, password);
+        const passwordMd5 = md5(password);
+        console.log('Logging in with:', username, passwordMd5);
+        authService.login(username, passwordMd5).then((response) => {
+            if (response.username){
+                navigate("/app");
+                window.location.reload();
+            }
+        })
+        console.log('Logged in');
+        console.log(authService.getCurrentUser());
+        
     };
 
     return (
@@ -40,7 +55,7 @@ function LogInPage() {
                     /><br />
 
                     <label>
-                        <input className="inputs" type="checkbox" name="remember" /> Remember me
+                        <input className="inputs" type="checkbox" name="remember" checked={remember} onChange={(e) => setRemember(e.target.checked)} />
                     </label><br />
 
                     <button type="submit" className="submit">Login</button>

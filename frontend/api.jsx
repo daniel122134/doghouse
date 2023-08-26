@@ -78,7 +78,22 @@ async function getPoleOwner(poleName) {
   return await post(HOST + 'api/poleOwner', {poleName}, {})
 }
 
+async function login(username, passwordHash) {
+  return await post(HOST + 'api/login', {username, passwordHash}, {})
+}
+
+async function logout() {
+  return await post(HOST + 'api/logout', {}, {})
+}
+
+async function signup(username,email, passwordHash) {
+  return await post(HOST + 'api/signup', {username, email,passwordHash}, {})
+}
+
 const api = {
+  login,
+  logout,
+  signup,
   getFeatures,
   setFeatureState,
   setPeePoleOwner,

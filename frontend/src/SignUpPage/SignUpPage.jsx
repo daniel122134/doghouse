@@ -2,16 +2,27 @@
 import './SignUpPage.css'
 // import {Link} from "react-router-dom";
 import React, { useState } from 'react';
+import md5 from "md5";
+import authService from "../../authService.jsx";
+import {useNavigate} from "react-router-dom";
 
 function SignUpPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
+    const navigate = useNavigate();
 
     const handleSignup = (e) => {
         e.preventDefault();
-        // In a real app, you would perform user registration here
-        console.log('Signing up with:', username, password, email);
+        console.log('Signing up with:', username,email, password);
+
+        const passwordMd5 = md5(password);
+        authService.register(username, email, passwordMd5).then((response) => {
+            if (response.username){
+                navigate("/app");
+                window.location.reload();
+            }
+        })
     };
 
     return (

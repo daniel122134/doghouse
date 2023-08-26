@@ -2,13 +2,22 @@ const express = require('express')
 const bodyParser = require("body-parser");
 const path = require("path");
 const cors = require('cors')
-const {getAllUsers, setFeatureState, getAllFeatures, setPeePoleOwner, getPoleOwner} = require("./DAL/persist");
-const {rapper} = require("./responseRapper");
+const {
+  getAllUsers,
+  setFeatureState,
+  getAllFeatures,
+  setPeePoleOwner,
+  getPoleOwner,
+  createUser
+} = require("./DAL/persist");
+const cookieSession = require("cookie-session");
+const config = require("./config/auth.config.js");
+const jwt = require("jsonwebtoken");
 
 const app = express()
 const port = 8080
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json({ limit: 1024 *1024 * 5 }))
+app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.json({limit: 1024 * 1024 * 5}))
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -16,20 +25,29 @@ app.use(
   })
 )
 
+app.use(
+  cookieSession({
+    name: "user-session",
+    secret: config.secret,
+    httpOnly: true,
+  })
+);
+
+
 app.use('/public', express.static(path.join(__dirname, '..', 'frontend', 'public')))
 
 app.use(
   express.static(path.join(__dirname, '..', 'frontend', 'dist'))
 )
 
-app.get('*', (req,res) =>{
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'frontend', 'dist'))
 })
 
 
 app.use((req, res, next) => {
   let oldSend = res.send
-  res.send = function(data) {
+  res.send = function (data) {
     console.log(data) // do something with the data
     res.send = oldSend // set function back to avoid the 'double-send'
     if (typeof data === 'string') {
@@ -41,7 +59,7 @@ app.use((req, res, next) => {
 })
 
 
-app.post('/api/pee',async  (req, res) => {
+app.post('/api/pee', async (req, res) => {
   console.log("dsa" + req.body)
   const poleName = req.body.poleName
   const ownerId = req.body.ownerId
@@ -49,7 +67,7 @@ app.post('/api/pee',async  (req, res) => {
   res.send(results)
 })
 
-app.post('/api/poleOwner',async  (req, res) => {
+app.post('/api/poleOwner', async (req, res) => {
   console.log(req.body)
   const poleName = req.body.poleName
   let results = await getPoleOwner(poleName)
@@ -62,7 +80,7 @@ app.post('/api/setFeatureState', async (req, res) => {
   const state = req.body.featureState
   let results = await setFeatureState(featureName, state)
   res.send(results)
-} )
+})
 
 app.get('/api/getFeatures', async (req, res) => {
   console.log(req.query)
@@ -74,9 +92,70 @@ app.get('/api/getFeatures', async (req, res) => {
   res.send(dict)
 })
 
+app.post('/api/login', async (req, res) => {
+
+  // check user password and username and set cookie
+  const username = req.body.username
+  const passwordHash = req.body.passwordHash
+  let results = await getAllUsers()
+  let user = results.find(user => user.username === username)
 
 
+  if (!user) {
+    return res.status(404).send({message: "User Not found."});
+  }
 
+  if (!user || user.passwordHash !== passwordHash) {
+    return res.status(401).send("user not authenticated")
+  }
+
+  req.session.token = jwt.sign({id: user.id},
+    config.secret,
+    {
+      algorithm: 'HS256',
+      allowInsecureKeySizes: true,
+      expiresIn: 86400, // 24 hours
+    }, null);
+
+  return res.status(200).send({
+    id: user.id,
+    username: user.username,
+    email: user.email,
+    isAdmin: username === "admin",
+  });
+
+})
+
+app.post('/api/logout', async (req, res) => {
+  req.session = null
+  res.send({message: "logout success"})
+})
+
+//signup
+app.post('/api/signup', async (req, res) => {
+  try {
+    await createUser(req.body.username, req.body.email, req.body.passwordHash);
+    let results = await getAllUsers()
+    let user = results.find(user => user.username === req.body.username)
+    req.session.token = jwt.sign({id: user.id},
+      config.secret,
+      {
+        algorithm: 'HS256',
+        allowInsecureKeySizes: true,
+        expiresIn: 86400, // 24 hours
+      }, null);
+
+    return res.status(200).send({
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      isAdmin: user.username === "admin",
+    });
+    
+  } catch (e) {
+    res.status(500).send({message: e})
+  }
+})
 
 app.listen(port, () => {
   console.info(`Example app listening on port ${port}`)
