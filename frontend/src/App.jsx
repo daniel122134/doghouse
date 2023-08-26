@@ -38,12 +38,9 @@ function App() {
 }
 
 function getComponentBasedOnToken(){
-  console.log(authService.getCurrentUser())
   if (authService.getCurrentUser()){
-    debugger
     return <Dashboard/>
   }else{
-    debugger
     return <Home/>  
   }
 }
