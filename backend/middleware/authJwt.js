@@ -36,7 +36,6 @@ verifyToken = (req, res, next) => {
       req.session.username = decoded.username;
       req.session.email = decoded.email;
       
-      
       next();
     });
 };

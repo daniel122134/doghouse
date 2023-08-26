@@ -8,6 +8,7 @@ import Home from "./Home/Home.jsx";
 import FeedPage from "./FeedPage/FeedPage.jsx";
 import LogInPage from "./LogInPage/LogInPage.jsx";
 import SignUpPage from "./SignUpPage/SignUpPage.jsx";
+import authService from "../authService.jsx";
 
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
         <Route path="/" Component={Home}/>
         <Route
           path="/app"
-          Component={Dashboard}
+          Component={getComponentBasedOnToken}
         />
           <Route
               path="/feed"
@@ -36,6 +37,15 @@ function App() {
   )
 }
 
-
+function getComponentBasedOnToken(){
+  console.log(authService.getCurrentUser())
+  if (authService.getCurrentUser()){
+    debugger
+    return <Dashboard/>
+  }else{
+    debugger
+    return <Home/>  
+  }
+}
 export default App
 
