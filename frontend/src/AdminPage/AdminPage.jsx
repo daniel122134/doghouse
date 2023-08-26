@@ -14,6 +14,7 @@ import {
   shouldEnableSharePostButtonContext, shouldEnableStatisticsPageContext,
   shouldEnableUnlikePostContext
 } from "../Dashboard/Dashboard.jsx";
+import EventLog from "./EventLog.jsx";
 
 
 function AdminPage() {
@@ -31,7 +32,7 @@ function AdminPage() {
 
 
   useEffect(() => {
-    
+  
     setIsLoading(false)
     
   }, [])
@@ -64,7 +65,8 @@ function AdminPage() {
             </div>
 
             <div className={"logs-section"}>
-            
+              <EventLog />
+
             </div>
           </div>
           )  

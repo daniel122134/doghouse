@@ -8,7 +8,7 @@ const {
   getAllFeatures,
   setPeePoleOwner,
   getPoleOwner,
-  createUser
+  createUser, logActivity, getEventLogs
 } = require("./DAL/persist");
 const cookieSession = require("cookie-session");
 const config = require("./config/auth.config.js");
@@ -61,7 +61,6 @@ app.use((req, res, next) => {
 
 
 app.post('/api/pee', async (req, res) => {
-  console.log("dsa" + req.body)
   const poleName = req.body.poleName
   const ownerId = req.body.ownerId
   let results = await setPeePoleOwner(poleName, ownerId)
@@ -111,6 +110,7 @@ app.post('/api/login', async (req, res) => {
 
   req.session.token = authJwt.signToken(user.id, user.username, user.email)
 
+  await logActivity(user.id, "login")
   return res.status(200).send({
     id: user.id,
     username: user.username,
@@ -120,12 +120,12 @@ app.post('/api/login', async (req, res) => {
 
 })
 
-app.post('/api/logout', async (req, res) => {
+app.post('/api/logout', authJwt.verifyToken, async (req, res) => {
+  await logActivity(req.session.userId, "logout")
   req.session = null
   res.send({message: "logout success"})
 })
 
-//signup
 app.post('/api/signup', async (req, res) => {
   try {
     await createUser(req.body.username, req.body.email, req.body.passwordHash);
@@ -133,6 +133,7 @@ app.post('/api/signup', async (req, res) => {
     let user = results.find(user => user.username === req.body.username)
     req.session.token = authJwt.signToken(user.id, user.username, user.email)
 
+    await logActivity(user.id, "signup")
     return res.status(200).send({
       id: user.id,
       username: user.username,
@@ -143,6 +144,11 @@ app.post('/api/signup', async (req, res) => {
   } catch (e) {
     res.status(500).send({message: e})
   }
+})
+
+app.get('/api/getEventLogs', authJwt.verifyToken, authJwt.isAdmin, async (req, res) => {
+  let results = await getEventLogs()
+  res.send(results)
 })
 
 app.listen(port, () => {

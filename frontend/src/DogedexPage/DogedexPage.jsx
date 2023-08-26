@@ -37,7 +37,7 @@ function DogedexPage() {
           seen in orange or red. Alert and intelligent, Pomeranians are easily trained and make fine watchdogs
           and perky pets for families with children old enough to know the difference between a toy dog and a toy.
           Poms are active but can be exercised with indoor play and short walks, so they are content in both the
-          city and suburbs. They will master tricks and games with ease, though their favorite activity is
+          city and suburbs. They will master tricks and games with ease, though their favorite event is
           providing laughs and companionship to their special human.</p>
       </div>
       <div className="dog">

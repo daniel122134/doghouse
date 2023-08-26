@@ -26,8 +26,8 @@ db.serialize(() => {
   db.run("CREATE TABLE IF NOT EXISTS posts (id INTEGER PRIMARY KEY, userId INTEGER, content TEXT, imagePath TEXT, created_at TEXT NOT NULL, updated_at TEXT NOT NULL, FOREIGN KEY(userId) REFERENCES users(id))");
   //features
   db.run("CREATE TABLE IF NOT EXISTS features (id INTEGER PRIMARY KEY, name TEXT NOT NULL unique, state INTEGER NOT NULL, updated_at TEXT NOT NULL)");
-  //activityLogs
-  db.run("CREATE TABLE IF NOT EXISTS activityLogs (id INTEGER PRIMARY KEY, userId INTEGER, activity TEXT NOT NULL, created_at TEXT NOT NULL, FOREIGN KEY(userId) REFERENCES users(id))");
+  //eventLogs
+  db.run("CREATE TABLE IF NOT EXISTS eventLogs (id INTEGER PRIMARY KEY, userId INTEGER, event TEXT NOT NULL, eventTime TEXT NOT NULL, FOREIGN KEY(userId) REFERENCES users(id))");
 
   //insert admin
   db.run(`INSERT OR IGNORE INTO users (username, email, passwordHash, created_at, updated_at) VALUES ('admin', 'admin@admin.com', '${md5('admin')}', '2019-01-01 00:00:00', '2019-01-01 00:00:00')`);
@@ -113,13 +113,24 @@ async function setFeatureState(featureName, state) {
   });
 }
 
-async function getActivityLogs() {
+async function getEventLogs() {
   return new Promise((resolve, reject) => {
-    db.all("SELECT * FROM activityLogs", (err, rows) => {
+    db.all("SELECT username, event, eventTime FROM eventLogs innner join users on userId=users.id", (err, rows) => {
       if (err) {
         reject(err);
       }
       resolve(rows);
+    });
+  });
+}
+
+async function logEvent(userId, event) {
+  return new Promise((resolve, reject) => {
+    db.run(`INSERT INTO eventLogs (userId, event, eventTime) VALUES (${userId}, '${event}', '${dayjs().format('YYYY-MM-DD HH:mm:ss')}')`, (err) => {
+      if (err) {
+        reject(err);
+      }
+      resolve("success");
     });
   });
 }
@@ -164,7 +175,8 @@ module.exports = {
   getPoleOwner,
   setFeatureState,
   setPeePoleOwner,
-  getActivityLogs,
+  getEventLogs,
+  logActivity: logEvent,
   createUser,
   db
 };

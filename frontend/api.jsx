@@ -90,6 +90,11 @@ async function signup(username,email, passwordHash) {
   return await post(HOST + 'api/signup', {username, email,passwordHash}, {})
 }
 
+// get event logs
+async function getEventLogs() {
+  return await get(HOST + 'api/getEventLogs', {}, {})
+}
+
 const api = {
   login,
   logout,
@@ -97,6 +102,7 @@ const api = {
   getFeatures,
   setFeatureState,
   setPeePoleOwner,
+  getEventLogs,
   getPoleOwner
 }
 
