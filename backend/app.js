@@ -83,7 +83,7 @@ app.post('/api/setFeatureState', authJwt.verifyToken, authJwt.isAdmin, async (re
   res.send(results)
 })
 
-app.get('/api/getFeatures', authJwt.verifyToken ,authJwt.isAdmin, async (req, res) => {
+app.get('/api/getFeatures', authJwt.verifyToken, async (req, res) => {
   console.log(req.query)
   let results = await getAllFeatures()
   let dict = {}
@@ -100,7 +100,6 @@ app.post('/api/login', async (req, res) => {
   const passwordHash = req.body.passwordHash
   let results = await getAllUsers()
   let user = results.find(user => user.username === username)
-
 
   if (!user) {
     return res.status(404).send({message: "User Not found."});

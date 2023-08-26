@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import './PeePolesPage.css'
 import {api} from "../../api.jsx";
+import authService from "../../authService.jsx";
 
 
 function PeePolesPage(props) {
@@ -22,9 +23,8 @@ function PeePolesPage(props) {
               <h2>The {props.poleName} pole</h2>
               <h2>owner: {ownerText}</h2>
               <button className="pee" onClick={async () => {
-                  await api.setPeePoleOwner(props.poleName, 1);
-                  setOwnerText('admin');
-              //     todo change to actual owner name***********
+                  await api.setPeePoleOwner(props.poleName, authService.getCurrentUser().id);
+                  setOwnerText(authService.getCurrentUser().username);
               }}>Pee</button>
           </div>
       </div>
