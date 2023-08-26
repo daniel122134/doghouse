@@ -13,6 +13,7 @@ const {
 const cookieSession = require("cookie-session");
 const config = require("./config/auth.config.js");
 const jwt = require("jsonwebtoken");
+const {authJwt} = require("./middleware");
 
 const app = express()
 const port = 8080
@@ -74,7 +75,7 @@ app.post('/api/poleOwner', async (req, res) => {
   res.send(results)
 })
 
-app.post('/api/setFeatureState', async (req, res) => {
+app.post('/api/setFeatureState', authJwt.verifyToken, authJwt.isAdmin, async (req, res) => {
   console.log(req.body)
   const featureName = req.body.featureName
   const state = req.body.featureState
@@ -82,7 +83,7 @@ app.post('/api/setFeatureState', async (req, res) => {
   res.send(results)
 })
 
-app.get('/api/getFeatures', async (req, res) => {
+app.get('/api/getFeatures', authJwt.verifyToken ,authJwt.isAdmin, async (req, res) => {
   console.log(req.query)
   let results = await getAllFeatures()
   let dict = {}
@@ -109,13 +110,7 @@ app.post('/api/login', async (req, res) => {
     return res.status(401).send("user not authenticated")
   }
 
-  req.session.token = jwt.sign({id: user.id},
-    config.secret,
-    {
-      algorithm: 'HS256',
-      allowInsecureKeySizes: true,
-      expiresIn: 86400, // 24 hours
-    }, null);
+  req.session.token = authJwt.signToken(user.id, user.username, user.email)
 
   return res.status(200).send({
     id: user.id,
@@ -137,13 +132,7 @@ app.post('/api/signup', async (req, res) => {
     await createUser(req.body.username, req.body.email, req.body.passwordHash);
     let results = await getAllUsers()
     let user = results.find(user => user.username === req.body.username)
-    req.session.token = jwt.sign({id: user.id},
-      config.secret,
-      {
-        algorithm: 'HS256',
-        allowInsecureKeySizes: true,
-        expiresIn: 86400, // 24 hours
-      }, null);
+    req.session.token = authJwt.signToken(user.id, user.username, user.email)
 
     return res.status(200).send({
       id: user.id,

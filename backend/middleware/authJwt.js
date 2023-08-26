@@ -1,6 +1,19 @@
 const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config.js");
 
+signToken = (id,username, email) => {
+  return jwt.sign({
+      id: id,
+      username: username,
+      email: email,
+    },
+    config.secret, {
+      algorithm: 'HS256',
+      allowInsecureKeySizes: true,
+      expiresIn: 86400, // 24 hours
+    },null);
+}
+
 verifyToken = (req, res, next) => {
   let token = req.session.token;
 
@@ -19,14 +32,18 @@ verifyToken = (req, res, next) => {
           message: "Unauthorized!",
         });
       }
-      req.userId = decoded.id;
+      req.session.userId = decoded.id;
+      req.session.username = decoded.username;
+      req.session.email = decoded.email;
+      
+      
       next();
     });
 };
 
 isAdmin = async (req, res, next) => {
 
-  if (req.username === "admin") {
+  if (req.session.username === "admin") {
     return next();
   }
 
@@ -40,5 +57,6 @@ isAdmin = async (req, res, next) => {
 const authJwt = {
   verifyToken,
   isAdmin,
+  signToken
 };
 module.exports = authJwt;
