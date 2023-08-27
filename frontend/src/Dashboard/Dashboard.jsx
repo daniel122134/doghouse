@@ -24,7 +24,7 @@ const shouldEnableAdsContext = createContext(null)
 const shouldEnableStatisticsPageContext = createContext(null)
 const IsLoadingContext = createContext(null)
 
-function App() {
+function Dashboard() {
   const [isLoading, setIsLoading] = useState(false)
   const [shouldEnablePeeOnPolePage, setShouldEnablePeeOnPolePage] = useState(false)
   const [shouldEnableMyProfilePage, setShouldEnableMyProfilePage] = useState(false)
@@ -200,7 +200,7 @@ function Contexts({
   )
 }
 
-export default App
+export default Dashboard
 export {
   IsLoadingContext,
   shouldEnableDogedexContext,

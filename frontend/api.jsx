@@ -95,6 +95,10 @@ async function getEventLogs() {
   return await get(HOST + 'api/getEventLogs', {}, {})
 }
 
+async function getUserData(userId) {
+  return await get(HOST + 'api/getUserData', {userId}, {})
+}
+
 const api = {
   login,
   logout,
@@ -103,7 +107,8 @@ const api = {
   setFeatureState,
   setPeePoleOwner,
   getEventLogs,
-  getPoleOwner
+  getPoleOwner,
+  getUserData
 }
 
 export {
