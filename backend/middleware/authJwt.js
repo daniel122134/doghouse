@@ -10,6 +10,7 @@ signToken = (id,username, email) => {
     config.secret, {
       algorithm: 'HS256',
       allowInsecureKeySizes: true,
+      // todo - deal with expiration time and make sure to logout the user after it passes
       expiresIn: 86400, // 24 hours
     },null);
 }
@@ -32,6 +33,8 @@ verifyToken = (req, res, next) => {
           message: "Unauthorized!",
         });
       }
+      
+      // todo - is this a good practice, does this create 3 more cookies?
       req.session.userId = decoded.id;
       req.session.username = decoded.username;
       req.session.email = decoded.email;

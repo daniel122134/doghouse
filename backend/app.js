@@ -67,7 +67,7 @@ app.post('/api/pee', async (req, res) => {
   res.send(results)
 })
 
-app.post('/api/poleOwner', async (req, res) => {
+app.post('/api/poleOwner',  authJwt.verifyToken, async (req, res) => {
   console.log(req.body)
   const poleName = req.body.poleName
   let results = await getPoleOwner(poleName)
@@ -104,7 +104,7 @@ app.post('/api/login', async (req, res) => {
     return res.status(404).send({message: "User Not found."});
   }
 
-  if (!user || user.passwordHash !== passwordHash) {
+  if (user.passwordHash !== passwordHash) {
     return res.status(401).send("user not authenticated")
   }
 
