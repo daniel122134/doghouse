@@ -10,7 +10,10 @@ const {
   getAllFeatures,
   setPeePoleOwner,
   getPoleOwner,
-  createUser, logActivity, getEventLogs, updateProfilePicture
+  createUser, logActivity, getEventLogs, updateProfilePicture,
+  createPost,
+  getAllPostsForUser,
+  getAllPoles
 } = require("./DAL/persist");
 const cookieSession = require("cookie-session");
 const config = require("./config/auth.config.js");
@@ -74,11 +77,21 @@ app.post('/api/pee', async (req, res) => {
   res.send(results)
 })
 
-app.post('/api/poleOwner',  authJwt.verifyToken, async (req, res) => {
+app.post('/api/poleOwner', authJwt.verifyToken, async (req, res) => {
   console.log(req.body)
   const poleName = req.body.poleName
   let results = await getPoleOwner(poleName)
   res.send(results)
+})
+
+app.get('/api/getAllPoles', authJwt.verifyToken, async (req, res) => {
+  console.log(req.query)
+  let results = await getAllPoles()
+  let dict = {}
+  results.forEach((item) => {
+    dict[item.name] = item.state
+  })
+  res.send(dict)
 })
 
 app.post('/api/setFeatureState', authJwt.verifyToken, authJwt.isAdmin, async (req, res) => {
@@ -147,7 +160,7 @@ app.post('/api/signup', async (req, res) => {
       email: user.email,
       isAdmin: user.username === "admin",
     });
-    
+
   } catch (e) {
     res.status(500).send({message: e})
   }
@@ -161,12 +174,13 @@ app.get('/api/getEventLogs', authJwt.verifyToken, authJwt.isAdmin, async (req, r
 app.get('/api/getUserData', authJwt.verifyToken, async (req, res) => {
   let results = await getAllUsers()
   let user = results.find(user => user.id === req.session.userId)
-  res.send({toy: user.toy || "unknown",
-            age: user.age || "unknown",
-            breed : user.breed || "unknown",
-            location: user.location || "unknown",
-            bio : user.bio || "unknown",
-            profilePicture: user.profilePicture || null,
+  res.send({
+    toy: user.toy || "unknown",
+    age: user.age || "unknown",
+    breed: user.breed || "unknown",
+    location: user.location || "unknown",
+    bio: user.bio || "unknown",
+    profilePicture: user.profilePicture || null,
   })
 })
 
@@ -174,10 +188,10 @@ app.get('/api/getUserData', authJwt.verifyToken, async (req, res) => {
 const multer = require('multer');
 const imageUploadPath = path.join(__dirname, '..', 'frontend', 'public', 'profilePictures');
 const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
+  destination: function (req, file, cb) {
     cb(null, imageUploadPath)
   },
-  filename: function(req, file, cb) {
+  filename: function (req, file, cb) {
     cb(null, `${req.session.userId}.${file.originalname.split('.').pop()}`)
   }
 })
@@ -185,7 +199,7 @@ const imageUpload = multer({storage: storage})
 app.post('/image-upload', authJwt.verifyToken, imageUpload.array("my-image-file"), async (req, res) => {
   let results = await getAllUsers()
   let user = results.find(user => user.id === req.session.userId)
-  await updateProfilePicture(user.id, path.join('/','public', 'profilePictures', `${req.session.userId}.${req.files[0].originalname.split('.').pop()}`))
+  await updateProfilePicture(user.id, path.join('/', 'public', 'profilePictures', `${req.session.userId}.${req.files[0].originalname.split('.').pop()}`))
 
   console.log('POST request received to /image-upload.');
   console.log('Axios POST body: ', req.body);
@@ -193,7 +207,25 @@ app.post('/image-upload', authJwt.verifyToken, imageUpload.array("my-image-file"
 })
 
 
+app.post('/api/createPost', authJwt.verifyToken, async (req, res) => {
+  console.log(req.body)
+  const userId = req.session.userId
+  const content = req.body.content
+  let results = await createPost(userId, content)
+  res.send(results)
+})
 
+app.get('/api/getAllPostsForUser', authJwt.verifyToken, async (req, res) => {
+  console.log(req.query)
+  const userId = req.session.userId
+  let results = await getAllPostsForUser(userId)
+  console.log(results)
+  let dict = {}
+  results.forEach((item) => {
+    dict[item.name] = item.state
+  })
+  res.send(results)
+})
 
 app.listen(port, () => {
   console.info(`Example app listening on port ${port}`)

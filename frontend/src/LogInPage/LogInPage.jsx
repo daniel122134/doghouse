@@ -55,7 +55,8 @@ function LogInPage() {
                     /><br />
 
                     <label>
-                        <input className="inputs" type="checkbox" name="remember" checked={remember} onChange={(e) => setRemember(e.target.checked)} />
+                        <input className="inputs" type="checkbox" name="remember" checked={remember}
+                               onChange={(e) => setRemember(e.target.checked)} />Remember me
                     </label><br />
 
                     <button type="submit" className="submit">Login</button>

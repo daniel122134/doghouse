@@ -16,7 +16,6 @@ function ProfilePicture({ isReadOnly=true, image=defaultProfilePicture}) {
     
     const formData = new FormData();
     formData.append('my-image-file', event.target.files[0], event.target.files[0].name);
-    debugger
     api.updateProfilePicture(formData).then((response) => {
       console.log(response)
     })

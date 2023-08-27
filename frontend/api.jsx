@@ -79,6 +79,10 @@ async function getPoleOwner(poleName) {
   return await post(HOST + 'api/poleOwner', {poleName}, {})
 }
 
+async function getAllPoles() {
+  return await get(HOST + 'api/getAllPoles', {}, {})
+}
+
 async function login(username, passwordHash) {
   return await post(HOST + 'api/login', {username, passwordHash}, {})
 }
@@ -101,7 +105,15 @@ async function getUserData(userId) {
 }
 
 async function updateProfilePicture(image) {
-  return await axios.post(HOST + 'image-upload', image, { withCredentials: true})
+  return await axios.post(HOST + 'image-upload', image, {withCredentials: true})
+}
+
+  async function createPost(content) {
+  return await post(HOST + 'api/createPost', {content}, {})
+}
+
+async function getAllPostsForUser() {
+  return await get(HOST + 'api/getAllPostsForUser', {}, {})
 }
 
 const api = {
@@ -111,10 +123,13 @@ const api = {
   getFeatures,
   setFeatureState,
   setPeePoleOwner,
+  getAllPoles,
   getEventLogs,
   getPoleOwner,
   getUserData,
-  updateProfilePicture
+  updateProfilePicture,
+  createPost,
+  getAllPostsForUser
 }
 
 export {

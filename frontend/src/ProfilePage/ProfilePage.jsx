@@ -24,9 +24,8 @@ function ProfilePage() {
       setBreed(response.breed)
       setLocation(response.location)
       setBio(response.bio)
-      debugger
       setProfilePicture(response.profilePicture)
-      // Set user data here
+
     })
 
   }, []);
