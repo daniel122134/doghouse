@@ -10,6 +10,7 @@ import PeePolesPage from "../PeePolesPage/PeePolesPage.jsx";
 import DogedexPage from "../DogedexPage/DogedexPage.jsx";
 import AdminPage from "../AdminPage/AdminPage.jsx";
 import {api} from "../../api.jsx";
+import FeedPage from "../FeedPage/FeedPage.jsx";
 
 dayjs.extend(relativeTime)
 
@@ -125,7 +126,7 @@ function Dashboard() {
             <ProfilePage/>
           ) : null}
           {!isInitialLoading && currentPage === 'FeedPage' ? (
-            <ProfilePage/>
+            <FeedPage/>
           ) : null}
           {!isInitialLoading && currentPage === 'ExplorePage' ? (
             <ExplorePage/>

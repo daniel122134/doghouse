@@ -164,7 +164,20 @@ return new Promise((resolve, reject) => {
       resolve({username, email});
     });
   });
-  
+}
+
+//(id INTEGER PRIMARY KEY, userId INTEGER, content TEXT, imagePath TEXT, created_at TEXT NOT NULL, updated_at TEXT NOT NULL, FOREIGN KEY(userId) REFERENCES users(id))");
+//(id INTEGER PRIMARY KEY, username TEXT NOT NULL unique, email TEXT NOT NULL unique, toy TEXT, passwordHash TEXT NOT NULL, created_at TEXT NOT NULL, updated_at TEXT NOT NULL)");
+
+async function createUPost(userId, content, image, ) {
+  return new Promise((resolve, reject) => {
+    db.run(`INSERT INTO users (username, email, passwordHash, created_at, updated_at) VALUES ('${username}', '${email}', '${passwordHash}', '${dayjs().format('YYYY-MM-DD HH:mm:ss')}', '${dayjs().format('YYYY-MM-DD HH:mm:ss')}')`, (err) => {
+      if (err) {
+        reject(err);
+      }
+      resolve({username, email});
+    });
+  });
 }
 
 
@@ -178,5 +191,6 @@ module.exports = {
   getEventLogs,
   logActivity: logEvent,
   createUser,
+  createUPost,
   db
 };
