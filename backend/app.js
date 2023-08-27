@@ -151,6 +151,19 @@ app.get('/api/getEventLogs', authJwt.verifyToken, authJwt.isAdmin, async (req, r
   res.send(results)
 })
 
+//getUserData
+app.get('/api/getUserData', authJwt.verifyToken, async (req, res) => {
+  let results = await getAllUsers()
+  let user = results.find(user => user.id === req.session.userId)
+  res.send({toy: user.toy || "unknown",
+            age: user.age || "unknown",
+            breed : user.breed || "unknown",
+            location: user.location || "unknown",
+            bio : user.bio || "unknown",
+            profilePicture: user.profilePicture || null,
+  })
+})
+
 app.listen(port, () => {
   console.info(`Example app listening on port ${port}`)
 })

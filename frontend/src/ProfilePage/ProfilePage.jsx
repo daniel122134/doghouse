@@ -15,7 +15,15 @@ function ProfilePage() {
   const [profilePicture, setProfilePicture] = useState(null);
 
   useEffect(() => {
+    
     api.getUserData(authService.getCurrentUser().id).then((response) => {
+      
+      setFavoriteToy(response.toy)
+      setAge(response.age)
+      setBreed(response.breed)
+      setLocation(response.location)
+      setBio(response.bio)
+      setProfilePicture(response.profilePicture)
       // Set user data here
     })
 
