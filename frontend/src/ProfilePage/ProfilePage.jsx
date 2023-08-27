@@ -4,6 +4,7 @@ import ProfilePicture from "../ProfilePicture/ProfilePicture.jsx";
 import authService from "../../authService.jsx";
 import {api} from "../../api.jsx";
 
+
 function ProfilePage() {
   const [isLoading] = useContext(IsLoadingContext); // You can use isLoading if needed
   const [username, setUsername] = useState(authService.getCurrentUser().username);
@@ -23,6 +24,7 @@ function ProfilePage() {
       setBreed(response.breed)
       setLocation(response.location)
       setBio(response.bio)
+      debugger
       setProfilePicture(response.profilePicture)
       // Set user data here
     })
@@ -33,9 +35,9 @@ function ProfilePage() {
   return (
     <div className="profile-page">
       <h1>{username}'s Profile</h1>
-      {profilePicture == null ?
-        <ProfilePicture/> :
-        <ProfilePicture image={profilePicture}/>}
+      {profilePicture === null ?
+        <ProfilePicture isReadOnly={false} /> :
+        <ProfilePicture isReadOnly={false} image={profilePicture}/>}
       <div className="profile-info">
         <p>Age: {age}</p>
         <p>Favorite Toy: {favoriteToy}</p>

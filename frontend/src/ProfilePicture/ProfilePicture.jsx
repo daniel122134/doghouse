@@ -1,17 +1,34 @@
 import React, {useEffect, useState} from 'react';
 import defaultProfilePicture from '../assets/default.jpg';
+import {api} from "../../api.jsx";
+import "./ProfilePicture.css";
 
-function ProfilePicture({ isReadOnly, image=defaultProfilePicture}) {
+function ProfilePicture({ isReadOnly=true, image=defaultProfilePicture}) {
+ const [imageUrl, setImageUrl] = useState(defaultProfilePicture);
  
-
+  useEffect(() => {
+    setImageUrl(image)
+  }, [image]);
+  
   const handleImageChange = (event) => {
     const newImageUrl = URL.createObjectURL(event.target.files[0]);
-    // Here, you can implement logic to update the profile picture on the server
-  };
+    setImageUrl(newImageUrl)
+    
+    const formData = new FormData();
+    formData.append('my-image-file', event.target.files[0], event.target.files[0].name);
+    debugger
+    api.updateProfilePicture(formData).then((response) => {
+      console.log(response)
+    })
 
+  };
   return (
     <div className="profile-picture">
-        <img src={image} alt="Profile" />
+      
+      <img src={imageUrl} alt="Profile" className={"profile-image"}/>
+      {isReadOnly ? null : <input type="file" onChange={handleImageChange} accept={".jpg,.png,.svg"}/>}
+      
+
     </div>
   );
 }

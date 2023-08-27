@@ -1,6 +1,8 @@
 const express = require('express')
 const bodyParser = require("body-parser");
 const path = require("path");
+const fs = require("fs");
+
 const cors = require('cors')
 const {
   getAllUsers,
@@ -8,7 +10,7 @@ const {
   getAllFeatures,
   setPeePoleOwner,
   getPoleOwner,
-  createUser, logActivity, getEventLogs
+  createUser, logActivity, getEventLogs, updateProfilePicture
 } = require("./DAL/persist");
 const cookieSession = require("cookie-session");
 const config = require("./config/auth.config.js");
@@ -17,7 +19,7 @@ const {authJwt} = require("./middleware");
 
 const app = express()
 const port = 8080
-app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json({limit: 1024 * 1024 * 5}))
 app.use(
   cors({
@@ -25,6 +27,7 @@ app.use(
     credentials: true
   })
 )
+
 
 app.use(
   cookieSession({
@@ -45,6 +48,10 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'frontend', 'dist'))
 })
 
+//serve /app
+app.get('/app', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'frontend', 'dist', 'index.html'))
+})
 
 app.use((req, res, next) => {
   let oldSend = res.send
@@ -151,7 +158,6 @@ app.get('/api/getEventLogs', authJwt.verifyToken, authJwt.isAdmin, async (req, r
   res.send(results)
 })
 
-//getUserData
 app.get('/api/getUserData', authJwt.verifyToken, async (req, res) => {
   let results = await getAllUsers()
   let user = results.find(user => user.id === req.session.userId)
@@ -163,6 +169,31 @@ app.get('/api/getUserData', authJwt.verifyToken, async (req, res) => {
             profilePicture: user.profilePicture || null,
   })
 })
+
+
+const multer = require('multer');
+const imageUploadPath = path.join(__dirname, '..', 'frontend', 'public', 'profilePictures');
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, imageUploadPath)
+  },
+  filename: function(req, file, cb) {
+    cb(null, `${req.session.userId}.${file.originalname.split('.').pop()}`)
+  }
+})
+const imageUpload = multer({storage: storage})
+app.post('/image-upload', authJwt.verifyToken, imageUpload.array("my-image-file"), async (req, res) => {
+  let results = await getAllUsers()
+  let user = results.find(user => user.id === req.session.userId)
+  await updateProfilePicture(user.id, path.join('/','public', 'profilePictures', `${req.session.userId}.${req.files[0].originalname.split('.').pop()}`))
+
+  console.log('POST request received to /image-upload.');
+  console.log('Axios POST body: ', req.body);
+  res.send('POST request recieved on server to /image-upload.');
+})
+
+
+
 
 app.listen(port, () => {
   console.info(`Example app listening on port ${port}`)

@@ -1,3 +1,4 @@
+import axios from "axios";
 
 
 const HOST =
@@ -99,6 +100,10 @@ async function getUserData(userId) {
   return await get(HOST + 'api/getUserData', {userId}, {})
 }
 
+async function updateProfilePicture(image) {
+  return await axios.post(HOST + 'image-upload', image, { withCredentials: true})
+}
+
 const api = {
   login,
   logout,
@@ -108,7 +113,8 @@ const api = {
   setPeePoleOwner,
   getEventLogs,
   getPoleOwner,
-  getUserData
+  getUserData,
+  updateProfilePicture
 }
 
 export {

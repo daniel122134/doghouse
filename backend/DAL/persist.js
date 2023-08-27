@@ -167,6 +167,18 @@ return new Promise((resolve, reject) => {
   
 }
 
+async function updateProfilePicture(userId, profilePicture) {
+return new Promise((resolve, reject) => {
+    db.run(`UPDATE users SET profilePicture = '${profilePicture}' WHERE id = ${userId}`, (err) => {
+      if (err) {
+        reject(err);
+      }
+      resolve("success");
+    });
+  });
+  
+}
+
 
 module.exports = {
   getAllUsers,
@@ -178,5 +190,6 @@ module.exports = {
   getEventLogs,
   logActivity: logEvent,
   createUser,
+  updateProfilePicture,
   db
 };
