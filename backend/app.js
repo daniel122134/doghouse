@@ -67,7 +67,7 @@ app.post('/api/pee', async (req, res) => {
   res.send(results)
 })
 
-app.post('/api/poleOwner', async (req, res) => {
+app.post('/api/poleOwner',  authJwt.verifyToken, async (req, res) => {
   console.log(req.body)
   const poleName = req.body.poleName
   let results = await getPoleOwner(poleName)
@@ -104,7 +104,7 @@ app.post('/api/login', async (req, res) => {
     return res.status(404).send({message: "User Not found."});
   }
 
-  if (!user || user.passwordHash !== passwordHash) {
+  if (user.passwordHash !== passwordHash) {
     return res.status(401).send("user not authenticated")
   }
 
@@ -149,6 +149,19 @@ app.post('/api/signup', async (req, res) => {
 app.get('/api/getEventLogs', authJwt.verifyToken, authJwt.isAdmin, async (req, res) => {
   let results = await getEventLogs()
   res.send(results)
+})
+
+//getUserData
+app.get('/api/getUserData', authJwt.verifyToken, async (req, res) => {
+  let results = await getAllUsers()
+  let user = results.find(user => user.id === req.session.userId)
+  res.send({toy: user.toy || "unknown",
+            age: user.age || "unknown",
+            breed : user.breed || "unknown",
+            location: user.location || "unknown",
+            bio : user.bio || "unknown",
+            profilePicture: user.profilePicture || null,
+  })
 })
 
 app.listen(port, () => {
