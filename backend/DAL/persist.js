@@ -23,7 +23,7 @@ db.serialize(() => {
   //likes
   db.run("CREATE TABLE IF NOT EXISTS likes (userId INTEGER, postId INTEGER, created_at TEXT NOT NULL, FOREIGN KEY(userId) REFERENCES users(id), FOREIGN KEY(postId) REFERENCES posts(id))");
   //posts
-  db.run("CREATE TABLE IF NOT EXISTS posts (id INTEGER PRIMARY KEY, userId INTEGER, content TEXT, postPicture TEXT, created_at TEXT NOT NULL, updated_at TEXT NOT NULL, FOREIGN KEY(userId) REFERENCES users(id))");
+  db.run("CREATE TABLE IF NOT EXISTS posts (id INTEGER PRIMARY KEY, userId INTEGER, content TEXT, created_at TEXT NOT NULL, updated_at TEXT NOT NULL, FOREIGN KEY(userId) REFERENCES users(id))");
   //features
   db.run("CREATE TABLE IF NOT EXISTS features (id INTEGER PRIMARY KEY, name TEXT NOT NULL unique, state INTEGER NOT NULL, updated_at TEXT NOT NULL)");
   //eventLogs
@@ -166,20 +166,30 @@ return new Promise((resolve, reject) => {
   });
 }
 
-//(id INTEGER PRIMARY KEY, userId INTEGER, content TEXT, imagePath TEXT, created_at TEXT NOT NULL, updated_at TEXT NOT NULL, FOREIGN KEY(userId) REFERENCES users(id))");
-//(id INTEGER PRIMARY KEY, username TEXT NOT NULL unique, email TEXT NOT NULL unique, toy TEXT, passwordHash TEXT NOT NULL, created_at TEXT NOT NULL, updated_at TEXT NOT NULL)");
+//(id INTEGER PRIMARY KEY, userId INTEGER, content TEXT, postPicture TEXT, created_at TEXT NOT NULL, updated_at TEXT NOT NULL, FOREIGN KEY(userId) REFERENCES users(id))");
 
-async function createUPost(userId, content, image, ) {
+async function createPost(userId, content) {
   return new Promise((resolve, reject) => {
-    db.run(`INSERT INTO users (username, email, passwordHash, created_at, updated_at) VALUES ('${username}', '${email}', '${passwordHash}', '${dayjs().format('YYYY-MM-DD HH:mm:ss')}', '${dayjs().format('YYYY-MM-DD HH:mm:ss')}')`, (err) => {
+    db.run(`INSERT INTO posts (userId, content, created_at, updated_at) VALUES ('${userId}', '${content}', '${dayjs().format('YYYY-MM-DD HH:mm:ss')}', '${dayjs().format('YYYY-MM-DD HH:mm:ss')}')`, (err) => {
       if (err) {
         reject(err);
       }
-      resolve({username, email});
+      resolve();
     });
   });
 }
 
+async function getAllPostsForUser(userId) {
+  return new Promise((resolve, reject) => {
+    db.all(`SELECT content FROM posts WHERE userId = '${userId}'`,
+        (err, rows) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(rows);
+        });
+  });
+}
 
 module.exports = {
   getAllUsers,
@@ -191,6 +201,7 @@ module.exports = {
   getEventLogs,
   logActivity: logEvent,
   createUser,
-  createUPost,
+  createPost,
+  getAllPostsForUser,
   db
 };

@@ -8,7 +8,11 @@ const {
   getAllFeatures,
   setPeePoleOwner,
   getPoleOwner,
-  createUser, logActivity, getEventLogs
+  createUser,
+  logActivity,
+  getEventLogs,
+  createPost,
+  getallPostsForUser, getAllPostsForUser
 } = require("./DAL/persist");
 const cookieSession = require("cookie-session");
 const config = require("./config/auth.config.js");
@@ -72,6 +76,16 @@ app.post('/api/poleOwner',  authJwt.verifyToken, async (req, res) => {
   const poleName = req.body.poleName
   let results = await getPoleOwner(poleName)
   res.send(results)
+})
+
+app.get('/api/getAllPoles', authJwt.verifyToken, async (req, res) => {
+  console.log(req.query)
+  let results = await getAllPoles()
+  let dict = {}
+  results.forEach((item) => {
+    dict[item.name] = item.state
+  })
+  res.send(dict)
 })
 
 app.post('/api/setFeatureState', authJwt.verifyToken, authJwt.isAdmin, async (req, res) => {
@@ -162,6 +176,25 @@ app.get('/api/getUserData', authJwt.verifyToken, async (req, res) => {
             bio : user.bio || "unknown",
             profilePicture: user.profilePicture || null,
   })
+})
+
+app.post('/api/createPost', authJwt.verifyToken, async (req, res) => {
+    console.log(req.body)
+    const userId = req.body.userId
+    const content = req.body.content
+    let results = await createPost(userId, content)
+    res.send(results)
+})
+
+app.get('/api/getAllPostsForUser', authJwt.verifyToken, async (req, res) => {
+  console.log(req.query)
+  const userId = req.body.userId
+  let results = await getAllPostsForUser(userId)
+  let dict = {}
+  results.forEach((item) => {
+    dict[item.name] = item.state
+  })
+  res.send(dict)
 })
 
 app.listen(port, () => {
