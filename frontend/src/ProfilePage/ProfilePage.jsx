@@ -3,6 +3,8 @@ import {IsLoadingContext} from '../Dashboard/Dashboard';
 import ProfilePicture from "../ProfilePicture/ProfilePicture.jsx";
 import authService from "../../authService.jsx";
 import {api} from "../../api.jsx";
+import './ProfilePage.css'
+
 
 
 function ProfilePage() {
@@ -33,14 +35,16 @@ function ProfilePage() {
 
   return (
     <div className="profile-page">
-      <h1>{username}'s Profile</h1>
-      {profilePicture === null ?
-        <ProfilePicture isReadOnly={false} /> :
-        <ProfilePicture isReadOnly={false} image={profilePicture}/>}
+      <div className="profile-headline">
+        <h2>{username}'s Profile</h2>
+        {profilePicture === null ?
+          <ProfilePicture isReadOnly={false} /> :
+          <ProfilePicture isReadOnly={false} image={profilePicture}/>}
+      </div>
       <div className="profile-info">
         <p>Age: {age}</p>
-        <p>Favorite Toy: {favoriteToy}</p>
         <p>Breed: {breed}</p>
+        <p>Favorite Toy: {favoriteToy}</p>
         <p>Location: {location}</p>
         <p>Bio: {bio}</p>
         {/* Add more user info fields */}

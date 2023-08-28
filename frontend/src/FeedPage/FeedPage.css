@@ -1,5 +1,9 @@
+.feed{
+    overflow-y: auto;
+}
+
 .feed-container {
-    width: 85%;
+    width: 50%;
     padding: 20px;
     border: 1px solid #6e4141;
     border-radius: 10px;
@@ -40,6 +44,49 @@ form {
 }
 
 button:hover {
+    background: #c5bcbc;
+    color: #222222;
+}
+
+.post {
+    width: 50%;
+    padding-right: 15px;
+    padding-left: 15px;
+    border: 1px solid #6e4141;
+    border-radius: 3px;
+    text-align: left;
+    margin: 2vw;
+    box-shadow: 0 10px 35px 0 rgba(9, 30, 27, 0.15);
+    background-color: #fff;
+
+}
+
+
+h3{
+    text-decoration: underline;
+}
+
+h4{
+    width: 96%;
+    padding: 7px;
+    border-radius: 3px;
+    text-align: left;
+    box-shadow: 0 15px 60px 0 rgba(9, 30, 27, 0.15);
+    background-color: #fff;
+}
+
+.like {
+    width:47px;
+    border: 1px solid #6e4141;
+    background: #FDFDFD;
+    border-radius: 10px;
+    color: #6e4141;
+    box-shadow: 0 10px 35px 0 rgba(9, 30, 27, 0.15);
+    padding: 0.3em 0.5em;
+    margin-bottom: 5px;
+}
+
+.like:hover {
     background: #c5bcbc;
     color: #222222;
 }

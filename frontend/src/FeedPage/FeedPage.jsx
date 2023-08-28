@@ -18,9 +18,10 @@ function FeedPage() {
 
   useEffect(() => {
     async function fetchPosts() {
-      const fetchedItems = await api.getAllPostsForUser();
-      debugger
-      setPosts(fetchedItems);
+      const userFollowsPosts = await api.getAllUserFollowsPosts();
+      //const postsForUser = await api.getAllPostsForUser();
+      //const combinedPosts = [...userFollowsPosts, ...postsForUser];
+      setPosts(userFollowsPosts);
     }
 
     fetchPosts();
@@ -67,7 +68,7 @@ function FeedPage() {
 
         <div>
           {posts.map((item, index) => (
-              <Post key={index} content={item} username={authService.getCurrentUser().username}></Post>
+              <Post key={index} content={item.content} postId={item.id} timeStamp={item.timeStamp}></Post>
           ))}
         </div>
       </div>
