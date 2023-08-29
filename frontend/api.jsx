@@ -72,11 +72,11 @@ async function setFeatureState(featureName, featureState) {
 }
 
 async function setPeePoleOwner(poleName, ownerId) {
-  return await post(HOST + 'api/pee', {poleName, ownerId}, {})
+  return await post(HOST + 'api/setPeePoleOwner', {poleName, ownerId}, {})
 }
 
 async function getPoleOwner(poleName) {
-  return await post(HOST + 'api/poleOwner', {poleName}, {})
+  return await get(HOST + 'api/getPoleOwner', {poleName}, {})
 }
 
 async function getAllPoles() {
@@ -104,12 +104,24 @@ async function getUserData(userId) {
   return await get(HOST + 'api/getUserData', {userId}, {})
 }
 
+async function updateUserData(age, breed, favoriteToy, location, bio) {
+  return await post(HOST + 'api/updateUserData', {age, breed, favoriteToy, location, bio}, {})
+}
+
 async function updateProfilePicture(image) {
   return await axios.post(HOST + 'image-upload', image, {withCredentials: true})
 }
 
-  async function createPost(content) {
+async function createPost(content) {
   return await post(HOST + 'api/createPost', {content}, {})
+}
+
+async function editPostContent(postId, content) {
+  return await post(HOST + 'api/editPostContent', {postId, content}, {})
+}
+
+async function getPostUpdateTime(postId) {
+  return await get(HOST + 'api/getPostUpdateTime', {postId}, {})
 }
 
 async function getAllPostsForUser() {
@@ -128,6 +140,18 @@ async function addLike(postId) {
   return await post(HOST + 'api/addLike', {postId}, {})
 }
 
+async function removeLike(postId) {
+  return await post(HOST + 'api/removeLike', {postId}, {})
+}
+
+async function getPostLikeNumber(postId) {
+  return await get(HOST + 'api/getPostLikeNumber', {postId}, {})
+}
+
+async function getPostLikeNumberByUser(postId) {
+  return await get(HOST + 'api/getPostLikeNumberByUser', {postId}, {})
+}
+
 const api = {
   login,
   logout,
@@ -139,12 +163,18 @@ const api = {
   getEventLogs,
   getPoleOwner,
   getUserData,
+  updateUserData,
   updateProfilePicture,
   createPost,
+  editPostContent,
+  getPostUpdateTime,
   getAllPostsForUser,
   getAllUserFollows,
   getAllUserFollowsPosts,
-  addLike
+  addLike,
+  removeLike,
+  getPostLikeNumber,
+  getPostLikeNumberByUser
 }
 
 export {

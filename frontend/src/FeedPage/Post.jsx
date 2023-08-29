@@ -5,28 +5,94 @@ import authService from "../../authService.jsx";
 
 
 function Post({content, postId, timeStamp}) {
-    const [likeButtonText, setLikeButtonText] = useState("Like");
+    const [likeNumberText, setlikeNumberText] = useState("0");
+    const [buttonDisabled, setButtonDisabled] = useState(false);
+    const [postTimeStamp, setPostTimeStamp] = useState(timeStamp);
+    const [postContent, setPostContent] = useState(content);
+    const [isEditMode, setIsEditMode] = useState(false);
+    const [editedContent, setEditedContent] = useState(content);
 
-  // async function loadOwner() {
-  //   const currentOwner = (await api.getPoleOwner(props.poleName)).username;
-  //   setOwnerText(currentOwner);
-  // }
-  //
-  // useEffect(() => {
-  //   loadOwner()
-  // }, []);
+    const handleEditClick = () => {
+        setIsEditMode(!isEditMode);
+    };
+
+    const handleSaveClick = async () => {
+        await api.editPostContent(postId, editedContent);
+        setPostContent(editedContent);
+        const timeStamp = (await api.getPostUpdateTime(postId))[0].updateTime;
+        setPostTimeStamp(timeStamp);
+        setIsEditMode(false);
+    };
+
+    const handleCancelClick = () => {
+        setEditedContent(content);
+        setIsEditMode(false);
+    };
+
+    async function loadLikeNumber() {
+        const currentLikeNumber = (await api.getPostLikeNumber(postId))[0].likeCount;
+        setlikeNumberText(currentLikeNumber);
+    }
+
+    async function loadIsLikedByUser() {
+        const likeNumberByUser = (await api.getPostLikeNumberByUser(postId))[0].likeCount;
+        if (likeNumberByUser === 1) {
+            setButtonDisabled(true);
+        }
+    }
+
+  useEffect(() => {
+      loadIsLikedByUser()
+      loadLikeNumber()
+  }, []);
   
   return (
       <div className="posts">
           <div className="post">
               <h3>Post by: {authService.getCurrentUser().username} </h3>
-              <h4>{content}</h4>
-              <p>Updated at: {timeStamp}</p>
+              <h6>Updated at: {postTimeStamp}</h6>
+              {isEditMode ? (
+                  <textarea className="edit-text-area" value={editedContent}
+                      onChange={(e) => setEditedContent(e.target.value)}
+                  />
+              ) : (
+                  <h4>{postContent}</h4>
+              )}
 
-              <button className="like" onClick={async () => {
-                  await api.addLike(postId); //post ID
-                  setLikeButtonText("Liked");
-              }}>{likeButtonText}</button>
+              {isEditMode ? (
+                  <>
+                      <div className="save-cancel-buttons-container">
+                          <button className="save-cancel-buttons" onClick={handleSaveClick}>Save</button>
+                          <button className="save-cancel-buttons" onClick={handleCancelClick}>Cancel</button>
+                      </div>
+                  </>
+              ) : (
+                  <div>
+                      <div className="likes-container">
+                          {!buttonDisabled && (
+                              <button className="like" disabled={buttonDisabled} onClick={async () => {
+                                  setButtonDisabled(true);
+                                  await api.addLike(postId);
+                                  await loadLikeNumber();
+                              }}>Like</button>
+                          )}
+                          {buttonDisabled && (
+                              <button className="like" disabled={!buttonDisabled} onClick={async () => {
+                                  setButtonDisabled(false);
+                                  await api.removeLike(postId);
+                                  await loadLikeNumber();
+                              }}>Unlike</button>
+                          )}
+                          <p>{likeNumberText} likes</p>
+                      </div>
+                      <div className="edit-button-container">
+                          <button className="edit-button" onClick={handleEditClick}>Edit</button>
+                      </div>
+                  </div>
+              )}
+
+
+
           </div>
       </div>
   )

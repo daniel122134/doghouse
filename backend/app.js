@@ -13,7 +13,8 @@ const {
   createUser, logActivity, getEventLogs, updateProfilePicture,
   createPost,
   getAllPostsForUser,
-  getAllPoles, getAllUserFollows, getAllUserFollowsPosts, addLike
+  getAllPoles, getAllUserFollows, getAllUserFollowsPosts, addLike, getPostLikeNumber, getPostLikeNumberByUser,
+  removeLike, editPostContent, getPostUpdateTime, updateUserData
 } = require("./DAL/persist");
 const cookieSession = require("cookie-session");
 const config = require("./config/auth.config.js");
@@ -70,16 +71,16 @@ app.use((req, res, next) => {
 })
 
 
-app.post('/api/pee', async (req, res) => {
+app.post('/api/setPeePoleOwner', async (req, res) => {
   const poleName = req.body.poleName
   const ownerId = req.body.ownerId
   let results = await setPeePoleOwner(poleName, ownerId)
   res.send(results)
 })
 
-app.post('/api/poleOwner', authJwt.verifyToken, async (req, res) => {
-  console.log(req.body)
-  const poleName = req.body.poleName
+app.get('/api/getPoleOwner', authJwt.verifyToken, async (req, res) => {
+  console.log(req.query)
+  const poleName = req.query.poleName
   let results = await getPoleOwner(poleName)
   res.send(results)
 })
@@ -184,6 +185,18 @@ app.get('/api/getUserData', authJwt.verifyToken, async (req, res) => {
   })
 })
 
+app.post('/api/updateUserData', authJwt.verifyToken, async (req, res) => {
+  console.log(req.body)
+  const userId = req.session.userId
+  const age = req.body.age
+  const breed = req.body.breed
+  const favoriteToy = req.body.favoriteToy
+  const location = req.body.location
+  const bio = req.body.bio
+  let results = await updateUserData(userId, age, breed, favoriteToy, location, bio)
+  res.send(results)
+})
+
 
 const multer = require('multer');
 const imageUploadPath = path.join(__dirname, '..', 'frontend', 'public', 'profilePictures');
@@ -208,7 +221,7 @@ app.post('/image-upload', authJwt.verifyToken, imageUpload.array("my-image-file"
 
 
 app.post('/api/createPost', authJwt.verifyToken, async (req, res) => {
-  //console.log(req.body)
+  console.log(req.body)
   const userId = req.session.userId
   const content = req.body.content
   let results = await createPost(userId, content)
@@ -216,27 +229,45 @@ app.post('/api/createPost', authJwt.verifyToken, async (req, res) => {
   res.send(results)
 })
 
+app.post('/api/editPostContent', authJwt.verifyToken, async (req, res) => {
+  console.log(req.body)
+  const userId = req.session.userId
+  const postId = req.body.postId
+  const content = req.body.content
+  let results = await editPostContent(postId, content)
+  await logActivity(userId, "updated post")
+  res.send(results)
+})
+
+app.get('/api/getPostUpdateTime', authJwt.verifyToken, async (req, res) => {
+  console.log(req.query)
+  const postId = req.query.postId
+  let results = await getPostUpdateTime(postId)
+  console.log(results)
+  res.send(results)
+})
+
 app.get('/api/getAllPostsForUser', authJwt.verifyToken, async (req, res) => {
-  //console.log(req.query)
+  console.log(req.query)
   const userId = req.session.userId
   let results = await getAllPostsForUser(userId)
-  //console.log(results)
+  console.log(results)
   res.send(results)
 })
 
 app.get('/api/getAllUserFollows', authJwt.verifyToken, async (req, res) => {
-  //console.log(req.query)
+  console.log(req.query)
   const userId = req.session.userId
   let results = await getAllUserFollows(userId)
-  //console.log(results)
+  console.log(results)
   res.send(results)
 })
 
 app.get('/api/getAllUserFollowsPosts', authJwt.verifyToken, async (req, res) => {
-  //console.log(req.query)
+  console.log(req.query)
   const userId = req.session.userId
   let results = await getAllUserFollowsPosts(userId)
-  //console.log(results)
+  console.log(results)
   let posts = []
   results.forEach((item) => {
     posts.push({
@@ -254,6 +285,31 @@ app.post('/api/addLike', authJwt.verifyToken, async (req, res) => {
   const postId = req.body.postId
   let results = await addLike(userId, postId)
   res.send("success")
+})
+
+app.post('/api/removeLike', authJwt.verifyToken, async (req, res) => {
+  console.log(req.body)
+  const userId = req.session.userId
+  const postId = req.body.postId
+  let results = await removeLike(userId, postId)
+  res.send("success")
+})
+
+app.get('/api/getPostLikeNumber', authJwt.verifyToken, async (req, res) => {
+  console.log(req.body)
+  const postId = req.query.postId
+  let results = await getPostLikeNumber(postId)
+  console.log(results)
+  res.send(results)
+})
+
+app.get('/api/getPostLikeNumberByUser', authJwt.verifyToken, async (req, res) => {
+  console.log(req.body)
+  const postId = req.query.postId
+  const userId = req.session.userId
+  let results = await getPostLikeNumberByUser(postId, userId)
+  console.log(results)
+  res.send(results)
 })
 
 app.listen(port, () => {

@@ -16,6 +16,16 @@ function ProfilePage() {
   const [location, setLocation] = useState('');
   const [bio, setBio] = useState('');
   const [profilePicture, setProfilePicture] = useState(null);
+  const [isEditMode, setIsEditMode] = useState(false);
+
+  const switchEditMode = () => {
+    setIsEditMode(!isEditMode);
+  };
+
+  const saveProfile = async () => {
+    await api.updateUserData(age, breed, favoriteToy, location, bio);
+    setIsEditMode(false); // Exit edit mode
+  };
 
   useEffect(() => {
     
@@ -42,12 +52,37 @@ function ProfilePage() {
           <ProfilePicture isReadOnly={false} image={profilePicture}/>}
       </div>
       <div className="profile-info">
-        <p>Age: {age}</p>
-        <p>Breed: {breed}</p>
-        <p>Favorite Toy: {favoriteToy}</p>
-        <p>Location: {location}</p>
-        <p>Bio: {bio}</p>
-        {/* Add more user info fields */}
+        {isEditMode ? (
+            <>
+              <input className="edit-input" type="number" value={age} onChange={(e) => setAge(e.target.value)} />
+              <input className="edit-input" type="text" value={breed} onChange={(e) => setBreed(e.target.value)} />
+              <input className="edit-input" type="text" value={favoriteToy} onChange={(e) => setFavoriteToy(e.target.value)} />
+              <input className="edit-input" type="text" value={location} onChange={(e) => setLocation(e.target.value)} />
+              <input className="edit-input" type="text" value={bio} onChange={(e) => setBio(e.target.value)} />
+            </>
+        ) : (
+            <>
+              <p>Age: {age}</p>
+              <p>Breed: {breed}</p>
+              <p>Favorite Toy: {favoriteToy}</p>
+              <p>Location: {location}</p>
+              <p>Bio: {bio}</p>
+            </>
+        )}
+        {isEditMode ? (
+            <>
+              <div className="save-cancel-buttons-container">
+                <button className="save-cancel-buttons" onClick={saveProfile}>Save</button>
+                <button className="save-cancel-buttons" onClick={switchEditMode}>Cancel</button>
+              </div>
+            </>
+        ) : (
+            <div>
+              <div className="edit-button-container">
+                <button className="edit-button" onClick={switchEditMode}>Edit</button>
+              </div>
+            </div>
+        )}
       </div>
     </div>
   );

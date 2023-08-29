@@ -49,10 +49,7 @@ function FeedPage() {
       <div className="feed">
         <div className="feed-container">
           <form onSubmit={handlePost}>
-            <textarea
-                className="textareas"
-                id="postContent"
-                name="postContent"
+            <textarea className="postTextArea" id="postContent" name="postContent"
                 value={postContent}
                 onChange={(e) => setPostContent(e.target.value)}
                 required

@@ -21,7 +21,7 @@ db.serialize(() => {
   //follows
   db.run("CREATE TABLE IF NOT EXISTS follows (id INTEGER PRIMARY KEY, followerId INTEGER, followedId INTEGER, created_at TEXT NOT NULL, FOREIGN KEY(followerId) REFERENCES users(id), FOREIGN KEY(followedId) REFERENCES users(id))");
   //likes
-  db.run("CREATE TABLE IF NOT EXISTS likes (userId INTEGER, postId INTEGER, created_at TEXT NOT NULL, FOREIGN KEY(userId) REFERENCES users(id), FOREIGN KEY(postId) REFERENCES posts(id))");
+  db.run("CREATE TABLE IF NOT EXISTS likes (userId INTEGER, postId INTEGER, created_at TEXT NOT NULL, FOREIGN KEY(userId) REFERENCES users(id), FOREIGN KEY(postId) REFERENCES posts(id), UNIQUE(userId, postId))");
   //posts
   db.run("CREATE TABLE IF NOT EXISTS posts (id INTEGER PRIMARY KEY, userId INTEGER, content TEXT, created_at TEXT NOT NULL, updated_at TEXT NOT NULL, FOREIGN KEY(userId) REFERENCES users(id))");
   //features
@@ -49,8 +49,6 @@ db.serialize(() => {
   db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (1, "tree", '2023-01-01 00:00:00')`);
   db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (1, "fence", '2023-01-01 00:00:00')`);
   db.run(`INSERT OR IGNORE INTO poles (userId, name, updated_at) VALUES (1, "fence", '2023-01-01 00:00:00')`);
-  // //insert admin as admin follower
-  // db.run(`INSERT OR IGNORE INTO follows (followerId, followedId, created_at) VALUES (1, 1, '2023-01-01 00:00:00')`);
 });
 
 async function getAllUsers() {
@@ -60,6 +58,19 @@ async function getAllUsers() {
         reject(err);
       }
       resolve(rows);
+    });
+  });
+}
+//db.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT NOT NULL unique, email TEXT NOT NULL unique, toy TEXT, passwordHash TEXT NOT NULL,
+// created_at TEXT NOT NULL, updated_at TEXT NOT NULL, bio TEXT, breed TEXT, age INTEGER, location TEXT, profilePicture TEXT)");
+
+async function updateUserData(userId, age, breed, favoriteToy, location, bio) {
+  return new Promise((resolve, reject) => {
+    db.run(`UPDATE users SET age = '${age}', breed = '${breed}', toy = '${favoriteToy}', location = '${location}', bio = '${bio}' WHERE id = '${userId}'`, (err) => {
+      if (err) {
+        reject(err);
+      }
+      resolve("success");
     });
   });
 }
@@ -139,7 +150,6 @@ async function logEvent(userId, event) {
 }
 
 async function setPeePoleOwner(poleName, ownerId) {
-
   return new Promise((resolve, reject) => {
     db.run(`UPDATE poles SET userId = ${ownerId}, updated_at = '${dayjs().format('YYYY-MM-DD HH:mm:ss')}' WHERE name = '${poleName}'`,
         async (err) => {
@@ -178,7 +188,6 @@ return new Promise((resolve, reject) => {
       resolve("success");
     });
   });
-  
 }
 
 async function createPost(userId, content) {
@@ -189,6 +198,29 @@ async function createPost(userId, content) {
       }
       resolve();
     });
+  });
+}
+
+async function editPostContent(postId, content) {
+  return new Promise((resolve, reject) => {
+    db.run(`UPDATE posts SET content = '${content}', updated_at = '${dayjs().format('YYYY-MM-DD HH:mm:ss')}' WHERE id = '${postId}'`, (err) => {
+      if (err) {
+        reject(err);
+      }
+      resolve("success");
+    });
+  });
+}
+
+async function getPostUpdateTime(postId) {
+  return new Promise((resolve, reject) => {
+    db.all(`SELECT updated_at AS updateTime FROM posts WHERE id = '${postId}'`,
+        (err, rows) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(rows);
+        });
   });
 }
 
@@ -228,8 +260,6 @@ async function getAllUserFollowsPosts(userId) {
   });
 }
 
-//  db.run("CREATE TABLE IF NOT EXISTS likes (userId INTEGER, postId INTEGER, created_at TEXT NOT NULL, FOREIGN KEY(userId) REFERENCES users(id), FOREIGN KEY(postId) REFERENCES posts(id))");
-
 async function addLike(userId, postId) {
   return new Promise((resolve, reject) => {
     db.run(`INSERT INTO likes (userId, postId, created_at) VALUES ('${userId}', '${postId}', '${dayjs().format('YYYY-MM-DD HH:mm:ss')}')`, (err) => {
@@ -241,8 +271,44 @@ async function addLike(userId, postId) {
   });
 }
 
+async function removeLike(userId, postId) {
+  return new Promise((resolve, reject) => {
+    db.run(`DELETE FROM likes WHERE postId = '${postId}' AND userId = '${userId}'`, (err) => {
+      if (err) {
+        reject(err);
+      }
+      resolve();
+    });
+  });
+}
+
+async function getPostLikeNumber(postId) {
+  return new Promise((resolve, reject) => {
+    db.all(`SELECT COUNT(*) AS likeCount FROM likes WHERE postId = '${postId}'`,
+        (err, rows) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(rows);
+        });
+  });
+}
+
+async function getPostLikeNumberByUser(postId, userId) {
+  return new Promise((resolve, reject) => {
+    db.all(`SELECT COUNT(*) AS likeCount FROM likes WHERE postId = '${postId}' AND userId = '${userId}'`,
+        (err, rows) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(rows);
+        });
+  });
+}
+
 module.exports = {
   getAllUsers,
+  updateUserData,
   getAllFeatures,
   getAllPoles,
   getPoleOwner,
@@ -253,9 +319,14 @@ module.exports = {
   createUser,
   updateProfilePicture,
   createPost,
+  editPostContent,
+  getPostUpdateTime,
   getAllPostsForUser,
   getAllUserFollows,
   getAllUserFollowsPosts,
   addLike,
+  getPostLikeNumber,
+  getPostLikeNumberByUser,
+  removeLike,
   db
 };
