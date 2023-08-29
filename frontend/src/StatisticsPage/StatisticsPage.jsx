@@ -1,7 +1,9 @@
 import React, { useContext } from 'react';
 import { IsLoadingContext } from '../Dashboard/Dashboard';
 import { Bar, Pie } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale,BarElement } from 'chart.js';
 import './StatisticsPage.css';
+ChartJS.register(ArcElement, Tooltip, Legend,CategoryScale, LinearScale, BarElement);
 
 function StatisticsPage() {
   const [isLoading] = useContext(IsLoadingContext);
@@ -70,7 +72,7 @@ function StatisticsPage() {
         <h2>Location Distribution</h2>
         <Pie data={statisticsData.locationDistribution} />
       </div>
-      {/* ... (other charts) */}
+       ... (other charts) 
     </div>
   );
 }

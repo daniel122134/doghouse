@@ -1,26 +1,20 @@
 import './FeedPage.css'
-// import {Link} from "react-router-dom";
 import React, {useEffect, useState} from 'react';
 import {api} from "../../api.jsx";
 import authService from "../../authService.jsx";
-import {useNavigate} from "react-router-dom";
 import Post from "./Post.jsx";
 
 
 function FeedPage() {
   const defaultSentence = 'whats on your mind..?';
   const [postContent, setPostContent] = useState(defaultSentence);
-  // const [password, setPassword] = useState('');
-  // const [remember, setRemember] = useState(false);
-  // const navigate = useNavigate();
-
+  
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     async function fetchPosts() {
+
       const userFollowsPosts = await api.getAllUserFollowsPosts();
-      //const postsForUser = await api.getAllPostsForUser();
-      //const combinedPosts = [...userFollowsPosts, ...postsForUser];
       setPosts(userFollowsPosts);
     }
 
