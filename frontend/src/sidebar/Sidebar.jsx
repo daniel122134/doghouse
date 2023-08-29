@@ -6,7 +6,7 @@ import React, {useContext, useState} from "react";
 import {
   shouldEnableDogedexContext,
   shouldEnableMyProfilePageContext,
-  shouldEnablePeeOnPolePageContext
+  shouldEnablePeeOnPolePageContext, shouldEnableStatisticsPageContext
 } from "../Dashboard/Dashboard.jsx";
 import authService from "../../authService.jsx";
 
@@ -15,6 +15,7 @@ const Sidebar = (props) => {
   const [shouldEnableDogedexPage, setShouldEnableDogedexPage] = useContext(shouldEnableDogedexContext)
   const [shouldEnablePeeOnPolePage, setShouldEnablePeeOnPolePage] = useContext(shouldEnablePeeOnPolePageContext)
   const [shouldEnableMyProfilePage, setShouldEnableMyProfilePage] = useContext(shouldEnableMyProfilePageContext)
+  const [shouldEnableStatisticsPage, setShouldEnableStatisticsPage] = useContext(shouldEnableStatisticsPageContext)
   const navigate = useNavigate();
 
   return (
@@ -60,6 +61,18 @@ const Sidebar = (props) => {
         <Icon icon="fa fa-dollar"></Icon>
         {"Pee Poles"}
       </div>
+      
+      <div className="sidebar-button"
+           onClick={() => props.onStatsClicked()}
+           data-selected={props.currentPage === 'StatsPage'}
+           style={{display: shouldEnableStatisticsPage ? 'flex' : 'none'}}
+      >
+        <Icon icon="fa fa-dollar"></Icon>
+        {"Statistics"}
+      </div>
+      
+      
+      
 
       <div className="sidebar-button"
            onClick={() => props.onDogedexClicked()}

@@ -19,7 +19,6 @@ function FeedPage() {
   useEffect(() => {
     async function fetchPosts() {
       const fetchedItems = await api.getAllPostsForUser();
-      debugger
       setPosts(fetchedItems);
     }
 

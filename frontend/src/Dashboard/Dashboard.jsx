@@ -11,6 +11,7 @@ import DogedexPage from "../DogedexPage/DogedexPage.jsx";
 import AdminPage from "../AdminPage/AdminPage.jsx";
 import {api} from "../../api.jsx";
 import FeedPage from "../FeedPage/FeedPage.jsx";
+import StatisticsPage from "../StatisticsPage/StatisticsPage.jsx";
 
 dayjs.extend(relativeTime)
 
@@ -110,6 +111,7 @@ function Dashboard() {
             onFeedClicked={() => setCurrentPage('FeedPage')}
             onExploreClicked={() => setCurrentPage('ExplorePage')}
             onPolesClicked={() => setCurrentPage('PeePolesPage')}
+            onStatsClicked={() => setCurrentPage('StatsPage')}
             onDogedexClicked={() => setCurrentPage('DogedexPage')}
             onAdminClicked={() => setCurrentPage('AdminPage')}
           ></Sidebar>
@@ -133,6 +135,9 @@ function Dashboard() {
           ) : null}
           {!isInitialLoading && currentPage === 'PeePolesPage' ? (
             <PeePolesPage/>
+          ) : null}
+          {!isInitialLoading && currentPage === 'StatsPage' ? (
+            <StatisticsPage/>
           ) : null}
           {!isInitialLoading && currentPage === 'DogedexPage' ? (
             <DogedexPage/>
