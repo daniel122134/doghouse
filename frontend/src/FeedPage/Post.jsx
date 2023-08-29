@@ -4,8 +4,8 @@ import {api} from "../../api.jsx";
 import authService from "../../authService.jsx";
 
 
-function Post({username, content, postCreationTime}) {
-    // const [ownerText, setOwnerText] = useState("loading owner...");
+function Post({content, postId, timeStamp}) {
+    const [likeButtonText, setLikeButtonText] = useState("Like");
 
   // async function loadOwner() {
   //   const currentOwner = (await api.getPoleOwner(props.poleName)).username;
@@ -19,14 +19,14 @@ function Post({username, content, postCreationTime}) {
   return (
       <div className="posts">
           <div className="post">
-              <h2>Post by {username} </h2>
-              <h2>{content.content}</h2>
-              {/*<h2>{props.postCreationTime}</h2>*/}
+              <h3>Post by: {authService.getCurrentUser().username} </h3>
+              <h4>{content}</h4>
+              <p>Updated at: {timeStamp}</p>
 
-              {/*<button className="pee" onClick={async () => {*/}
-              {/*    await api.setPeePoleOwner(props.poleName, authService.getCurrentUser().id);*/}
-              {/*    setOwnerText(authService.getCurrentUser().username);*/}
-              {/*}}>Pee</button>*/}
+              <button className="like" onClick={async () => {
+                  await api.addLike(postId); //post ID
+                  setLikeButtonText("Liked");
+              }}>{likeButtonText}</button>
           </div>
       </div>
   )

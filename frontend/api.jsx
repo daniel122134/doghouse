@@ -116,6 +116,18 @@ async function getAllPostsForUser() {
   return await get(HOST + 'api/getAllPostsForUser', {}, {})
 }
 
+async function getAllUserFollows() {
+  return await get(HOST + 'api/getAllUserFollows', {}, {})
+}
+
+async function getAllUserFollowsPosts() {
+  return await get(HOST + 'api/getAllUserFollowsPosts', {}, {})
+}
+
+async function addLike(postId) {
+  return await post(HOST + 'api/addLike', {postId}, {})
+}
+
 const api = {
   login,
   logout,
@@ -129,7 +141,10 @@ const api = {
   getUserData,
   updateProfilePicture,
   createPost,
-  getAllPostsForUser
+  getAllPostsForUser,
+  getAllUserFollows,
+  getAllUserFollowsPosts,
+  addLike
 }
 
 export {

@@ -1,0 +1,28 @@
+.profile-page{
+    overflow-y: auto;
+    padding: 20px;
+    border: 1px;
+    border-radius: 10px;
+    margin: 2vw;
+    box-shadow: 0 10px 35px 0 rgba(9, 30, 27, 0.15);
+    background-color: #fff;
+}
+h2{
+    text-align: center;
+    font-size: 70px;
+    color: #6e4141;
+    padding-right: 10px;
+}
+.profile-headline{
+    display: inline-flex;
+    padding: 20px;
+    text-align: center;
+    background-color: #fff;
+    font-size: larger;
+
+}
+
+.profile-info{
+    font-size: larger;
+    color: #6e4141;
+}

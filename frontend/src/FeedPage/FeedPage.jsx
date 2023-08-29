@@ -1,25 +1,21 @@
 import './FeedPage.css'
-// import {Link} from "react-router-dom";
 import React, {useEffect, useState} from 'react';
 import {api} from "../../api.jsx";
 import authService from "../../authService.jsx";
-import {useNavigate} from "react-router-dom";
 import Post from "./Post.jsx";
 
 
 function FeedPage() {
   const defaultSentence = 'whats on your mind..?';
   const [postContent, setPostContent] = useState(defaultSentence);
-  // const [password, setPassword] = useState('');
-  // const [remember, setRemember] = useState(false);
-  // const navigate = useNavigate();
-
+  
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     async function fetchPosts() {
-      const fetchedItems = await api.getAllPostsForUser();
-      setPosts(fetchedItems);
+
+      const userFollowsPosts = await api.getAllUserFollowsPosts();
+      setPosts(userFollowsPosts);
     }
 
     fetchPosts();
@@ -66,7 +62,7 @@ function FeedPage() {
 
         <div>
           {posts.map((item, index) => (
-              <Post key={index} content={item} username={authService.getCurrentUser().username}></Post>
+              <Post key={index} content={item.content} postId={item.id} timeStamp={item.timeStamp}></Post>
           ))}
         </div>
       </div>
