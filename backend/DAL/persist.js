@@ -61,12 +61,23 @@ async function getAllUsers() {
     });
   });
 }
-//db.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT NOT NULL unique, email TEXT NOT NULL unique, toy TEXT, passwordHash TEXT NOT NULL,
-// created_at TEXT NOT NULL, updated_at TEXT NOT NULL, bio TEXT, breed TEXT, age INTEGER, location TEXT, profilePicture TEXT)");
+
+async function getAllUsersNotFollowedByUser(userId) {
+  return new Promise((resolve, reject) => {
+    db.all(`SELECT users.id FROM users LEFT JOIN follows ON users.id = follows.followedId AND follows.followerId = '${userId}' WHERE follows.id IS NULL`,
+        (err, rows) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(rows);
+    });
+  });
+}
 
 async function updateUserData(userId, age, breed, favoriteToy, location, bio) {
   return new Promise((resolve, reject) => {
-    db.run(`UPDATE users SET age = '${age}', breed = '${breed}', toy = '${favoriteToy}', location = '${location}', bio = '${bio}' WHERE id = '${userId}'`, (err) => {
+    db.run(`UPDATE users SET age = '${age}', breed = '${breed}', toy = '${favoriteToy}', location = '${location}', bio = '${bio}' WHERE id = '${userId}'`,
+        (err) => {
       if (err) {
         reject(err);
       }
@@ -308,6 +319,7 @@ async function getPostLikeNumberByUser(postId, userId) {
 
 module.exports = {
   getAllUsers,
+  getAllUsersNotFollowedByUser,
   updateUserData,
   getAllFeatures,
   getAllPoles,

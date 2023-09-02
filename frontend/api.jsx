@@ -152,6 +152,10 @@ async function getPostLikeNumberByUser(postId) {
   return await get(HOST + 'api/getPostLikeNumberByUser', {postId}, {})
 }
 
+async function getAllUsersNotFollowedByUser() {
+  return await get(HOST + 'api/getAllUsersNotFollowedByUser', {}, {})
+}
+
 const api = {
   login,
   logout,
@@ -174,7 +178,8 @@ const api = {
   addLike,
   removeLike,
   getPostLikeNumber,
-  getPostLikeNumberByUser
+  getPostLikeNumberByUser,
+  getAllUsersNotFollowedByUser
 }
 
 export {

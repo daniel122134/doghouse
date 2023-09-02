@@ -1,0 +1,13 @@
+.exploreDogs{
+    overflow-y: auto;
+}
+
+.explore-Dogs {
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    margin: 2vw;
+    box-shadow: 0 10px 35px 0 rgba(9, 30, 27, 0.15);
+    display: inline-block;
+    background-color: #fff;
+}

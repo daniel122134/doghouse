@@ -19,12 +19,22 @@ h2{
     text-align: center;
     background-color: #fff;
     font-size: larger;
-
 }
 
 .profile-info{
     font-size: larger;
+    width: 350px;
     color: #6e4141;
+    padding: 20px;
+    border: 1px;
+    border-radius: 10px;
+    margin: 2vw;
+    box-shadow: 0 10px 35px 0 rgba(9, 30, 27, 0.15);
+    background-color: #fff;
+}
+
+.profile-content{
+    display: inline-flex;
 }
 
 button:hover {

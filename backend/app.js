@@ -14,7 +14,7 @@ const {
   createPost,
   getAllPostsForUser,
   getAllPoles, getAllUserFollows, getAllUserFollowsPosts, addLike, getPostLikeNumber, getPostLikeNumberByUser,
-  removeLike, editPostContent, getPostUpdateTime, updateUserData
+  removeLike, editPostContent, getPostUpdateTime, updateUserData, getAllUsersNotFollowedByUser
 } = require("./DAL/persist");
 const cookieSession = require("cookie-session");
 const config = require("./config/auth.config.js");
@@ -310,6 +310,20 @@ app.get('/api/getPostLikeNumberByUser', authJwt.verifyToken, async (req, res) =>
   let results = await getPostLikeNumberByUser(postId, userId)
   console.log(results)
   res.send(results)
+})
+
+app.get('/api/getAllUsersNotFollowedByUser', authJwt.verifyToken, async (req, res) => {
+  console.log(req.body)
+  const userId = req.session.userId
+  let results = await getAllUsersNotFollowedByUser(userId)
+  console.log(results)
+  let users = []
+  results.forEach((item) => {
+    users.push({
+      userid: item.id
+    })
+  })
+  res.send(users)
 })
 
 app.listen(port, () => {

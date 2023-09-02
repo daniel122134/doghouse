@@ -36,7 +36,7 @@ function UserProfileCard({user_id}) {
     <div className="user-profile-card">
       {userData && (
         <>
-          <img src={userData.profile_picture} alt="Profile" className="profile-picture"/>
+          <img src={userData.profile_picture} alt="Profile" className="card-profile-picture"/>
           <h3 className="username">{userData.username}</h3>
           <button className={isFollowing ? "unfollow-button" : "follow-button"} onClick={handleFollowToggle}>
             {isFollowing ? "Unfollow" : "Follow"}

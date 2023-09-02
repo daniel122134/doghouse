@@ -4,6 +4,7 @@ import ProfilePicture from "../ProfilePicture/ProfilePicture.jsx";
 import authService from "../../authService.jsx";
 import {api} from "../../api.jsx";
 import './ProfilePage.css'
+import ExploreDogs from "../ExploreDogs/ExploreDogs.jsx";
 
 
 
@@ -51,38 +52,36 @@ function ProfilePage() {
           <ProfilePicture isReadOnly={false} /> :
           <ProfilePicture isReadOnly={false} image={profilePicture}/>}
       </div>
-      <div className="profile-info">
-        {isEditMode ? (
-            <>
-              <input className="edit-input" type="number" value={age} onChange={(e) => setAge(e.target.value)} />
-              <input className="edit-input" type="text" value={breed} onChange={(e) => setBreed(e.target.value)} />
-              <input className="edit-input" type="text" value={favoriteToy} onChange={(e) => setFavoriteToy(e.target.value)} />
-              <input className="edit-input" type="text" value={location} onChange={(e) => setLocation(e.target.value)} />
-              <input className="edit-input" type="text" value={bio} onChange={(e) => setBio(e.target.value)} />
-            </>
-        ) : (
-            <>
-              <p>Age: {age}</p>
-              <p>Breed: {breed}</p>
-              <p>Favorite Toy: {favoriteToy}</p>
-              <p>Location: {location}</p>
-              <p>Bio: {bio}</p>
-            </>
-        )}
-        {isEditMode ? (
-            <>
-              <div className="save-cancel-buttons-container">
-                <button className="save-cancel-buttons" onClick={saveProfile}>Save</button>
-                <button className="save-cancel-buttons" onClick={switchEditMode}>Cancel</button>
-              </div>
-            </>
-        ) : (
-            <div>
-              <div className="edit-button-container">
-                <button className="edit-button" onClick={switchEditMode}>Edit</button>
-              </div>
-            </div>
-        )}
+      <div className="profile-content">
+        <div className="profile-info">
+          {isEditMode ? (
+              <>
+                <input className="edit-input" type="number" value={age} onChange={(e) => setAge(e.target.value)} />
+                <input className="edit-input" type="text" value={breed} onChange={(e) => setBreed(e.target.value)} />
+                <input className="edit-input" type="text" value={favoriteToy} onChange={(e) => setFavoriteToy(e.target.value)} />
+                <input className="edit-input" type="text" value={location} onChange={(e) => setLocation(e.target.value)} />
+                <input className="edit-input" type="text" value={bio} onChange={(e) => setBio(e.target.value)} />
+                <div className="save-cancel-buttons-container">
+                  <button className="save-cancel-buttons" onClick={saveProfile}>Save</button>
+                  <button className="save-cancel-buttons" onClick={switchEditMode}>Cancel</button>
+                </div>
+              </>
+          ) : (
+              <>
+                <p>Age: {age}</p>
+                <p>Breed: {breed}</p>
+                <p>Favorite Toy: {favoriteToy}</p>
+                <p>Location: {location}</p>
+                <p>Bio: {bio}</p>
+                <div className="edit-button-container">
+                  <button className="edit-button" onClick={switchEditMode}>Edit</button>
+                </div>
+              </>
+          )}
+        </div>
+        <div className="profile-explore">
+          <ExploreDogs></ExploreDogs>
+        </div>
       </div>
     </div>
   );
