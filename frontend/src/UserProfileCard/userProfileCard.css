@@ -6,6 +6,7 @@
     text-align: center;
     margin: 15px;
     border-radius: 5px;
+    box-shadow: 0 10px 20px 0 rgba(9, 30, 27, 0.15);
 }
 
 .card-profile-picture {

@@ -62,8 +62,8 @@ function ProfilePage() {
                 <input className="edit-input" type="text" value={location} onChange={(e) => setLocation(e.target.value)} />
                 <input className="edit-input" type="text" value={bio} onChange={(e) => setBio(e.target.value)} />
                 <div className="save-cancel-buttons-container">
-                  <button className="save-cancel-buttons" onClick={saveProfile}>Save</button>
-                  <button className="save-cancel-buttons" onClick={switchEditMode}>Cancel</button>
+                  <button className="save-cancel-buttons-profile" onClick={saveProfile}>Save</button>
+                  <button className="save-cancel-buttons-profile" onClick={switchEditMode}>Cancel</button>
                 </div>
               </>
           ) : (

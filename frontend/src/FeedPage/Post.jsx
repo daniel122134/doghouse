@@ -56,7 +56,13 @@ function Post({content, postId, timeStamp}) {
                       onChange={(e) => setEditedContent(e.target.value)}
                   />
               ) : (
-                  <h4>{postContent}</h4>
+                  <div className="not-edit">
+                      <h4>{postContent}</h4>
+                      <div className="edit-button-container">
+                          <button className="edit-button" onClick={handleEditClick}>Edit</button>
+                      </div>
+                  </div>
+
               )}
 
               {isEditMode ? (
@@ -68,26 +74,25 @@ function Post({content, postId, timeStamp}) {
                   </>
               ) : (
                   <div>
+
                       <div className="likes-container">
                           {!buttonDisabled && (
                               <button className="like" disabled={buttonDisabled} onClick={async () => {
                                   setButtonDisabled(true);
                                   await api.addLike(postId);
                                   await loadLikeNumber();
-                              }}>Like</button>
+                              }}>Bark</button>
                           )}
                           {buttonDisabled && (
                               <button className="like" disabled={!buttonDisabled} onClick={async () => {
                                   setButtonDisabled(false);
                                   await api.removeLike(postId);
                                   await loadLikeNumber();
-                              }}>Unlike</button>
+                              }}>UnBark</button>
                           )}
-                          <p>{likeNumberText} likes</p>
+                          <p>{likeNumberText} Barks</p>
                       </div>
-                      <div className="edit-button-container">
-                          <button className="edit-button" onClick={handleEditClick}>Edit</button>
-                      </div>
+
                   </div>
               )}
 
