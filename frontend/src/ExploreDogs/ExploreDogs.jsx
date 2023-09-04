@@ -1,30 +1,22 @@
 import './ExploreDogs.css'
 import React, {useEffect, useState} from "react";
-import {api} from "../../api.jsx";
-import authService from "../../authService.jsx";
+
 import UserProfileCard from "../UserProfileCard/UserProfileCard.jsx";
 
 
-function ExploreDogs() {
+function ExploreDogs({followedUsers, isFollowedDefault}) {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    async function fetchUsers() {
-
-      const unfollowedUsers = await api.getAllUsersNotFollowedByUser();
-      setUsers(unfollowedUsers);
-    }
-
-    fetchUsers();
-  }, []);
+      setUsers(followedUsers);
+  }, [followedUsers]);
 
   return (
       <div className="explore-Dogs">
-        <div>
-          {users.map((item, index) => (
-              <UserProfileCard key={index} user_id={item.userid}></UserProfileCard>
+          {
+            users.map((item, index) => (
+              <UserProfileCard key={index} user_id={item} isFollowed={isFollowedDefault}></UserProfileCard>
           ))}
-        </div>
       </div>
   )
 }

@@ -2,17 +2,18 @@ import React, {useEffect, useState} from "react";
 import {api} from "../../api.jsx";
 import authService from "../../authService.jsx";
 import "./UserProfileCard.css";
+import ProfilePicture from "../ProfilePicture/ProfilePicture.jsx";
 
-function UserProfileCard({user_id}) {
+function UserProfileCard({user_id, isFollowed}) {
   const [userData, setUserData] = useState(null);
-  const [isFollowing, setIsFollowing] = useState(false);
+  const [isFollowing, setIsFollowing] = useState(isFollowed);
 
   useEffect(() => {
     const fetchUserData = async () => {
 
       const response = await api.getUserData(user_id);
       setUserData(response);
-      setIsFollowing(response.is_following);
+      debugger
       
     };
 
@@ -23,6 +24,7 @@ function UserProfileCard({user_id}) {
     try {
       if (isFollowing) {
         await api.unfollowUser(user_id);
+        // todo - call a callback function to remove the user from the list of the container
       } else {
         await api.followUser(user_id);
       }
@@ -36,7 +38,9 @@ function UserProfileCard({user_id}) {
     <div className="user-profile-card">
       {userData && (
         <>
-          <img src={userData.profile_picture} alt="Profile" className="card-profile-picture"/>
+        <div className={"thumbnailContainer"}>
+          <ProfilePicture isReadOnly={true} />
+        </div>
           <h3 className="username">{userData.username}</h3>
           <button className={isFollowing ? "unfollow-button" : "follow-button"} onClick={handleFollowToggle}>
             {isFollowing ? "Unfollow" : "Follow"}

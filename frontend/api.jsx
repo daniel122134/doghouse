@@ -1,4 +1,5 @@
 import axios from "axios";
+import authService from "./authService.jsx";
 
 
 const HOST =
@@ -156,6 +157,18 @@ async function getAllUsersNotFollowedByUser() {
   return await get(HOST + 'api/getAllUsersNotFollowedByUser', {}, {})
 }
 
+async function getAllUsersFollowedByUser() {
+  return await get(HOST + 'api/getAllUsersFollowedByUser', {}, {})
+}
+
+async function followUser(userId) {
+  return await post(HOST + 'api/followUser', {userId}, {})
+}
+
+async function unfollowUser(userId) {
+  return await post(HOST + 'api/unfollowUser', {userId}, {})
+}
+
 const api = {
   login,
   logout,
@@ -179,7 +192,10 @@ const api = {
   removeLike,
   getPostLikeNumber,
   getPostLikeNumberByUser,
-  getAllUsersNotFollowedByUser
+  getAllUsersNotFollowedByUser,
+  getAllUsersFollowedByUser,
+  followUser,
+  unfollowUser
 }
 
 export {

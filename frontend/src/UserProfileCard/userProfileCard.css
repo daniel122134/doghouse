@@ -32,3 +32,8 @@
 .unfollow-button {
     background-color: #dc3545;
 }
+
+.thumbnailContainer {
+    width: 100px;
+    height: 100px;
+}

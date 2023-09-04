@@ -19,7 +19,7 @@ db.serialize(() => {
   //ads
   db.run("CREATE TABLE IF NOT EXISTS ads (id INTEGER PRIMARY KEY, content TEXT, imagePath TEXT)");
   //follows
-  db.run("CREATE TABLE IF NOT EXISTS follows (id INTEGER PRIMARY KEY, followerId INTEGER, followedId INTEGER, created_at TEXT NOT NULL, FOREIGN KEY(followerId) REFERENCES users(id), FOREIGN KEY(followedId) REFERENCES users(id))");
+  db.run("CREATE TABLE IF NOT EXISTS follows (id INTEGER PRIMARY KEY, followerId INTEGER, followedId INTEGER, created_at TEXT NOT NULL, FOREIGN KEY(followerId) REFERENCES users(id), FOREIGN KEY(followedId) REFERENCES users(id) UNIQUE(followerId, followedId))");
   //likes
   db.run("CREATE TABLE IF NOT EXISTS likes (userId INTEGER, postId INTEGER, created_at TEXT NOT NULL, FOREIGN KEY(userId) REFERENCES users(id), FOREIGN KEY(postId) REFERENCES posts(id), UNIQUE(userId, postId))");
   //posts
@@ -64,13 +64,25 @@ async function getAllUsers() {
 
 async function getAllUsersNotFollowedByUser(userId) {
   return new Promise((resolve, reject) => {
-    db.all(`SELECT * FROM users LEFT JOIN follows ON users.id = follows.followedId AND follows.followerId = ${userId} where followerId IS NULL`,
+    db.all(`SELECT * FROM users LEFT JOIN follows ON users.id = follows.followedId AND follows.followerId = ${userId} where followerId IS NULL and users.id != ${userId}`,
         (err, rows) => {
       if (err) {
         reject(err);
       }
       resolve(rows);
     });
+  });
+}
+
+async function getAllUsersFollowedByUser(userId) {
+  return new Promise((resolve, reject) => {
+    db.all(`SELECT followedId FROM follows where followerId = ${userId}`,
+      (err, rows) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(rows);
+      });
   });
 }
 
@@ -317,6 +329,30 @@ async function getPostLikeNumberByUser(postId, userId) {
   });
 }
 
+//follow user
+async function followUser(followerId, followedId) {
+  return new Promise((resolve, reject) => {
+    db.run(`INSERT INTO follows (followerId, followedId, created_at) VALUES ('${followerId}', '${followedId}', '${dayjs().format('YYYY-MM-DD HH:mm:ss')}')`, (err) => {
+      if (err) {
+        reject(err);
+      }
+      resolve();
+    });
+  });
+}
+
+//unfollow user
+async function unfollowUser(followerId, followedId) {
+  return new Promise((resolve, reject) => {
+    db.run(`DELETE FROM follows WHERE followerId = '${followerId}' AND followedId = '${followedId}'`, (err) => {
+      if (err) {
+        reject(err);
+      }
+      resolve();
+    });
+  });
+}
+
 module.exports = {
   getAllUsers,
   getAllUsersNotFollowedByUser,
@@ -340,5 +376,8 @@ module.exports = {
   getPostLikeNumber,
   getPostLikeNumberByUser,
   removeLike,
+  getAllUsersFollowedByUser,
+  followUser,
+  unfollowUser,
   db
 };

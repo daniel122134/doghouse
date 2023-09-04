@@ -7,7 +7,6 @@ import './ProfilePage.css'
 import ExploreDogs from "../ExploreDogs/ExploreDogs.jsx";
 
 
-
 function ProfilePage() {
   const [isLoading] = useContext(IsLoadingContext); // You can use isLoading if needed
   const [username, setUsername] = useState(authService.getCurrentUser().username);
@@ -18,6 +17,7 @@ function ProfilePage() {
   const [bio, setBio] = useState('');
   const [profilePicture, setProfilePicture] = useState(null);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [followedUsers, setFollowedUsers] = useState([]);
 
   const switchEditMode = () => {
     setIsEditMode(!isEditMode);
@@ -29,9 +29,9 @@ function ProfilePage() {
   };
 
   useEffect(() => {
-    
+
     api.getUserData(authService.getCurrentUser().id).then((response) => {
-      
+
       setFavoriteToy(response.toy)
       setAge(response.age)
       setBreed(response.breed)
@@ -41,32 +41,45 @@ function ProfilePage() {
 
     })
 
+    api.getAllUsersFollowedByUser().then((response) => {
+      setFollowedUsers(response)
+    });
+
   }, []);
 
 
   return (
     <div className="profile-page">
       <div className="profile-headline">
-        <h2>{username}'s Profile</h2>
-        {profilePicture === null ?
-          <ProfilePicture isReadOnly={false} /> :
-          <ProfilePicture isReadOnly={false} image={profilePicture}/>}
-      </div>
-      <div className="profile-content">
-        <div className="profile-info">
-          {isEditMode ? (
+
+        <div className={"profile-logo-and-name"}>
+
+
+          <div className={"profilePictureContainer"}>
+            {profilePicture === null ?
+              <ProfilePicture isReadOnly={false}/> :
+              <ProfilePicture isReadOnly={false} image={profilePicture}/>}
+          </div>
+          <h2>{username}'s Profile</h2>
+
+        </div>
+        <div className="profile-content">
+          <div className="profile-info">
+            {isEditMode ? (
               <>
-                <input className="edit-input" type="number" value={age} onChange={(e) => setAge(e.target.value)} />
-                <input className="edit-input" type="text" value={breed} onChange={(e) => setBreed(e.target.value)} />
-                <input className="edit-input" type="text" value={favoriteToy} onChange={(e) => setFavoriteToy(e.target.value)} />
-                <input className="edit-input" type="text" value={location} onChange={(e) => setLocation(e.target.value)} />
-                <input className="edit-input" type="text" value={bio} onChange={(e) => setBio(e.target.value)} />
+                <input className="edit-input" type="number" value={age} onChange={(e) => setAge(e.target.value)}/>
+                <input className="edit-input" type="text" value={breed} onChange={(e) => setBreed(e.target.value)}/>
+                <input className="edit-input" type="text" value={favoriteToy}
+                       onChange={(e) => setFavoriteToy(e.target.value)}/>
+                <input className="edit-input" type="text" value={location}
+                       onChange={(e) => setLocation(e.target.value)}/>
+                <input className="edit-input" type="text" value={bio} onChange={(e) => setBio(e.target.value)}/>
                 <div className="save-cancel-buttons-container">
                   <button className="save-cancel-buttons-profile" onClick={saveProfile}>Save</button>
                   <button className="save-cancel-buttons-profile" onClick={switchEditMode}>Cancel</button>
                 </div>
               </>
-          ) : (
+            ) : (
               <>
                 <p>Age: {age}</p>
                 <p>Breed: {breed}</p>
@@ -77,12 +90,18 @@ function ProfilePage() {
                   <button className="edit-button" onClick={switchEditMode}>Edit</button>
                 </div>
               </>
-          )}
+            )}
+          </div>
         </div>
-        <div className="profile-explore">
-          <ExploreDogs></ExploreDogs>
-        </div>
+
+
       </div>
+      <h4>friends</h4>
+
+      <div className="profile-explore">
+          <ExploreDogs followedUsers={followedUsers} isFollowedDefault={true}></ExploreDogs>
+      </div>
+
     </div>
   );
 }

@@ -14,7 +14,8 @@ const {
   createPost,
   getAllPostsForUser,
   getAllPoles, getAllUserFollows, getAllUserFollowsPosts, addLike, getPostLikeNumber, getPostLikeNumberByUser,
-  removeLike, editPostContent, getPostUpdateTime, updateUserData, getAllUsersNotFollowedByUser
+  removeLike, editPostContent, getPostUpdateTime, updateUserData, getAllUsersNotFollowedByUser,
+  getAllUsersFollowedByUser, unfollowUser, followUser
 } = require("./DAL/persist");
 const cookieSession = require("cookie-session");
 const config = require("./config/auth.config.js");
@@ -174,7 +175,10 @@ app.get('/api/getEventLogs', authJwt.verifyToken, authJwt.isAdmin, async (req, r
 
 app.get('/api/getUserData', authJwt.verifyToken, async (req, res) => {
   let results = await getAllUsers()
-  let user = results.find(user => user.id === req.session.userId)
+  let user = results.find(user => user.id.toString() === req.query.userId)
+  if (!user) {
+    return res.status(404).send({message: "User Not found."});
+  }
   res.send({
     toy: user.toy || "unknown",
     age: user.age || "unknown",
@@ -182,6 +186,7 @@ app.get('/api/getUserData', authJwt.verifyToken, async (req, res) => {
     location: user.location || "unknown",
     bio: user.bio || "unknown",
     profilePicture: user.profilePicture || null,
+    username : user.username
   })
 })
 
@@ -325,6 +330,39 @@ app.get('/api/getAllUsersNotFollowedByUser', authJwt.verifyToken, async (req, re
   })
   res.send(users)
 })
+
+app.get('/api/getAllUsersFollowedByUser', authJwt.verifyToken, async (req, res) => {
+  console.log(req.body)
+  const userId = req.session.userId
+  let results = await getAllUsersFollowedByUser(userId)
+  console.log(results)
+  let users = []
+  results.forEach((item) => {
+    users.push(
+      item.followedId
+    )
+  })
+  res.send(users)
+})
+
+//unfollowUser
+app.post('/api/unfollowUser', authJwt.verifyToken, async (req, res) => {
+  console.log(req.body)
+  const userId = req.session.userId
+  const followedId = req.body.userId
+  let results = await unfollowUser(userId, followedId)
+  res.send("success")
+})
+
+//followUser
+app.post('/api/followUser', authJwt.verifyToken, async (req, res) => {
+  console.log(req.body)
+  const userId = req.session.userId
+  const followedId = req.body.userId
+  let results = await followUser(userId, followedId)
+  res.send("success")  
+})
+
 
 app.listen(port, () => {
   console.info(`Example app listening on port ${port}`)
