@@ -64,7 +64,7 @@ async function getAllUsers() {
 
 async function getAllUsersNotFollowedByUser(userId) {
   return new Promise((resolve, reject) => {
-    db.all(`SELECT users.id FROM users LEFT JOIN follows ON users.id = follows.followedId AND follows.followerId = '${userId}' WHERE follows.id IS NULL`,
+    db.all(`SELECT * FROM users LEFT JOIN follows ON users.id = follows.followedId AND follows.followerId = ${userId} where followerId IS NULL`,
         (err, rows) => {
       if (err) {
         reject(err);
