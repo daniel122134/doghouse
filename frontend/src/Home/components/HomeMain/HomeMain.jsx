@@ -12,12 +12,13 @@ const HomeMain = () => {
           {/*<mainImage className="main-image"/>*/}
           <h2>{"Welcome to the first ever dog social network"}</h2>
           <div>
-              <Link to="/login" className="main-btn" >
+            
+              <button onClick={() => window.location.href='/login'} className="main-btn">
                   {"Log In"}
-              </Link>
-              <Link to="/signup" className="main-btn">
+              </button>
+              <button onClick={() => window.location.href='/signup'} className="main-btn">
                   {"Sign up"}
-              </Link>
+              </button>
           </div>
       </div>
     </div>

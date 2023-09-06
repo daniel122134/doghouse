@@ -12,12 +12,12 @@ const Navbar = () => {
       </a>
       {/*<h2 style={{marginLeft: "15px"}}>DogHouse</h2>*/}
         <div>
-            <Link to="/login" className="nav-btn" >
-                {"Log In"}
-            </Link>
-            <Link to="/signup" className="nav-btn">
-                {"Sign up"}
-            </Link>
+          <button onClick={() => window.location.href='/login'} className="main-btn">
+            {"Log In"}
+          </button>
+          <button onClick={() => window.location.href='/signup'} className="main-btn">
+            {"Sign up"}
+          </button>
         </div>
     </nav>
   )

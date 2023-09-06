@@ -84,8 +84,8 @@ async function getAllPoles() {
   return await get(HOST + 'api/getAllPoles', {}, {})
 }
 
-async function login(username, passwordHash) {
-  return await post(HOST + 'api/login', {username, passwordHash}, {})
+async function login(username, passwordHash, rememberMe) {
+  return await post(HOST + 'api/login', {username, passwordHash, rememberMe}, {})
 }
 
 async function logout() {

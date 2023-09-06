@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config.js");
 
-signToken = (id,username, email) => {
+signToken = (id,username, email, rememberMe) => {
   return jwt.sign({
       id: id,
       username: username,
@@ -10,8 +10,7 @@ signToken = (id,username, email) => {
     config.secret, {
       algorithm: 'HS256',
       allowInsecureKeySizes: true,
-      // todo - deal with expiration time and make sure to logout the user after it passes
-      expiresIn: 86400, // 24 hours
+      expiresIn: rememberMe ? 864000 : 1800 // 10 days or 30 minutes
     },null);
 }
 
@@ -19,9 +18,7 @@ verifyToken = (req, res, next) => {
   let token = req.session.token;
 
   if (!token) {
-    return res.status(403).send({
-      message: "No token provided!",
-    });
+    return res.redirect('/login')
   }
 
   jwt.verify(token,
@@ -29,9 +26,8 @@ verifyToken = (req, res, next) => {
     {},
     (err, decoded) => {
       if (err) {
-        return res.status(401).send({
-          message: "Unauthorized!",
-        });
+        // redirect to login page
+        return res.redirect('/login')
       }
       
       // todo - is this a good practice, does this create 3 more cookies?
@@ -40,6 +36,25 @@ verifyToken = (req, res, next) => {
       req.session.email = decoded.email;
       
       next();
+    });
+};
+
+checkIfTokenAlreadyExistsAndRedirectIntoApp = (req, res, next) => {
+  let token = req.session.token;
+
+  if (!token) {
+    return next();
+  }
+
+  jwt.verify(token,
+    config.secret,
+    {},
+    (err, decoded) => {
+      if (err) {
+        next();
+      }
+
+      return res.redirect('/app');
     });
 };
 
@@ -59,6 +74,7 @@ isAdmin = async (req, res, next) => {
 const authJwt = {
   verifyToken,
   isAdmin,
-  signToken
+  signToken,
+  checkIfTokenAlreadyExistsAndRedirectIntoApp
 };
 module.exports = authJwt;

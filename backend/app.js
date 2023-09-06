@@ -54,7 +54,12 @@ app.get('*', (req, res) => {
 })
 
 //serve /app
-app.get('/app', (req, res) => {
+app.get('/app', authJwt.verifyToken, (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'frontend', 'dist', 'index.html'))
+})
+
+//serve /login page
+app.get('/login',authJwt.checkIfTokenAlreadyExistsAndRedirectIntoApp, (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'frontend', 'dist', 'index.html'))
 })
 
@@ -119,6 +124,7 @@ app.post('/api/login', async (req, res) => {
   // check user password and username and set cookie
   const username = req.body.username
   const passwordHash = req.body.passwordHash
+  const rememberMe = req.body.rememberMe
   let results = await getAllUsers()
   let user = results.find(user => user.username === username)
 
@@ -130,7 +136,7 @@ app.post('/api/login', async (req, res) => {
     return res.status(401).send("user not authenticated")
   }
 
-  req.session.token = authJwt.signToken(user.id, user.username, user.email)
+  req.session.token = authJwt.signToken(user.id, user.username, user.email, rememberMe)
 
   await logActivity(user.id, "login")
   return res.status(200).send({

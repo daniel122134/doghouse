@@ -9,9 +9,9 @@ const register = (username, email, password) => {
   })
 };
 
-const login = (username, password) => {
+const login = (username, password, remember) => {
   
-  return api.login(username, password)
+  return api.login(username, password, remember)
     .then((response) => {
       if (response.username) {
         localStorage.setItem("user", JSON.stringify(response));

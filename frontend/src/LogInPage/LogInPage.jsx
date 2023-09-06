@@ -18,7 +18,7 @@ function LogInPage() {
         e.preventDefault();
         const passwordMd5 = md5(password);
         console.log('Logging in with:', username, passwordMd5);
-        authService.login(username, passwordMd5).then((response) => {
+        authService.login(username, passwordMd5, remember).then((response) => {
             if (response.username){
                 navigate("/app");
                 window.location.reload();
