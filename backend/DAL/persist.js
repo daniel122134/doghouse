@@ -273,7 +273,7 @@ async function getAllUserFollows(userId) {
 
 async function getAllUserFollowsPosts(userId) {
   return new Promise((resolve, reject) => {
-    db.all(`SELECT posts.id, content, updated_at FROM posts Left JOIN follows ON posts.userId = follows.followedId WHERE follows.followerId = '${userId}' OR posts.userId = '${userId}' ORDER BY posts.updated_at DESC`,
+    db.all(`SELECT posts.id, content, updated_at, followedId FROM posts Left JOIN follows ON posts.userId = follows.followedId WHERE follows.followerId = '${userId}' OR posts.userId = '${userId}' ORDER BY posts.updated_at DESC`,
         (err, rows) => {
           if (err) {
             reject(err);

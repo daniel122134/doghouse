@@ -284,7 +284,8 @@ app.get('/api/getAllUserFollowsPosts', authJwt.verifyToken, async (req, res) => 
     posts.push({
       id: item.id,
       content: item.content,
-      timeStamp: item.updated_at
+      timeStamp: item.updated_at,
+      posterId: item.followedId ? item.followedId : userId,
     })
   })
   res.send(posts)

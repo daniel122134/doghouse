@@ -13,7 +13,6 @@ function UserProfileCard({user_id, isFollowed}) {
 
       const response = await api.getUserData(user_id);
       setUserData(response);
-      debugger
       
     };
 
@@ -39,7 +38,7 @@ function UserProfileCard({user_id, isFollowed}) {
       {userData && (
         <>
         <div className={"thumbnailContainer"}>
-          <ProfilePicture isReadOnly={true} />
+          <ProfilePicture isReadOnly={true} image={userData.profilePicture} />
         </div>
           <h3 className="username">{userData.username}</h3>
           <button className={isFollowing ? "unfollow-button" : "follow-button"} onClick={handleFollowToggle}>

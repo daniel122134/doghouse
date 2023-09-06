@@ -7,7 +7,7 @@ function ProfilePicture({ isReadOnly=true, image=defaultProfilePicture}) {
  const [imageUrl, setImageUrl] = useState(defaultProfilePicture);
  
   useEffect(() => {
-    setImageUrl(image)
+    setImageUrl(image ? image : defaultProfilePicture);
   }, [image]);
   
   const handleImageChange = (event) => {

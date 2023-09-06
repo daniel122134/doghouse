@@ -59,7 +59,7 @@ function FeedPage() {
 
         <div>
           {posts.map((item, index) => (
-              <Post key={index} content={item.content} postId={item.id} timeStamp={item.timeStamp}></Post>
+              <Post key={index} content={item.content} postId={item.id} timeStamp={item.timeStamp} posterId={item.posterId}></Post>
           ))}
         </div>
       </div>

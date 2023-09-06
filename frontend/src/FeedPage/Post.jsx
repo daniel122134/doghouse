@@ -5,7 +5,7 @@ import authService from "../../authService.jsx";
 import ProfilePicture from "../ProfilePicture/ProfilePicture.jsx";
 import "./Post.css";
 
-function Post({content, postId, timeStamp}) {
+function Post({content, postId, timeStamp, posterId}) {
     const [likeNumberText, setlikeNumberText] = useState("0");
     const [buttonDisabled, setButtonDisabled] = useState(false);
     const [postTimeStamp, setPostTimeStamp] = useState(timeStamp);
@@ -13,6 +13,7 @@ function Post({content, postId, timeStamp}) {
     const [isEditMode, setIsEditMode] = useState(false);
     const [editedContent, setEditedContent] = useState(content);
     const [profilePicture, setProfilePicture] = useState(null);
+    const [username, setUsername] = useState(null);
 
     const handleEditClick = () => {
         setIsEditMode(!isEditMode);
@@ -46,8 +47,9 @@ function Post({content, postId, timeStamp}) {
   useEffect(() => {
       loadIsLikedByUser()
       loadLikeNumber()
-      api.getUserData(authService.getCurrentUser().id).then((response) => {
+      api.getUserData(posterId).then((response) => {
           setProfilePicture(response.profilePicture)
+          setUsername(response.username)
       })
       
   }, []);
@@ -59,7 +61,7 @@ function Post({content, postId, timeStamp}) {
                   <div className={"thumbnailContainer photo-in-post"}>
                     <ProfilePicture image={profilePicture} />
                   </div>
-                  <h3 className={"post-header-publisher"}>Post by: {authService.getCurrentUser().username} </h3>
+                  <h3 className={"post-header-publisher"}>Post by: {username} </h3>
                   <h6>Updated at: {postTimeStamp}</h6>
               </div>
               {isEditMode ? (
