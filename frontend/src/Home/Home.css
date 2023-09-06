@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@200;300;400;500;600;700;800&family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
+
 #landing-page * {
     box-sizing: border-box;
     font-family: 'Assistant', 'Inter', sans-serif;
@@ -119,60 +120,7 @@
     z-index: 10;
 }
 
-#invalid-mail-page #header-wrapper > img {
-    width: 100%;
-    max-width: 600px;
-}
-
-#invalid-mail-page #title {
-    font-size: var(--step-4);
-    font-weight: 600;
-    width: max-content;
-    max-width: 91.66%;
-    text-wrap: balance;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-}
-
-#invalid-mail-page #title small {
-    font-size: var(--step-2);
-    font-weight: 400;
-    text-align: center;
-}
-
-#invalid-mail-page p {
-    font-size: var(--step-2);
-}
-
-#invalid-mail-page #header-wrapper .buttons-container {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-s);
-}
-
-#invalid-mail-page #header-wrapper .buttons-container #logout-button {
-    background: none;
-    text-decoration: underline;
-    font-size: var(--step-1);
-}
-
-/*#invalid-mail-page #header-wrapper .buttons-container #resend-button {*/
-/*    background: #1c4277;*/
-/*    border-radius: 10px;*/
-/*    color: #FCFCFC;*/
-/*    box-shadow: 0 20px 35px 0 rgba(7, 94, 84,0.15);*/
-/*    padding: 0.5em 1em;*/
-/*    font-size: var(--step-2);*/
-/*}*/
-
-/*#invalid-mail-page #header-wrapper .buttons-container #resend-button:hover {*/
-/*    background: #9adfc0;*/
-/*    color: #222222;*/
-/*}*/
-
-#landing-page *,
-#invalid-mail-page *{
+#landing-page *{
     box-sizing: border-box;
     font-family: 'Assistant', 'Inter', sans-serif;
 }
@@ -182,38 +130,23 @@
 }
 
 
-#landing-page header,
-#invalid-mail-page header {
+#landing-page header{
     width: 100%;
     --bg-gradient: linear-gradient(180deg, #c4b2b2 50vh, #FDFDFD 100%);
     background-image: var(--bg-gradient);
 }
 
-#landing-page .home-page-texture > img,
-#invalid-mail-page .home-page-texture > img{
+#landing-page .home-page-texture > img{
     opacity: 30%;
     position: absolute;
     top: 0;
     left: 50%;
     transform: translate(-50%, 0);
-    width: 1920px;
-    height: 1080px;
     z-index: 0;
+    width: 100%;
+    height: 150%;
 }
 
-@media (min-width: 1920px) {
-    #landing-page .home-page-texture > img {
-        height: unset;
-    }
-}
-
-@media (min-width: 2560px) {
-    #landing-page .home-page-texture > img {
-        width: 100%;
-    }
-}
-
-
-.sevices-container {
+.services-container {
     margin-left: 5em;
 }

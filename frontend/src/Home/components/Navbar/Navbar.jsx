@@ -10,7 +10,6 @@ const Navbar = () => {
       <a href="/" className="nav-logo">
         <img src={logo} alt="dog house logo" />
       </a>
-      {/*<h2 style={{marginLeft: "15px"}}>DogHouse</h2>*/}
         <div>
           <button onClick={() => window.location.href='/login'} className="main-btn">
             {"Log In"}

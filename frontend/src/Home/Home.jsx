@@ -11,7 +11,7 @@ const Home = () => {
       <header>
         <Navbar />
         <div className="home-page-texture">
-          <img src={texture} alt="DogHouse" />
+          <img src={texture} alt="DogHouse" className={"cover-photo"} />
         </div>
         <HomeMain />
       </header>
