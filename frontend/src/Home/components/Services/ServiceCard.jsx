@@ -1,7 +1,6 @@
 import React from 'react'
 import './ServiceCard.css'
 
-
 const ServiceCard = ({ title, description, image }) => {
   return (
     <div className="service-card">

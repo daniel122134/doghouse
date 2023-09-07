@@ -1,12 +1,8 @@
-// import React from 'react'
 import './LogInPage.css'
-// import {Link} from "react-router-dom";
 import React, { useState } from 'react';
 import md5 from 'md5';
-import {api} from "../../api.jsx";
 import authService from "../../authService.jsx";
 import {useNavigate} from "react-router-dom";
-
 
 function LogInPage() {
     const [username, setUsername] = useState('');
@@ -26,16 +22,15 @@ function LogInPage() {
         })
         console.log('Logged in');
         console.log(authService.getCurrentUser());
-        
     };
 
     return (
-        <div className="login">
-            <div className="login-container">
-                <h2>Login</h2>
+        <div className="login-page">
+            <div className="login-page-container">
+                <h2>LogIn</h2>
                 <form onSubmit={handleLogin}>
                     <label htmlFor="username">User:</label>
-                    <input className="inputs"
+                    <input className="login-inputs"
                         type="text"
                         id="username"
                         name="username"
@@ -45,7 +40,7 @@ function LogInPage() {
                     /><br />
 
                     <label htmlFor="password">Password:</label>
-                    <input className="inputs"
+                    <input className="login-inputs"
                         type="password"
                         id="password"
                         name="password"
@@ -55,14 +50,15 @@ function LogInPage() {
                     /><br />
 
                     <label>
-                        <input className="inputs" type="checkbox" name="remember" checked={remember}
+                        <input className="login-inputs" type="checkbox" name="remember" checked={remember}
                                onChange={(e) => setRemember(e.target.checked)} />Remember me
                     </label><br />
 
-                    <button type="submit" className="submit">Login</button>
+                    <button type="submit" className="login-submit">LogIn</button>
                 </form>
             </div>
         </div>
     );
 }
+
 export default LogInPage

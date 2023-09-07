@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import {api} from "../../api.jsx";
-import authService from "../../authService.jsx";
 import "./UserProfileCard.css";
 import ProfilePicture from "../ProfilePicture/ProfilePicture.jsx";
 
@@ -37,7 +36,7 @@ function UserProfileCard({user_id, isFollowed}) {
     <div className="user-profile-card">
       {userData && (
         <>
-        <div className={"thumbnailContainer"}>
+        <div className={"thumbnail-container"}>
           <ProfilePicture isReadOnly={true} image={userData.profilePicture} />
         </div>
           <h3 className="username">{userData.username}</h3>

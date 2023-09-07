@@ -76,7 +76,7 @@ app.use((req, res, next) => {
 })
 
 
-app.post('/api/setPeePoleOwner', async (req, res) => {
+app.put('/api/setPeePoleOwner', async (req, res) => {
   const poleName = req.body.poleName
   const ownerId = req.body.ownerId
   let results = await setPeePoleOwner(poleName, ownerId)
@@ -100,7 +100,7 @@ app.get('/api/getAllPoles', authJwt.verifyToken, async (req, res) => {
   res.send(dict)
 })
 
-app.post('/api/setFeatureState', authJwt.verifyToken, authJwt.isAdmin, async (req, res) => {
+app.put('/api/setFeatureState', authJwt.verifyToken, authJwt.isAdmin, async (req, res) => {
   console.log(req.body)
   const featureName = req.body.featureName
   const state = req.body.featureState
@@ -118,7 +118,7 @@ app.get('/api/getFeatures', authJwt.verifyToken, async (req, res) => {
   res.send(dict)
 })
 
-app.post('/api/login', async (req, res) => {
+app.put('/api/login', async (req, res) => {
 
   // check user password and username and set cookie
   const username = req.body.username
@@ -147,13 +147,13 @@ app.post('/api/login', async (req, res) => {
 
 })
 
-app.post('/api/logout', authJwt.verifyToken, async (req, res) => {
+app.put('/api/logout', authJwt.verifyToken, async (req, res) => {
   await logActivity(req.session.userId, "logout")
   req.session = null
   res.send({message: "logout success"})
 })
 
-app.put('/api/signup', async (req, res) => {
+app.post('/api/signup', async (req, res) => {
   try {
     await createUser(req.body.username, req.body.email, req.body.passwordHash);
     let results = await getAllUsers()
@@ -195,7 +195,7 @@ app.get('/api/getUserData', authJwt.verifyToken, async (req, res) => {
   })
 })
 
-app.post('/api/updateUserData', authJwt.verifyToken, async (req, res) => {
+app.put('/api/updateUserData', authJwt.verifyToken, async (req, res) => {
   console.log(req.body)
   const userId = req.session.userId
   const age = req.body.age
@@ -206,7 +206,6 @@ app.post('/api/updateUserData', authJwt.verifyToken, async (req, res) => {
   let results = await updateUserData(userId, age, breed, favoriteToy, location, bio)
   res.send(results)
 })
-
 
 const multer = require('multer');
 const imageUploadPath = path.join(__dirname, '..', 'frontend', 'public', 'profilePictures');
@@ -219,7 +218,7 @@ const storage = multer.diskStorage({
   }
 })
 const imageUpload = multer({storage: storage})
-app.post('/image-upload', authJwt.verifyToken, imageUpload.array("my-image-file"), async (req, res) => {
+app.put('/image-upload', authJwt.verifyToken, imageUpload.array("my-image-file"), async (req, res) => {
   let results = await getAllUsers()
   let user = results.find(user => user.id === req.session.userId)
   await updateProfilePicture(user.id, path.join('/', 'public', 'profilePictures', `${req.session.userId}.${req.files[0].originalname.split('.').pop()}`))
@@ -230,7 +229,7 @@ app.post('/image-upload', authJwt.verifyToken, imageUpload.array("my-image-file"
 })
 
 
-app.put('/api/createPost', authJwt.verifyToken, async (req, res) => {
+app.post('/api/createPost', authJwt.verifyToken, async (req, res) => {
   console.log(req.body)
   const userId = req.session.userId
   const content = req.body.content
@@ -243,7 +242,7 @@ app.put('/api/createPost', authJwt.verifyToken, async (req, res) => {
   res.send("posted successfully")
 })
 
-app.post('/api/editPostContent', authJwt.verifyToken, async (req, res) => {
+app.put('/api/editPostContent', authJwt.verifyToken, async (req, res) => {
   console.log(req.body)
   const userId = req.session.userId
   const postId = req.body.postId
@@ -278,7 +277,7 @@ app.get('/api/getAllUserFollowsPosts', authJwt.verifyToken, async (req, res) => 
   res.send(posts)
 })
 
-app.put('/api/addLike', authJwt.verifyToken, async (req, res) => {
+app.post('/api/addLike', authJwt.verifyToken, async (req, res) => {
   console.log(req.body)
   const userId = req.session.userId
   const postId = req.body.postId
@@ -348,7 +347,6 @@ app.delete('/api/unfollowUser', authJwt.verifyToken, async (req, res) => {
   res.send("success")
 })
 
-//followUser
 app.post('/api/followUser', authJwt.verifyToken, async (req, res) => {
   console.log(req.body)
   const userId = req.session.userId

@@ -1,15 +1,14 @@
 import './Sidebar.css'
 import Icon from '../components/Icon'
 import logo from "../assets/houseCover.png";
-import {Link, useNavigate} from "react-router-dom";
-import React, {useContext, useState} from "react";
+import {useNavigate} from "react-router-dom";
+import React, {useContext} from "react";
 import {
   shouldEnableDogedexContext,
   shouldEnableMyProfilePageContext,
   shouldEnablePeeOnPolePageContext, shouldEnableStatisticsPageContext
 } from "../Dashboard/Dashboard.jsx";
 import authService from "../../authService.jsx";
-
 
 const Sidebar = (props) => {
   const [shouldEnableDogedexPage, setShouldEnableDogedexPage] = useContext(shouldEnableDogedexContext)
@@ -24,7 +23,6 @@ const Sidebar = (props) => {
       <button className="logo" onClick={() => props.onLogoClick()}>
         <img src={logo} alt="logo"/>
       </button>
-
 
       <div className="sidebar-button"
            onClick={() => props.onProfileClicked()}
@@ -70,9 +68,6 @@ const Sidebar = (props) => {
         <Icon icon="fa fa-dollar"></Icon>
         {"Statistics"}
       </div>
-      
-      
-      
 
       <div className="sidebar-button"
            onClick={() => props.onDogedexClicked()}
@@ -93,16 +88,13 @@ const Sidebar = (props) => {
         {"Admin"}
       </div>
 
-
       <div className="tokens-container">
         <button onClick={()=> {
           authService.logout().then(r => {
             navigate("/");
             window.location.reload();
           })
-          
-          
-        
+
         }} className="logout-btn">
           {"Log out"}
         </button>

@@ -1,9 +1,7 @@
 import Switch from 'react-ios-switch'
-
 import React, {useState} from "react";
 import './Feature.css'
 import {api} from "../../api.jsx";
-
 
 function Feature(props) {
   const [isFeatureEnabled, setFeatureState] = useState(props.featureState)

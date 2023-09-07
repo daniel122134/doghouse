@@ -6,7 +6,6 @@ import dogodex from '../../assets/dogodex.svg'
 import makeFriends from '../../assets/makeFriends.svg'
 import shareYourThoughts from '../../assets/dogBigCoverImage.svg'
 
-
 const services = [
   {
     "title": "Find new dogs in your area",
@@ -29,7 +28,6 @@ const services = [
     "image": shareYourThoughts
   }
 ]
-
 
 const Services = () => {
   return (

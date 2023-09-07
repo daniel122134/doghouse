@@ -7,17 +7,17 @@ import authService from "../../authService.jsx";
 import {useNavigate} from "react-router-dom";
 
 function SignUpPage() {
-    const [username, setUsername] = useState('');
+    const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const navigate = useNavigate();
 
     const handleSignup = (e) => {
         e.preventDefault();
-        console.log('Signing up with:', username,email, password);
+        console.log('Signing up with:', userName,email, password);
 
         const passwordMd5 = md5(password);
-        authService.register(username, email, passwordMd5).then((response) => {
+        authService.register(userName, email, passwordMd5).then((response) => {
             if (response.username){
                 navigate("/app");
                 window.location.reload();
@@ -30,18 +30,18 @@ function SignUpPage() {
             <div className="signup-container">
                 <h2>Sign Up</h2>
                 <form onSubmit={handleSignup}>
-                    <label htmlFor="username">Username:</label>
-                    <input className="inputs"
+                    <label htmlFor="username">UserName:</label>
+                    <input className="signup-inputs"
                         type="text"
                         id="username"
                         name="username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        value={userName}
+                        onChange={(e) => setUserName(e.target.value)}
                         required
                     /><br />
 
                     <label htmlFor="password">Password:</label>
-                    <input className="inputs"
+                    <input className="signup-inputs"
                         type="password"
                         id="password"
                         name="password"
@@ -51,7 +51,7 @@ function SignUpPage() {
                     /><br />
 
                     <label htmlFor="email">Email:</label>
-                    <input className="inputs"
+                    <input className="signup-inputs"
                         type="email"
                         id="email"
                         name="email"
@@ -64,10 +64,11 @@ function SignUpPage() {
                         <input type="checkbox" name="remember" /> Remember me
                     </label><br />
 
-                    <button type="submit" className="submit">Sign Up</button>
+                    <button type="submit" className="signup-submit">Sign Up</button>
                 </form>
             </div>
         </div>
     );
 }
+
 export default SignUpPage

@@ -4,16 +4,13 @@ import {api} from "../../api.jsx";
 import authService from "../../authService.jsx";
 import Post from "./Post.jsx";
 
-
 function FeedPage() {
   const defaultSentence = 'whats on your mind..?';
   const [postContent, setPostContent] = useState(defaultSentence);
-  
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     async function fetchPosts() {
-
       const userFollowsPosts = await api.getAllUserFollowsPosts();
       setPosts(userFollowsPosts);
     }
@@ -42,7 +39,7 @@ function FeedPage() {
       <div className="feed">
         <div className="feed-container">
           <form onSubmit={handlePost}>
-            <textarea className="postTextArea" id="postContent" name="postContent"
+            <textarea className="post-text-area" id="postContent" name="postContent"
                 value={postContent}
                 onChange={(e) => setPostContent(e.target.value)}
                 required

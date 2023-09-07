@@ -91,11 +91,9 @@ function Dashboard() {
       setShouldEnableAds={setShouldEnableAds}
       shouldEnableStatisticsPage={shouldEnableStatisticsPage}
       setShouldEnableStatisticsPage={setShouldEnableStatisticsPage}
-
-
     >
       <div
-        className="App"
+        className="app"
         style={{flexDirection: 'row'}}
         dir={"ltr"}
         data-dir={"ltr"}

@@ -114,11 +114,11 @@ async function getFeatures() {
 }
 
 async function setFeatureState(featureName, featureState) {
-  return await post(HOST + 'api/setFeatureState', {featureName, featureState}, {})
+  return await put(HOST + 'api/setFeatureState', {featureName, featureState}, {})
 }
 
 async function setPeePoleOwner(poleName, ownerId) {
-  return await post(HOST + 'api/setPeePoleOwner', {poleName, ownerId}, {})
+  return await put(HOST + 'api/setPeePoleOwner', {poleName, ownerId}, {})
 }
 
 async function getPoleOwner(poleName) {
@@ -130,15 +130,15 @@ async function getAllPoles() {
 }
 
 async function login(username, passwordHash, rememberMe) {
-  return await post(HOST + 'api/login', {username, passwordHash, rememberMe}, {})
+  return await put(HOST + 'api/login', {username, passwordHash, rememberMe}, {})
 }
 
 async function logout() {
-  return await post(HOST + 'api/logout', {}, {})
+  return await put(HOST + 'api/logout', {}, {})
 }
 
 async function signup(username,email, passwordHash) {
-  return await put(HOST + 'api/signup', {username, email,passwordHash}, {})
+  return await post(HOST + 'api/signup', {username, email,passwordHash}, {})
 }
 
 async function getEventLogs() {
@@ -150,19 +150,19 @@ async function getUserData(userId) {
 }
 
 async function updateUserData(age, breed, favoriteToy, location, bio) {
-  return await post(HOST + 'api/updateUserData', {age, breed, favoriteToy, location, bio}, {})
+  return await put(HOST + 'api/updateUserData', {age, breed, favoriteToy, location, bio}, {})
 }
 
 async function updateProfilePicture(image) {
-  return await post(HOST + 'image-upload', image, {withCredentials: true})
+  return await put(HOST + 'image-upload', image, {withCredentials: true})
 }
 
 async function createPost(content) {
-  return await put(HOST + 'api/createPost', {content}, {})
+  return await post(HOST + 'api/createPost', {content}, {})
 }
 
 async function editPostContent(postId, content) {
-  return await post(HOST + 'api/editPostContent', {postId, content}, {})
+  return await put(HOST + 'api/editPostContent', {postId, content}, {})
 }
 
 async function getPostUpdateTime(postId) {
@@ -174,7 +174,7 @@ async function getAllUserFollowsPosts() {
 }
 
 async function addLike(postId) {
-  return await put(HOST + 'api/addLike', {postId}, {})
+  return await post(HOST + 'api/addLike', {postId}, {})
 }
 
 async function removeLike(postId) {
@@ -198,7 +198,7 @@ async function getAllUsersFollowedByUser() {
 }
 
 async function followUser(userId) {
-  return await put(HOST + 'api/followUser', {userId}, {})
+  return await post(HOST + 'api/followUser', {userId}, {})
 }
 
 async function unfollowUser(userId) {

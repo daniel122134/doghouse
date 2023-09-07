@@ -6,9 +6,7 @@ import {api} from "../../api.jsx";
 import './ProfilePage.css'
 import ExploreDogs from "../ExploreDogs/ExploreDogs.jsx";
 
-
 function ProfilePage() {
-  const [isLoading] = useContext(IsLoadingContext); // You can use isLoading if needed
   const [username, setUsername] = useState(authService.getCurrentUser().username);
   const [age, setAge] = useState(0);
   const [favoriteToy, setFavoriteToy] = useState('');
@@ -25,20 +23,17 @@ function ProfilePage() {
 
   const saveProfile = async () => {
     await api.updateUserData(age, breed, favoriteToy, location, bio);
-    setIsEditMode(false); // Exit edit mode
+    setIsEditMode(false);
   };
 
   useEffect(() => {
-
     api.getUserData(authService.getCurrentUser().id).then((response) => {
-
       setFavoriteToy(response.toy)
       setAge(response.age)
       setBreed(response.breed)
       setLocation(response.location)
       setBio(response.bio)
       setProfilePicture(response.profilePicture)
-
     })
 
     api.getAllUsersFollowedByUser().then((response) => {
@@ -51,18 +46,16 @@ function ProfilePage() {
   return (
     <div className="profile-page">
       <div className="profile-headline">
-
         <div className={"profile-logo-and-name"}>
 
-
-          <div className={"profilePictureContainer"}>
+          <div className={"profile-picture-container"}>
             {profilePicture === null ?
               <ProfilePicture isReadOnly={false}/> :
               <ProfilePicture isReadOnly={false} image={profilePicture}/>}
           </div>
           <h2>{username}'s Profile</h2>
-
         </div>
+
         <div className="profile-content">
           <div className="profile-info">
             {isEditMode ? (
@@ -110,16 +103,12 @@ function ProfilePage() {
             )}
           </div>
         </div>
-
-
       </div>
-
 
       <div className="profile-explore">
         <h4 className="friends-headline">friends</h4>
           <ExploreDogs followedUsers={followedUsers} isFollowedDefault={true}></ExploreDogs>
       </div>
-
     </div>
   );
 }

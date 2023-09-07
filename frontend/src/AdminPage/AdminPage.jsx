@@ -1,9 +1,6 @@
-import Switch from 'react-ios-switch'
-
 import React, {useContext, useEffect, useState} from "react";
-import Feature from "./feature.jsx";
+import Feature from "./Feature.jsx";
 import './AdminPage.css'
-import {api} from "../../api.jsx";
 import {
   shouldEnableDogedexContext,
   shouldEnableEditPostContext,
@@ -15,7 +12,6 @@ import {
 } from "../Dashboard/Dashboard.jsx";
 import EventLog from "./EventLog.jsx";
 
-
 function AdminPage() {
   const [shouldEnablePeeOnPolePage, setShouldEnablePeeOnPolePage] = useContext(shouldEnablePeeOnPolePageContext)
   const [shouldEnableMyProfilePage, setShouldEnableMyProfilePage] = useContext(shouldEnableMyProfilePageContext)
@@ -26,8 +22,6 @@ function AdminPage() {
   const [shouldEnableStatisticsPage, setShouldEnableStatisticsPage] = useContext(shouldEnableStatisticsPageContext)
   const [shouldEnableDogedexPage, setShouldEnableDogedexPage] = useContext(shouldEnableDogedexContext)
   const [isLoading, setIsLoading] = useState(true)
-
-
 
   useEffect(() => {
   
@@ -68,10 +62,7 @@ function AdminPage() {
           </div>
           )  
       }
-      
     </div>
-
-      
   )
 }
 

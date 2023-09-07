@@ -1,5 +1,4 @@
-/* Center the form */
-.login {
+.login-page {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -8,7 +7,7 @@
     font-family: 'Inter', sans-serif;
 }
 
-.login-container {
+.login-page-container {
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -27,7 +26,7 @@ label {
     font-weight: bold;
 }
 
-.inputs {
+.login-inputs {
     width: 100%;
     padding: 10px;
     margin: 5px 0;
@@ -36,7 +35,7 @@ label {
     font-size: 16px;
 }
 
-.submit {
+.login-submit {
     margin-top: 10px;
     padding: 10px 20px;
     background-color: #6e4141;

@@ -1,17 +1,17 @@
-.App {
+.app {
     display: flex;
     flex-direction: column;
     width: 100%;
 }
 
-.App > .content {
+.app > .content {
     display: flex;
     flex-direction: column;
     width: 100%;
     overflow: hidden;
 }
 
-.App > .content > #pricing-header {
+.app > .content > #pricing-header {
     background-color: var(--warning-color);
     display: flex;
     align-items: center;
@@ -19,7 +19,7 @@
     font-size: 18px;
 }
 
-.App > .content > #pricing-header > button {
+.app > .content > #pricing-header > button {
     margin-left: auto;
     background-color: #ffffff20;
     /*color: var(--text-color-on-secondary);*/

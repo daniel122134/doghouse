@@ -24,10 +24,8 @@ function ProfilePicture({ isReadOnly=true, image=defaultProfilePicture}) {
   return (
     <div className="profile-picture">
       
-      <img src={imageUrl} alt="Profile" className={"profile-image"}/>
+      <img src={imageUrl} alt="Profile" className="profile-image"/>
       {isReadOnly ? null : <input type="file" onChange={handleImageChange} accept={".jpg,.png,.svg"}/>}
-      
-
     </div>
   );
 }

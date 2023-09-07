@@ -8,9 +8,7 @@ import pole6 from "./assets/fence-pole.gif";
 import './PeePolesPage.css'
 import Pole from "./Pole.jsx";
 
-
 function PeePolesPage() {
-  
 
   return (
     <div className="poles">
@@ -20,11 +18,9 @@ function PeePolesPage() {
       <Pole poleName={"cone"} poleImg={pole4}></Pole>
       <Pole poleName={"tree"} poleImg={pole5}></Pole>
       <Pole poleName={"fence"} poleImg={pole6}></Pole>
-      
     </div>
   )
 }
-
 
 export default PeePolesPage
 

@@ -12,7 +12,7 @@ function ExploreDogs({followedUsers, isFollowedDefault}) {
   }, [followedUsers]);
 
   return (
-      <div className="explore-Dogs">
+      <div className="explore-dogs">
           {
             users.map((item, index) => (
               <UserProfileCard key={index} user_id={item} isFollowed={isFollowedDefault}></UserProfileCard>

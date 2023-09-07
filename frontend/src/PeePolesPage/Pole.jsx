@@ -3,7 +3,6 @@ import './PeePolesPage.css'
 import {api} from "../../api.jsx";
 import authService from "../../authService.jsx";
 
-
 function PeePolesPage(props) {
     const [ownerText, setOwnerText] = useState("loading owner...");
 
@@ -30,7 +29,6 @@ function PeePolesPage(props) {
       </div>
   )
 }
-
 
 export default PeePolesPage
 

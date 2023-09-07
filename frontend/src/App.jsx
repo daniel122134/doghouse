@@ -1,9 +1,7 @@
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
-
 import './App.css'
 import Dashboard from './Dashboard/Dashboard.jsx'
 import React from "react";
-
 import Home from "./Home/Home.jsx";
 import FeedPage from "./FeedPage/FeedPage.jsx";
 import LogInPage from "./LogInPage/LogInPage.jsx";
@@ -44,5 +42,6 @@ function getComponentBasedOnToken(){
     return <Home/>  
   }
 }
+
 export default App
 

@@ -1,8 +1,6 @@
 import './ExplorePage.css'
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {api} from "../../api.jsx";
-import authService from "../../authService.jsx";
-import UserProfileCard from "../UserProfileCard/UserProfileCard.jsx";
 import ExploreDogs from "../ExploreDogs/ExploreDogs.jsx";
 
 
@@ -30,7 +28,6 @@ function ExplorePage() {
       console.log(users);
       setUserList(users);
     })
-    // refesh page and clear search bar or whatever is needed
   };
 
   const handleSearchBySubstring = async  (e) => {
@@ -39,7 +36,6 @@ function ExplorePage() {
       console.log(users);
       setUserList(users);
     })
-    // refesh page and clear search bar or whatever is needed
   };
 
 
@@ -52,7 +48,7 @@ function ExplorePage() {
       <div className="explore">
         <div className="explore-container">
           <form onSubmit={handleSearchByPrefix}>
-            <textarea className="searchTextArea" id="postContent" name="postContent"
+            <textarea className="search-text-area" id="postContent" name="postContent"
                       value={searchContent}
                       onChange={(e) => setSearchContent(e.target.value)}
                       required

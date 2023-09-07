@@ -1,4 +1,4 @@
-const {InvalidParamError, UnAuthorizedError, NotFoundError} = require("./exeptions");
+const {InvalidParamError, UnAuthorizedError, NotFoundError} = require("./exceptions");
 
 const rapper = (handler) => {
   return async (req, res, next) => {
