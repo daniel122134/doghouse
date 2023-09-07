@@ -116,7 +116,7 @@ async function logout() {
 }
 
 async function signup(username,email, passwordHash) {
-  return await post(HOST + 'api/signup', {username, email,passwordHash}, {})
+  return await put(HOST + 'api/signup', {username, email,passwordHash}, {})
 }
 
 async function getEventLogs() {
@@ -132,7 +132,7 @@ async function updateUserData(age, breed, favoriteToy, location, bio) {
 }
 
 async function updateProfilePicture(image) {
-  return await axios.post(HOST + 'image-upload', image, {withCredentials: true})
+  return await post(HOST + 'image-upload', image, {withCredentials: true})
 }
 
 async function createPost(content) {

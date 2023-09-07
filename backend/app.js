@@ -153,7 +153,7 @@ app.post('/api/logout', authJwt.verifyToken, async (req, res) => {
   res.send({message: "logout success"})
 })
 
-app.post('/api/signup', async (req, res) => {
+app.put('/api/signup', async (req, res) => {
   try {
     await createUser(req.body.username, req.body.email, req.body.passwordHash);
     let results = await getAllUsers()
