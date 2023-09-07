@@ -235,9 +235,13 @@ app.post('/api/createPost', authJwt.verifyToken, async (req, res) => {
   console.log(req.body)
   const userId = req.session.userId
   const content = req.body.content
-  let results = await createPost(userId, content)
+  if (content.length > 300) {
+    return res.status(400).send({error: "post content too long, post must be shorter then 300 characters"})
+  }
+  
+  await createPost(userId, content)
   await logActivity(userId, "posted")
-  res.send(results)
+  res.send("posted successfully")
 })
 
 app.post('/api/editPostContent', authJwt.verifyToken, async (req, res) => {

@@ -35,8 +35,7 @@ function FeedPage() {
 
   const handlePost = async  (e) => {
     e.preventDefault();
-    console.log(authService.getCurrentUser().name, 'posted a post');
-    window.location.reload();
+    
   };
 
   return (
@@ -51,8 +50,13 @@ function FeedPage() {
                 onBlur={handleBlur}
             />
 
-            <button type="submit" className="submit" onClick={async () => {
-              await api.createPost(postContent);
+            <button className="submit" onClick={async () => {
+              api.createPost(postContent).then((response) => {
+                console.log(authService.getCurrentUser().name, 'posted a post');
+                if (!response["error"]){
+                  window.location.reload();
+                }
+              })
             }}>post</button>
           </form>
         </div>
