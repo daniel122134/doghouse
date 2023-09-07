@@ -64,6 +64,29 @@ async function get(url, data, headers) {
   }
 }
 
+async function put(url, data, headers) {
+  try {
+    const res = await fetch(url, {
+      method: 'PUT',
+      headers: Object.assign({
+        'Content-Type': 'application/json; charset=utf-8',
+        ...headers
+      }),
+      credentials: 'include',
+      body: JSON.stringify(data)
+    })
+    return res.json()
+  } catch (e) {
+    window.notyf.error({
+      message: `Error sending request: ${e}. Check your internet connection`,
+      duration: 10000,
+      x: 'center',
+      dismissible: true
+    })
+    throw e
+  }
+}
+
 async function getFeatures() {
   return await get(HOST + 'api/getFeatures', {}, {})
 }
@@ -92,7 +115,6 @@ async function logout() {
   return await post(HOST + 'api/logout', {}, {})
 }
 
-//put
 async function signup(username,email, passwordHash) {
   return await post(HOST + 'api/signup', {username, email,passwordHash}, {})
 }
@@ -113,9 +135,8 @@ async function updateProfilePicture(image) {
   return await axios.post(HOST + 'image-upload', image, {withCredentials: true})
 }
 
-//put
 async function createPost(content) {
-  return await post(HOST + 'api/createPost', {content}, {})
+  return await put(HOST + 'api/createPost', {content}, {})
 }
 
 async function editPostContent(postId, content) {
@@ -130,9 +151,8 @@ async function getAllUserFollowsPosts() {
   return await get(HOST + 'api/getAllUserFollowsPosts', {}, {})
 }
 
-//put
 async function addLike(postId) {
-  return await post(HOST + 'api/addLike', {postId}, {})
+  return await put(HOST + 'api/addLike', {postId}, {})
 }
 
 //delete
@@ -156,9 +176,8 @@ async function getAllUsersFollowedByUser() {
   return await get(HOST + 'api/getAllUsersFollowedByUser', {}, {})
 }
 
-//put
 async function followUser(userId) {
-  return await post(HOST + 'api/followUser', {userId}, {})
+  return await put(HOST + 'api/followUser', {userId}, {})
 }
 
 //delete

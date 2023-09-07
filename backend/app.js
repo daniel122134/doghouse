@@ -230,7 +230,7 @@ app.post('/image-upload', authJwt.verifyToken, imageUpload.array("my-image-file"
 })
 
 
-app.post('/api/createPost', authJwt.verifyToken, async (req, res) => {
+app.put('/api/createPost', authJwt.verifyToken, async (req, res) => {
   console.log(req.body)
   const userId = req.session.userId
   const content = req.body.content
@@ -278,7 +278,7 @@ app.get('/api/getAllUserFollowsPosts', authJwt.verifyToken, async (req, res) => 
   res.send(posts)
 })
 
-app.post('/api/addLike', authJwt.verifyToken, async (req, res) => {
+app.put('/api/addLike', authJwt.verifyToken, async (req, res) => {
   console.log(req.body)
   const userId = req.session.userId
   const postId = req.body.postId
