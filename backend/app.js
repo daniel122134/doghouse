@@ -15,7 +15,7 @@ const {
   getAllPostsForUser,
   getAllPoles, getAllUserFollows, getAllUserFollowsPosts, addLike, getPostLikeNumber, getPostLikeNumberByUser,
   removeLike, editPostContent, getPostUpdateTime, updateUserData, getAllUsersNotFollowedByUser,
-  getAllUsersFollowedByUser, unfollowUser, followUser
+  getAllUsersFollowedByUser, unfollowUser, followUser, getAllUsersMatchingPrefix
 } = require("./DAL/persist");
 const cookieSession = require("cookie-session");
 const config = require("./config/auth.config.js");
@@ -370,6 +370,19 @@ app.post('/api/followUser', authJwt.verifyToken, async (req, res) => {
   res.send("success")  
 })
 
+
+app.get('/api/getAllUsersMatchingPrefix', authJwt.verifyToken, async (req, res) => {
+  const prefix = req.query.searchContent
+  let results = await getAllUsersMatchingPrefix(prefix)
+  console.log(results)
+  let users = []
+  results.forEach((item) => {
+    users.push(
+      item.id
+    )
+  })
+  res.send(users)
+})
 
 app.listen(port, () => {
   console.info(`Example app listening on port ${port}`)

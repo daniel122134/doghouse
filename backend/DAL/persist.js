@@ -273,7 +273,7 @@ async function getAllUserFollows(userId) {
 
 async function getAllUserFollowsPosts(userId) {
   return new Promise((resolve, reject) => {
-    db.all(`SELECT posts.id, content, updated_at, followedId FROM posts Left JOIN follows ON posts.userId = follows.followedId WHERE follows.followerId = '${userId}' OR posts.userId = '${userId}' ORDER BY posts.updated_at DESC`,
+    db.all(`SELECT posts.id, content, updated_at, followedId FROM posts Left JOIN follows ON posts.userId = follows.followedId WHERE follows.followerId = '${userId}' OR posts.userId = '${userId}' ORDER BY posts.created_at DESC`,
         (err, rows) => {
           if (err) {
             reject(err);
@@ -353,6 +353,18 @@ async function unfollowUser(followerId, followedId) {
   });
 }
 
+async function getAllUsersMatchingPrefix(prefix) {
+  return new Promise((resolve, reject) => {
+    db.all(`SELECT id FROM users WHERE username LIKE '${prefix}%'`,
+        (err, rows) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(rows);
+        });
+  });
+}
+
 module.exports = {
   getAllUsers,
   getAllUsersNotFollowedByUser,
@@ -379,5 +391,6 @@ module.exports = {
   getAllUsersFollowedByUser,
   followUser,
   unfollowUser,
+  getAllUsersMatchingPrefix,
   db
 };

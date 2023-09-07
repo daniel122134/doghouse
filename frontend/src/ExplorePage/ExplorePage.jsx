@@ -10,7 +10,7 @@ function ExplorePage() {
 
   const defaultSentence = 'search for a friend..';
   const [searchContent, setSearchContent] = useState(defaultSentence);
-
+  const [userList, setUserList] = useState([]);
   // const [users, setUsers] = useState([]);
 
   // useEffect(() => {
@@ -37,10 +37,18 @@ function ExplorePage() {
 
   const handleSearch = async  (e) => {
     e.preventDefault();
-    console.log(authService.getCurrentUser().name, 'posted a post');
-    window.location.reload();
+    api.getAllUsersMatchingPrefix(searchContent).then((users) => {
+      console.log(users);
+      setUserList(users);
+    })
+    // refesh page and clear search bar or whatever is needed
   };
 
+
+  function searchDogs(searchContent) {
+    console.log(searchContent);
+    // search for dogs
+  }
 
   return (
       <div className="explore">
@@ -55,13 +63,13 @@ function ExplorePage() {
             />
 
             <button type="submit" className="submit" onClick={async () => {
-              //await api.createPost(postContent); ****add search function
+              searchDogs(searchContent);
             }}>search</button>
           </form>
         </div>
 
         <div>
-          <ExploreDogs></ExploreDogs>
+          <ExploreDogs followedUsers={userList} isFollowedDefault={false}></ExploreDogs>
         </div>
 
         {/*<div>*/}

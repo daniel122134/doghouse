@@ -168,6 +168,9 @@ async function followUser(userId) {
 async function unfollowUser(userId) {
   return await post(HOST + 'api/unfollowUser', {userId}, {})
 }
+async function getAllUsersMatchingPrefix(searchContent) {
+  return await get(HOST + 'api/getAllUsersMatchingPrefix', {searchContent}, {})
+}
 
 const api = {
   login,
@@ -195,7 +198,8 @@ const api = {
   getAllUsersNotFollowedByUser,
   getAllUsersFollowedByUser,
   followUser,
-  unfollowUser
+  unfollowUser,
+  getAllUsersMatchingPrefix
 }
 
 export {
