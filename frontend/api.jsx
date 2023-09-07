@@ -87,6 +87,28 @@ async function put(url, data, headers) {
   }
 }
 
+async function deleteRequest(url, data, headers) {
+  try {
+    const res = await fetch(
+      url + (data == null ? '' : '?' + new URLSearchParams(data)),
+      {
+        method: 'DELETE',
+        headers: headers ?? undefined,
+        credentials: 'include'
+      }
+    )
+    return res.json()
+  } catch (e) {
+    window.notyf.error({
+      message: `Error sending request: ${e}. Check your internet connection`,
+      duration: 10000,
+      x: 'center',
+      dismissible: true
+    })
+    throw e
+  }
+}
+
 async function getFeatures() {
   return await get(HOST + 'api/getFeatures', {}, {})
 }
@@ -155,9 +177,8 @@ async function addLike(postId) {
   return await put(HOST + 'api/addLike', {postId}, {})
 }
 
-//delete
 async function removeLike(postId) {
-  return await post(HOST + 'api/removeLike', {postId}, {})
+  return await deleteRequest(HOST + 'api/removeLike', {postId}, {})
 }
 
 async function getPostLikeNumber(postId) {
@@ -180,9 +201,8 @@ async function followUser(userId) {
   return await put(HOST + 'api/followUser', {userId}, {})
 }
 
-//delete
 async function unfollowUser(userId) {
-  return await post(HOST + 'api/unfollowUser', {userId}, {})
+  return await deleteRequest(HOST + 'api/unfollowUser', {userId}, {})
 }
 
 async function getAllUsersMatchingPrefix(searchContent) {

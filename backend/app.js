@@ -286,10 +286,10 @@ app.put('/api/addLike', authJwt.verifyToken, async (req, res) => {
   res.send("success")
 })
 
-app.post('/api/removeLike', authJwt.verifyToken, async (req, res) => {
+app.delete('/api/removeLike', authJwt.verifyToken, async (req, res) => {
   console.log(req.body)
   const userId = req.session.userId
-  const postId = req.body.postId
+  const postId = req.query.postId
   let results = await removeLike(userId, postId)
   res.send("success")
 })
@@ -340,10 +340,10 @@ app.get('/api/getAllUsersFollowedByUser', authJwt.verifyToken, async (req, res) 
 })
 
 //unfollowUser
-app.post('/api/unfollowUser', authJwt.verifyToken, async (req, res) => {
+app.delete('/api/unfollowUser', authJwt.verifyToken, async (req, res) => {
   console.log(req.body)
   const userId = req.session.userId
-  const followedId = req.body.userId
+  const followedId = req.query.userId
   let results = await unfollowUser(userId, followedId)
   res.send("success")
 })
