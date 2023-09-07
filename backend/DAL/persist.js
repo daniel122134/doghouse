@@ -16,8 +16,6 @@ db.serialize(() => {
   db.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT NOT NULL unique, email TEXT NOT NULL unique, toy TEXT, passwordHash TEXT NOT NULL, created_at TEXT NOT NULL, updated_at TEXT NOT NULL, bio TEXT, breed TEXT, age INTEGER, location TEXT, profilePicture TEXT)");
   //poles
   db.run("CREATE TABLE IF NOT EXISTS poles (userId INTEGER , name TEXT NOT NULL unique, updated_at TEXT NOT NULL, FOREIGN KEY(userId) REFERENCES users(id))");
-  //ads
-  db.run("CREATE TABLE IF NOT EXISTS ads (id INTEGER PRIMARY KEY, content TEXT, imagePath TEXT)");
   //follows
   db.run("CREATE TABLE IF NOT EXISTS follows (id INTEGER PRIMARY KEY, followerId INTEGER, followedId INTEGER, created_at TEXT NOT NULL, FOREIGN KEY(followerId) REFERENCES users(id), FOREIGN KEY(followedId) REFERENCES users(id) UNIQUE(followerId, followedId))");
   //likes
@@ -38,7 +36,6 @@ db.serialize(() => {
   db.run(`INSERT OR IGNORE INTO features (name, state, updated_at) VALUES ('Edit Post', 1, '2023-01-01 00:00:00')`);
   db.run(`INSERT OR IGNORE INTO features (name, state, updated_at) VALUES ('Unlike Post', 1, '2023-01-01 00:00:00')`);
   db.run(`INSERT OR IGNORE INTO features (name, state, updated_at) VALUES ('Search Options', 1, '2023-01-01 00:00:00')`);
-  db.run(`INSERT OR IGNORE INTO features (name, state, updated_at) VALUES ('Ads', 0, '2023-01-01 00:00:00')`);
   db.run(`INSERT OR IGNORE INTO features (name, state, updated_at) VALUES ('Statistics Page', 1, '2023-01-01 00:00:00')`);
   db.run(`INSERT OR IGNORE INTO features (name, state, updated_at) VALUES ('Dogedex Page', 1, '2023-01-01 00:00:00')`);
   //insert pee poles
@@ -247,30 +244,6 @@ async function getPostUpdateTime(postId) {
   });
 }
 
-async function getAllPostsForUser(userId) {
-  return new Promise((resolve, reject) => {
-    db.all(`SELECT content, updated_at FROM posts WHERE userId = '${userId}' ORDER BY updated_at DESC`,
-        (err, rows) => {
-          if (err) {
-            reject(err);
-          }
-          resolve(rows);
-        });
-  });
-}
-
-async function getAllUserFollows(userId) {
-  return new Promise((resolve, reject) => {
-    db.all(`SELECT followedId FROM follows WHERE followerId = '${userId}'`,
-        (err, rows) => {
-          if (err) {
-            reject(err);
-          }
-          resolve(rows);
-        });
-  });
-}
-
 async function getAllUserFollowsPosts(userId) {
   return new Promise((resolve, reject) => {
     db.all(`SELECT posts.id, content, updated_at, followedId FROM posts Left JOIN follows ON posts.userId = follows.followedId WHERE follows.followerId = '${userId}' OR posts.userId = '${userId}' ORDER BY posts.created_at DESC`,
@@ -365,6 +338,18 @@ async function getAllUsersMatchingPrefix(prefix) {
   });
 }
 
+async function getAllUsersMatchingSubstring(substring) {
+  return new Promise((resolve, reject) => {
+    db.all(`SELECT id FROM users WHERE username LIKE '%${substring}%'`,
+        (err, rows) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(rows);
+        });
+  });
+}
+
 module.exports = {
   getAllUsers,
   getAllUsersNotFollowedByUser,
@@ -381,8 +366,6 @@ module.exports = {
   createPost,
   editPostContent,
   getPostUpdateTime,
-  getAllPostsForUser,
-  getAllUserFollows,
   getAllUserFollowsPosts,
   addLike,
   getPostLikeNumber,
@@ -392,5 +375,6 @@ module.exports = {
   followUser,
   unfollowUser,
   getAllUsersMatchingPrefix,
+  getAllUsersMatchingSubstring,
   db
 };

@@ -11,17 +11,6 @@ function ExplorePage() {
   const defaultSentence = 'search for a friend..';
   const [searchContent, setSearchContent] = useState(defaultSentence);
   const [userList, setUserList] = useState([]);
-  // const [users, setUsers] = useState([]);
-
-  // useEffect(() => {
-  //   async function fetchPosts() {
-  //
-  //     const unfollowedUsers = await api.getAllUsersNotFollowedByUser();
-  //     setUsers(unfollowedUsers);
-  //   }
-  //
-  //   fetchPosts();
-  // }, []);
 
   const handleFocus = () => {
     if (searchContent === defaultSentence) {
@@ -35,9 +24,18 @@ function ExplorePage() {
     }
   };
 
-  const handleSearch = async  (e) => {
+  const handleSearchByPrefix = async  (e) => {
     e.preventDefault();
     api.getAllUsersMatchingPrefix(searchContent).then((users) => {
+      console.log(users);
+      setUserList(users);
+    })
+    // refesh page and clear search bar or whatever is needed
+  };
+
+  const handleSearchBySubstring = async  (e) => {
+    e.preventDefault();
+    api.getAllUsersMatchingSubstring(searchContent).then((users) => {
       console.log(users);
       setUserList(users);
     })
@@ -53,7 +51,7 @@ function ExplorePage() {
   return (
       <div className="explore">
         <div className="explore-container">
-          <form onSubmit={handleSearch}>
+          <form onSubmit={handleSearchByPrefix}>
             <textarea className="searchTextArea" id="postContent" name="postContent"
                       value={searchContent}
                       onChange={(e) => setSearchContent(e.target.value)}
@@ -62,21 +60,20 @@ function ExplorePage() {
                       onBlur={handleBlur}
             />
 
-            <button type="submit" className="submit" onClick={async () => {
+            <button type="submit" className="explore-submit" onClick={async () => {
               searchDogs(searchContent);
-            }}>search</button>
+            }}>search by prefix</button>
+          </form>
+          <form onSubmit={handleSearchBySubstring}>
+            <button type="submit" className="explore-submit" onClick={async () => {
+              searchDogs(searchContent);
+            }}>search by substring</button>
           </form>
         </div>
 
         <div>
           <ExploreDogs followedUsers={userList} isFollowedDefault={false}></ExploreDogs>
         </div>
-
-        {/*<div>*/}
-        {/*  {users.map((item, index) => (*/}
-        {/*      <UserProfileCard key={index} user_id={item.userid}></UserProfileCard>*/}
-        {/*  ))}*/}
-        {/*</div>*/}
       </div>
   )
 }

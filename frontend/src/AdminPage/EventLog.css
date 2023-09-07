@@ -1,11 +1,11 @@
 .event-log {
-  margin-top: 20px;
+  margin-top: 10px;
   height: 100%;
   overflow: auto;
 }
 
 .event-log h2 {
-  font-size: 18px;
+  font-size: 25px;
   margin-bottom: 10px;
 }
 

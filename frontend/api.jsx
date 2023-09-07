@@ -92,11 +92,11 @@ async function logout() {
   return await post(HOST + 'api/logout', {}, {})
 }
 
+//put
 async function signup(username,email, passwordHash) {
   return await post(HOST + 'api/signup', {username, email,passwordHash}, {})
 }
 
-// get event logs
 async function getEventLogs() {
   return await get(HOST + 'api/getEventLogs', {}, {})
 }
@@ -113,6 +113,7 @@ async function updateProfilePicture(image) {
   return await axios.post(HOST + 'image-upload', image, {withCredentials: true})
 }
 
+//put
 async function createPost(content) {
   return await post(HOST + 'api/createPost', {content}, {})
 }
@@ -125,22 +126,16 @@ async function getPostUpdateTime(postId) {
   return await get(HOST + 'api/getPostUpdateTime', {postId}, {})
 }
 
-async function getAllPostsForUser() {
-  return await get(HOST + 'api/getAllPostsForUser', {}, {})
-}
-
-async function getAllUserFollows() {
-  return await get(HOST + 'api/getAllUserFollows', {}, {})
-}
-
 async function getAllUserFollowsPosts() {
   return await get(HOST + 'api/getAllUserFollowsPosts', {}, {})
 }
 
+//put
 async function addLike(postId) {
   return await post(HOST + 'api/addLike', {postId}, {})
 }
 
+//delete
 async function removeLike(postId) {
   return await post(HOST + 'api/removeLike', {postId}, {})
 }
@@ -161,15 +156,22 @@ async function getAllUsersFollowedByUser() {
   return await get(HOST + 'api/getAllUsersFollowedByUser', {}, {})
 }
 
+//put
 async function followUser(userId) {
   return await post(HOST + 'api/followUser', {userId}, {})
 }
 
+//delete
 async function unfollowUser(userId) {
   return await post(HOST + 'api/unfollowUser', {userId}, {})
 }
+
 async function getAllUsersMatchingPrefix(searchContent) {
   return await get(HOST + 'api/getAllUsersMatchingPrefix', {searchContent}, {})
+}
+
+async function getAllUsersMatchingSubstring(searchContent) {
+  return await get(HOST + 'api/getAllUsersMatchingSubstring', {searchContent}, {})
 }
 
 const api = {
@@ -188,8 +190,6 @@ const api = {
   createPost,
   editPostContent,
   getPostUpdateTime,
-  getAllPostsForUser,
-  getAllUserFollows,
   getAllUserFollowsPosts,
   addLike,
   removeLike,
@@ -199,7 +199,8 @@ const api = {
   getAllUsersFollowedByUser,
   followUser,
   unfollowUser,
-  getAllUsersMatchingPrefix
+  getAllUsersMatchingPrefix,
+  getAllUsersMatchingSubstring
 }
 
 export {

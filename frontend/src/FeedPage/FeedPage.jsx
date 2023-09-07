@@ -50,7 +50,7 @@ function FeedPage() {
                 onBlur={handleBlur}
             />
 
-            <button className="submit" onClick={async () => {
+            <button className="feed-submit" onClick={async () => {
               api.createPost(postContent).then((response) => {
                 console.log(authService.getCurrentUser().name, 'posted a post');
                 if (!response["error"]){

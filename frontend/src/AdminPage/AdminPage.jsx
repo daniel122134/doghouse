@@ -5,7 +5,6 @@ import Feature from "./feature.jsx";
 import './AdminPage.css'
 import {api} from "../../api.jsx";
 import {
-  shouldEnableAdsContext,
   shouldEnableDogedexContext,
   shouldEnableEditPostContext,
   shouldEnableMyProfilePageContext,
@@ -24,7 +23,6 @@ function AdminPage() {
   const [shouldEnableEditPost, setShouldEnableEditPost] = useContext(shouldEnableEditPostContext)
   const [shouldEnableUnlikePost, setShouldEnableUnlikePost] = useContext(shouldEnableUnlikePostContext)
   const [shouldEnableSearchOptions, setShouldEnableSearchOptions] = useContext(shouldEnableSearchOptionsContext)
-  const [shouldEnableAds, setShouldEnableAds] = useContext(shouldEnableAdsContext)
   const [shouldEnableStatisticsPage, setShouldEnableStatisticsPage] = useContext(shouldEnableStatisticsPageContext)
   const [shouldEnableDogedexPage, setShouldEnableDogedexPage] = useContext(shouldEnableDogedexContext)
   const [isLoading, setIsLoading] = useState(true)
@@ -59,7 +57,6 @@ function AdminPage() {
               <Feature featureName={"Edit Post"} featureState={shouldEnableEditPost} setFeatureStateCallback={setShouldEnableEditPost}></Feature>
               <Feature featureName={"Unlike Post"} featureState={shouldEnableUnlikePost} setFeatureStateCallback={setShouldEnableUnlikePost}></Feature>
               <Feature featureName={"Search Options"} featureState={shouldEnableSearchOptions} setFeatureStateCallback={setShouldEnableSearchOptions}></Feature>
-              <Feature featureName={"Ads"} featureState={shouldEnableAds} setFeatureStateCallback={setShouldEnableAds}></Feature>
               <Feature featureName={"Statistics Page"} featureState={shouldEnableStatisticsPage} setFeatureStateCallback={setShouldEnableStatisticsPage}></Feature>
               <Feature featureName={"Dogedex Page"} featureState={shouldEnableDogedexPage} setFeatureStateCallback={setShouldEnableDogedexPage}></Feature>
             </div>

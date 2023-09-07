@@ -67,13 +67,30 @@ function ProfilePage() {
           <div className="profile-info">
             {isEditMode ? (
               <>
-                <input className="edit-input" type="number" value={age} onChange={(e) => setAge(e.target.value)}/>
-                <input className="edit-input" type="text" value={breed} onChange={(e) => setBreed(e.target.value)}/>
-                <input className="edit-input" type="text" value={favoriteToy}
-                       onChange={(e) => setFavoriteToy(e.target.value)}/>
-                <input className="edit-input" type="text" value={location}
-                       onChange={(e) => setLocation(e.target.value)}/>
-                <input className="edit-input" type="text" value={bio} onChange={(e) => setBio(e.target.value)}/>
+                <div className="input-container">
+                  <label htmlFor="age">Age:</label>
+                  <input className="edit-input" type="number" id="age" value={age} onChange={(e) => setAge(e.target.value)}/>
+                </div>
+
+                <div className="input-container">
+                  <label htmlFor="breed">Breed:</label>
+                  <input className="edit-input" type="text" id="breed" value={breed} onChange={(e) => setBreed(e.target.value)}/>
+                </div>
+
+                <div className="input-container">
+                  <label htmlFor="favoriteToy">Favorite Toy:</label>
+                  <input className="edit-input" type="text" id="favoriteToy" value={favoriteToy} onChange={(e) => setFavoriteToy(e.target.value)}/>
+                </div>
+
+                <div className="input-container">
+                  <label htmlFor="location">Location:</label>
+                  <input className="edit-input" type="text" id="location" value={location} onChange={(e) => setLocation(e.target.value)}/>
+                </div>
+
+                <div className="input-container">
+                  <label htmlFor="bio">Bio:</label>
+                  <input className="edit-input" type="text" id="bio" value={bio} onChange={(e) => setBio(e.target.value)}/>
+                </div>
                 <div className="save-cancel-buttons-container">
                   <button className="save-cancel-buttons-profile" onClick={saveProfile}>Save</button>
                   <button className="save-cancel-buttons-profile" onClick={switchEditMode}>Cancel</button>
@@ -96,9 +113,10 @@ function ProfilePage() {
 
 
       </div>
-      <h4>friends</h4>
+
 
       <div className="profile-explore">
+        <h4 className="friends-headline">friends</h4>
           <ExploreDogs followedUsers={followedUsers} isFollowedDefault={true}></ExploreDogs>
       </div>
 

@@ -12,10 +12,9 @@ const {
   getPoleOwner,
   createUser, logActivity, getEventLogs, updateProfilePicture,
   createPost,
-  getAllPostsForUser,
-  getAllPoles, getAllUserFollows, getAllUserFollowsPosts, addLike, getPostLikeNumber, getPostLikeNumberByUser,
+  getAllPoles, getAllUserFollowsPosts, addLike, getPostLikeNumber, getPostLikeNumberByUser,
   removeLike, editPostContent, getPostUpdateTime, updateUserData, getAllUsersNotFollowedByUser,
-  getAllUsersFollowedByUser, unfollowUser, followUser, getAllUsersMatchingPrefix
+  getAllUsersFollowedByUser, unfollowUser, followUser, getAllUsersMatchingPrefix, getAllUsersMatchingSubstring
 } = require("./DAL/persist");
 const cookieSession = require("cookie-session");
 const config = require("./config/auth.config.js");
@@ -262,22 +261,6 @@ app.get('/api/getPostUpdateTime', authJwt.verifyToken, async (req, res) => {
   res.send(results)
 })
 
-app.get('/api/getAllPostsForUser', authJwt.verifyToken, async (req, res) => {
-  console.log(req.query)
-  const userId = req.session.userId
-  let results = await getAllPostsForUser(userId)
-  console.log(results)
-  res.send(results)
-})
-
-app.get('/api/getAllUserFollows', authJwt.verifyToken, async (req, res) => {
-  console.log(req.query)
-  const userId = req.session.userId
-  let results = await getAllUserFollows(userId)
-  console.log(results)
-  res.send(results)
-})
-
 app.get('/api/getAllUserFollowsPosts', authJwt.verifyToken, async (req, res) => {
   console.log(req.query)
   const userId = req.session.userId
@@ -383,6 +366,19 @@ app.get('/api/getAllUsersMatchingPrefix', authJwt.verifyToken, async (req, res) 
   results.forEach((item) => {
     users.push(
       item.id
+    )
+  })
+  res.send(users)
+})
+
+app.get('/api/getAllUsersMatchingSubstring', authJwt.verifyToken, async (req, res) => {
+  const substring = req.query.searchContent
+  let results = await getAllUsersMatchingSubstring(substring)
+  console.log(results)
+  let users = []
+  results.forEach((item) => {
+    users.push(
+        item.id
     )
   })
   res.send(users)

@@ -1,25 +1,37 @@
+.admin-page{
+    overflow-y: auto;
+}
+
 .features-section {
-    margin: 0 0 20px 10px;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: #fff;
-    width: 45%;
+    width: 24%;
+    margin-right: 60px;
+    font-size: 1.3vw;
 }
 
 .logs-section{
-    margin: 0 0 20px 10px;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: #fff;
-    width: 45%;
-    height: 50vh;
+    width: 52%;
+    max-width: 650px;
+    font-size: 1.15vw;
 }
 
 .admin-page-section{
     display: flex;
     flex-direction: row;
-    margin-top: 10%;
-    
+    margin-top: 5%;
+    justify-content: center;
+}
+
+h1{
+    text-align: center;
+    font-size: 70px;
+    color: #6e4141;
+    margin: 40px;
 }
