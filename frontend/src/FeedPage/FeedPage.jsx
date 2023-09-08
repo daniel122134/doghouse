@@ -8,6 +8,7 @@ function FeedPage() {
   const defaultSentence = 'whats on your mind..?';
   const [postContent, setPostContent] = useState(defaultSentence);
   const [posts, setPosts] = useState([]);
+  const [userName, setUserName] = useState(authService.getCurrentUser().name);
 
   useEffect(() => {
     async function fetchPosts() {
@@ -49,11 +50,12 @@ function FeedPage() {
 
             <button className="feed-submit" onClick={async () => {
               api.createPost(postContent).then((response) => {
-                console.log(authService.getCurrentUser().name, 'posted a post');
+                console.log(userName, 'posted a post');
                 if (!response["error"]){
                   window.location.reload();
                 }
               })
+              window.open(`mailto:?subject=post%20by%20${userName}&body=Post content:%0D${postContent}`);
             }}>post</button>
           </form>
         </div>
@@ -67,6 +69,4 @@ function FeedPage() {
   );
 }
 
-
 export default FeedPage
-
