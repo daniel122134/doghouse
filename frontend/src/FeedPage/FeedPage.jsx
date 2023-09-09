@@ -55,7 +55,6 @@ function FeedPage() {
                   window.location.reload();
                 }
               })
-              window.open(`mailto:?subject=post%20by%20${userName}&body=Post content:%0D${postContent}`);
             }}>post</button>
           </form>
         </div>

@@ -25,6 +25,10 @@ function Post({content, postId, timeStamp, posterId}) {
         setPostTimeStamp(timeStamp);
         setIsEditMode(false);
     };
+    
+    const handleSharePost = async () => {
+        window.open(`mailto:?subject=post%20by%20${userName}&body=Post content:%0D${postContent}`);
+    }
 
     const handleCancelClick = () => {
         setEditedContent(content);
@@ -85,8 +89,10 @@ function Post({content, postId, timeStamp, posterId}) {
                       </div>
                   </>
               ) : (
-                  <div>
-
+                  <div className={"post-actions"}>
+                      <button className="share" disabled={buttonDisabled} onClick={async () => {
+                          window.open(`mailto:?subject=post%20by%20${userName}&body=Post content:%0D${postContent}`);
+                      }}>Share</button>
                       <div className="likes-container">
                           {!buttonDisabled && (
                               <button className="like" disabled={buttonDisabled} onClick={async () => {
@@ -102,7 +108,7 @@ function Post({content, postId, timeStamp, posterId}) {
                                   await loadLikeNumber();
                               }}>UnBark</button>
                           )}
-                          <p>{likeNumberText} Barks</p>
+                          <p className={"bark-count"}>{likeNumberText} Barks</p>
                       </div>
 
                   </div>
