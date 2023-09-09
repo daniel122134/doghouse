@@ -77,7 +77,7 @@ const specs = swaggerJsdoc({
       },
     ],
   },
-  apis: [__dirname + "/*.js"],
+  apis: [__dirname + "/*.js", __dirname + "/routes/*.js"],
 });
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));

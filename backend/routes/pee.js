@@ -6,13 +6,22 @@ const router = express.Router()
 
 /**
  * @swagger
- * /api/users:
- *   get:
- *     summary: Get a list of users
- *     description: Retrieve a list of users from the database.
+ * /api/pee/{poleName}/owner:
+ *   put:
+ *     tags:
+ *       - peePoles 
+ *     summary: sets the owner of a pole
+ *     description: sets the owner of a pole
+ *     parameters:
+ *       - in: path
+ *         name: poleName
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: the name of the pole
  *     responses:
  *       200:
- *         description: A list of users.
+ *         description: success message
  */
 router.put('/:poleName/owner/', async (req, res) => {
   const poleName = req.params.poleName
@@ -21,12 +30,43 @@ router.put('/:poleName/owner/', async (req, res) => {
   res.send(results)
 })
 
+/**
+ * @swagger
+ * /api/pee/{poleName}/owner:
+ *   get:
+ *     tags:
+ *       - peePoles
+ *     summary: gets the owner of a pole
+ *     description: gets the owner of a pole
+ *     parameters:
+ *       - in: path
+ *         name: poleName
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: the name of the pole
+ *     responses:
+ *       200:
+ *         description: owner name
+ */
 router.get('/:poleName/owner/', authJwt.verifyToken, async (req, res) => {
   const poleName = req.params.poleName
   let results = await dal.getPoleOwner(poleName)
   res.send(results)
 })
 
+/**
+ * @swagger
+ * /api/pee/allPoles:
+ *   get:
+ *     tags: 
+ *       - peePoles
+ *     summary: gets a list of all poles
+ *     description: gets a list of all poles
+ *     responses:
+ *       200:
+ *         description: list of all poles
+ */
 router.get('/allPoles', authJwt.verifyToken, async (req, res) => {
   console.log(req.query)
   let results = await dal.getAllPoles()
