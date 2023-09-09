@@ -29,10 +29,10 @@ const verifyToken = (req, res, next) => {
         return res.redirect('/login')
       }
       
-      // todo - is this a good practice, does this create 3 more cookies?
-      req.session.userId = decoded.id;
-      req.session.username = decoded.username;
-      req.session.email = decoded.email;
+      req.body.auth = {};
+      req.body.auth.userId = decoded.id;
+      req.body.auth.username = decoded.username;
+      req.body.auth.email = decoded.email;
       
       next();
     });
@@ -59,7 +59,7 @@ const checkIfTokenAlreadyExistsAndRedirectIntoApp = (req, res, next) => {
 
 const isAdmin = async (req, res, next) => {
 
-  if (req.session.username === "admin") {
+  if (req.body.auth.username === "admin") {
     return next();
   }
 

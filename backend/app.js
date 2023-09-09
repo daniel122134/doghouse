@@ -13,6 +13,7 @@ import swaggerJsdoc from "swagger-jsdoc"
 
 import swaggerUi from 'swagger-ui-express';
 import * as url from 'url';
+import pee from "./routes/pee.js";
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 const app = express()
@@ -96,40 +97,8 @@ app.use((req, res, next) => {
   next()
 })
 
+app.use('', pee) // todo do the same for the rest of the routes
 
-/**
- * @swagger
- * /api/users:
- *   get:
- *     summary: Get a list of users
- *     description: Retrieve a list of users from the database.
- *     responses:
- *       200:
- *         description: A list of users.
- */
-app.put('/api/setPeePoleOwner', async (req, res) => {
-  const poleName = req.body.poleName
-  const ownerId = req.body.ownerId
-  let results = await dal.setPeePoleOwner(poleName, ownerId)
-  res.send(results)
-})
-
-app.get('/api/getPoleOwner', authJwt.verifyToken, async (req, res) => {
-  console.log(req.query)
-  const poleName = req.query.poleName
-  let results = await dal.getPoleOwner(poleName)
-  res.send(results)
-})
-
-app.get('/api/getAllPoles', authJwt.verifyToken, async (req, res) => {
-  console.log(req.query)
-  let results = await dal.getAllPoles()
-  let dict = {}
-  results.forEach((item) => {
-    dict[item.name] = item.state
-  })
-  res.send(dict)
-})
 
 app.put('/api/setFeatureState', authJwt.verifyToken, authJwt.isAdmin, async (req, res) => {
   console.log(req.body)
@@ -179,7 +148,7 @@ app.put('/api/login', async (req, res) => {
 })
 
 app.put('/api/logout', authJwt.verifyToken, async (req, res) => {
-  await dal.logActivity(req.session.userId, "logout")
+  await dal.logActivity(req.body.auth.userId, "logout")
   req.session = null
   res.send({message: "logout success"})
 })
@@ -229,7 +198,7 @@ app.get('/api/getUserData', authJwt.verifyToken, async (req, res) => {
 
 app.put('/api/updateUserData', authJwt.verifyToken, async (req, res) => {
   console.log(req.body)
-  const userId = req.session.userId
+  const userId = req.body.auth.userId
   const age = req.body.age
   const breed = req.body.breed
   const favoriteToy = req.body.favoriteToy
@@ -245,14 +214,14 @@ const storage = multer.diskStorage({
     cb(null, imageUploadPath)
   },
   filename: function (req, file, cb) {
-    cb(null, `${req.session.userId}.${file.originalname.split('.').pop()}`)
+    cb(null, `${req.body.auth.userId}.${file.originalname.split('.').pop()}`)
   }
 })
 const imageUpload = multer({storage: storage})
 app.post('/image-upload', authJwt.verifyToken, imageUpload.array("my-image-file"), async (req, res) => {
   let results = await dal.getAllUsers()
-  let user = results.find(user => user.id === req.session.userId)
-  await dal.updateProfilePicture(user.id, path.join('/', 'public', 'profilePictures', `${req.session.userId}.${req.files[0].originalname.split('.').pop()}`))
+  let user = results.find(user => user.id === req.body.auth.userId)
+  await dal.updateProfilePicture(user.id, path.join('/', 'public', 'profilePictures', `${req.body.auth.userId}.${req.files[0].originalname.split('.').pop()}`))
 
   console.log('POST request received to /image-upload.');
   console.log('Axios POST body: ', req.body);
@@ -262,7 +231,7 @@ app.post('/image-upload', authJwt.verifyToken, imageUpload.array("my-image-file"
 
 app.post('/api/createPost', authJwt.verifyToken, async (req, res) => {
   console.log(req.body)
-  const userId = req.session.userId
+  const userId = req.body.auth.userId
   const content = req.body.content
   if (content.length > 300) {
     return res.status(400).send({error: "post content too long, post must be shorter then 300 characters"})
@@ -275,7 +244,7 @@ app.post('/api/createPost', authJwt.verifyToken, async (req, res) => {
 
 app.put('/api/editPostContent', authJwt.verifyToken, async (req, res) => {
   console.log(req.body)
-  const userId = req.session.userId
+  const userId = req.body.auth.userId
   const postId = req.body.postId
   const content = req.body.content
   let results = await dal.editPostContent(postId, content)
@@ -293,7 +262,7 @@ app.get('/api/getPostUpdateTime', authJwt.verifyToken, async (req, res) => {
 
 app.get('/api/getAllUserFollowsPosts', authJwt.verifyToken, async (req, res) => {
   console.log(req.query)
-  const userId = req.session.userId
+  const userId = req.body.auth.userId
   let results = await dal.getAllUserFollowsPosts(userId)
   console.log(results)
   let posts = []
@@ -310,7 +279,7 @@ app.get('/api/getAllUserFollowsPosts', authJwt.verifyToken, async (req, res) => 
 
 app.post('/api/addLike', authJwt.verifyToken, async (req, res) => {
   console.log(req.body)
-  const userId = req.session.userId
+  const userId = req.body.auth.userId
   const postId = req.body.postId
   let results = await dal.addLike(userId, postId)
   res.send("success")
@@ -318,7 +287,7 @@ app.post('/api/addLike', authJwt.verifyToken, async (req, res) => {
 
 app.delete('/api/removeLike', authJwt.verifyToken, async (req, res) => {
   console.log(req.body)
-  const userId = req.session.userId
+  const userId = req.body.auth.userId
   const postId = req.query.postId
   let results = await dal.removeLike(userId, postId)
   res.send("success")
@@ -335,7 +304,7 @@ app.get('/api/getPostLikeNumber', authJwt.verifyToken, async (req, res) => {
 app.get('/api/getPostLikeNumberByUser', authJwt.verifyToken, async (req, res) => {
   console.log(req.body)
   const postId = req.query.postId
-  const userId = req.session.userId
+  const userId = req.body.auth.userId
   let results = await dal.getPostLikeNumberByUser(postId, userId)
   console.log(results)
   res.send(results)
@@ -343,7 +312,7 @@ app.get('/api/getPostLikeNumberByUser', authJwt.verifyToken, async (req, res) =>
 
 app.get('/api/getAllUsersNotFollowedByUser', authJwt.verifyToken, async (req, res) => {
   console.log(req.body)
-  const userId = req.session.userId
+  const userId = req.body.auth.userId
   let results = await dal.getAllUsersNotFollowedByUser(userId)
   console.log(results)
   let users = []
@@ -352,7 +321,7 @@ app.get('/api/getAllUsersNotFollowedByUser', authJwt.verifyToken, async (req, re
       userid: item.id
     })
   })
-  const indexOfSelf = users.indexOf(req.session.userId)
+  const indexOfSelf = users.indexOf(req.body.auth.userId)
   if (indexOfSelf > -1) {
     users.splice(indexOfSelf, 1)
   }
@@ -365,7 +334,7 @@ app.get('/api/getAllUsers', authJwt.verifyToken, async (req, res) => {
   results.forEach((item) => {
     users.push(item.id)
   })
-  const indexOfSelf = users.indexOf(req.session.userId)
+  const indexOfSelf = users.indexOf(req.body.auth.userId)
   if (indexOfSelf > -1) {
     users.splice(indexOfSelf, 1)
   }
@@ -375,7 +344,7 @@ app.get('/api/getAllUsers', authJwt.verifyToken, async (req, res) => {
 
 app.get('/api/getAllUsersFollowedByUser', authJwt.verifyToken, async (req, res) => {
   console.log(req.body)
-  const userId = req.session.userId
+  const userId = req.body.auth.userId
   let results = await dal.getAllUsersFollowedByUser(userId)
   console.log(results)
   let users = []
@@ -384,7 +353,7 @@ app.get('/api/getAllUsersFollowedByUser', authJwt.verifyToken, async (req, res) 
       item.followedId
     )
   })
-  const indexOfSelf = users.indexOf(req.session.userId)
+  const indexOfSelf = users.indexOf(req.body.auth.userId)
   if (indexOfSelf > -1) {
     users.splice(indexOfSelf, 1)
   }
@@ -394,7 +363,7 @@ app.get('/api/getAllUsersFollowedByUser', authJwt.verifyToken, async (req, res) 
 //unfollowUser
 app.delete('/api/unfollowUser', authJwt.verifyToken, async (req, res) => {
   console.log(req.body)
-  const userId = req.session.userId
+  const userId = req.body.auth.userId
   const followedId = req.query.userId
   let results = await dal.unfollowUser(userId, followedId)
   res.send("success")
@@ -402,7 +371,7 @@ app.delete('/api/unfollowUser', authJwt.verifyToken, async (req, res) => {
 
 app.post('/api/followUser', authJwt.verifyToken, async (req, res) => {
   console.log(req.body)
-  const userId = req.session.userId
+  const userId = req.body.auth.userId
   const followedId = req.body.userId
   let results = await dal.followUser(userId, followedId)
   res.send("success")
@@ -419,7 +388,7 @@ app.get('/api/getAllUsersMatchingPrefix', authJwt.verifyToken, async (req, res) 
       item.id
     )
   })
-  const indexOfSelf = users.indexOf(req.session.userId)
+  const indexOfSelf = users.indexOf(req.body.auth.userId)
   if (indexOfSelf > -1) {
     users.splice(indexOfSelf, 1)
   }
@@ -435,7 +404,7 @@ app.get('/api/getAllUsersMatchingSubstring', authJwt.verifyToken, async (req, re
       item.id
     )
   })
-  const indexOfSelf = users.indexOf(req.session.userId)
+  const indexOfSelf = users.indexOf(req.body.auth.userId)
   if (indexOfSelf > -1) {
     users.splice(indexOfSelf, 1)
   }
@@ -444,7 +413,7 @@ app.get('/api/getAllUsersMatchingSubstring', authJwt.verifyToken, async (req, re
 
 //getIsFollowing
 app.get('/api/getIsFollowing', authJwt.verifyToken, async (req, res) => {
-  const userId = req.session.userId
+  const userId = req.body.auth.userId
   const followedId = req.query.userId
   let results = (await dal.getIsFollowing(userId, followedId))[0].isFollowing
   console.log(results)

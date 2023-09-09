@@ -34,7 +34,7 @@ function UserProfileCard({user_id, isFollowed, mode, removeUserCallBack}) {
     try {
       if (isFollowing) {
         await api.unfollowUser(user_id);
-        // todo - call a callback function to remove the user from the list of the container
+        removeUserCallBack(user_id);
       } else {
         await api.followUser(user_id);
       }
