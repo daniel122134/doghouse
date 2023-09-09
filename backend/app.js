@@ -1,26 +1,17 @@
-const express = require('express')
-const bodyParser = require("body-parser");
-const path = require("path");
-const fs = require("fs");
+import express from 'express'
+import bodyParser from "body-parser";
 
-const cors = require('cors')
-const {
-  getAllUsers,
-  setFeatureState,
-  getAllFeatures,
-  setPeePoleOwner,
-  getPoleOwner,
-  createUser, logActivity, getEventLogs, updateProfilePicture,
-  createPost,
-  getAllPoles, getAllUserFollowsPosts, addLike, getPostLikeNumber, getPostLikeNumberByUser,
-  removeLike, editPostContent, getPostUpdateTime, updateUserData, getAllUsersNotFollowedByUser,
-  getAllUsersFollowedByUser, unfollowUser, followUser, getAllUsersMatchingPrefix, getAllUsersMatchingSubstring,
-  getIsFollowing, deleteUser
-} = require("./DAL/persist");
-const cookieSession = require("cookie-session");
-const config = require("./config/auth.config.js");
-const jwt = require("jsonwebtoken");
-const {authJwt} = require("./middleware");
+import path from 'path'
+import cors from 'cors'
+import {dal} from './dal/persist.js'
+
+import cookieSession from 'cookie-session'
+import config from "./config/auth.config.js";
+import authJwt from "./middleware/authJwt.js";
+import multer from 'multer';
+
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 const app = express()
 const port = 8080
@@ -59,7 +50,7 @@ app.get('/app', authJwt.verifyToken, (req, res) => {
 })
 
 //serve /login page
-app.get('/login',authJwt.checkIfTokenAlreadyExistsAndRedirectIntoApp, (req, res) => {
+app.get('/login', authJwt.checkIfTokenAlreadyExistsAndRedirectIntoApp, (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'frontend', 'dist', 'index.html'))
 })
 
@@ -80,20 +71,20 @@ app.use((req, res, next) => {
 app.put('/api/setPeePoleOwner', async (req, res) => {
   const poleName = req.body.poleName
   const ownerId = req.body.ownerId
-  let results = await setPeePoleOwner(poleName, ownerId)
+  let results = await dal.setPeePoleOwner(poleName, ownerId)
   res.send(results)
 })
 
 app.get('/api/getPoleOwner', authJwt.verifyToken, async (req, res) => {
   console.log(req.query)
   const poleName = req.query.poleName
-  let results = await getPoleOwner(poleName)
+  let results = await dal.getPoleOwner(poleName)
   res.send(results)
 })
 
 app.get('/api/getAllPoles', authJwt.verifyToken, async (req, res) => {
   console.log(req.query)
-  let results = await getAllPoles()
+  let results = await dal.getAllPoles()
   let dict = {}
   results.forEach((item) => {
     dict[item.name] = item.state
@@ -105,13 +96,13 @@ app.put('/api/setFeatureState', authJwt.verifyToken, authJwt.isAdmin, async (req
   console.log(req.body)
   const featureName = req.body.featureName
   const state = req.body.featureState
-  let results = await setFeatureState(featureName, state)
+  let results = await dal.setFeatureState(featureName, state)
   res.send(results)
 })
 
 app.get('/api/getFeatures', authJwt.verifyToken, async (req, res) => {
   console.log(req.query)
-  let results = await getAllFeatures()
+  let results = await dal.getAllFeatures()
   let dict = {}
   results.forEach((item) => {
     dict[item.name] = item.state
@@ -125,7 +116,7 @@ app.put('/api/login', async (req, res) => {
   const username = req.body.username
   const passwordHash = req.body.passwordHash
   const rememberMe = req.body.rememberMe
-  let results = await getAllUsers()
+  let results = await dal.getAllUsers()
   let user = results.find(user => user.username === username)
 
   if (!user) {
@@ -138,7 +129,7 @@ app.put('/api/login', async (req, res) => {
 
   req.session.token = authJwt.signToken(user.id, user.username, user.email, rememberMe)
 
-  await logActivity(user.id, "login")
+  await dal.logActivity(user.id, "login")
   return res.status(200).send({
     id: user.id,
     username: user.username,
@@ -149,19 +140,19 @@ app.put('/api/login', async (req, res) => {
 })
 
 app.put('/api/logout', authJwt.verifyToken, async (req, res) => {
-  await logActivity(req.session.userId, "logout")
+  await dal.logActivity(req.session.userId, "logout")
   req.session = null
   res.send({message: "logout success"})
 })
 
 app.post('/api/signup', async (req, res) => {
   try {
-    await createUser(req.body.username, req.body.email, req.body.passwordHash);
-    let results = await getAllUsers()
+    await dal.createUser(req.body.username, req.body.email, req.body.passwordHash);
+    let results = await dal.getAllUsers()
     let user = results.find(user => user.username === req.body.username)
     req.session.token = authJwt.signToken(user.id, user.username, user.email)
 
-    await logActivity(user.id, "signup")
+    await dal.logActivity(user.id, "signup")
     return res.status(200).send({
       id: user.id,
       username: user.username,
@@ -175,13 +166,13 @@ app.post('/api/signup', async (req, res) => {
 })
 
 app.get('/api/getEventLogs', authJwt.verifyToken, authJwt.isAdmin, async (req, res) => {
-  let results = await getEventLogs()
+  let results = await dal.getEventLogs()
   res.send(results)
 })
 
 app.get('/api/getUserData', authJwt.verifyToken, async (req, res) => {
   //todo move filtering into query
-  let results = await getAllUsers()
+  let results = await dal.getAllUsers()
   let user = results.find(user => user.id.toString() === req.query.userId)
   if (!user) {
     return res.status(404).send({message: "User Not found."});
@@ -193,7 +184,7 @@ app.get('/api/getUserData', authJwt.verifyToken, async (req, res) => {
     location: user.location || "unknown",
     bio: user.bio || "unknown",
     profilePicture: user.profilePicture || null,
-    username : user.username
+    username: user.username
   })
 })
 
@@ -205,11 +196,10 @@ app.put('/api/updateUserData', authJwt.verifyToken, async (req, res) => {
   const favoriteToy = req.body.favoriteToy
   const location = req.body.location
   const bio = req.body.bio
-  let results = await updateUserData(userId, age, breed, favoriteToy, location, bio)
+  let results = await dal.updateUserData(userId, age, breed, favoriteToy, location, bio)
   res.send(results)
 })
 
-const multer = require('multer');
 const imageUploadPath = path.join(__dirname, '..', 'frontend', 'public', 'profilePictures');
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -221,9 +211,9 @@ const storage = multer.diskStorage({
 })
 const imageUpload = multer({storage: storage})
 app.post('/image-upload', authJwt.verifyToken, imageUpload.array("my-image-file"), async (req, res) => {
-  let results = await getAllUsers()
+  let results = await dal.getAllUsers()
   let user = results.find(user => user.id === req.session.userId)
-  await updateProfilePicture(user.id, path.join('/', 'public', 'profilePictures', `${req.session.userId}.${req.files[0].originalname.split('.').pop()}`))
+  await dal.updateProfilePicture(user.id, path.join('/', 'public', 'profilePictures', `${req.session.userId}.${req.files[0].originalname.split('.').pop()}`))
 
   console.log('POST request received to /image-upload.');
   console.log('Axios POST body: ', req.body);
@@ -238,9 +228,9 @@ app.post('/api/createPost', authJwt.verifyToken, async (req, res) => {
   if (content.length > 300) {
     return res.status(400).send({error: "post content too long, post must be shorter then 300 characters"})
   }
-  
-  await createPost(userId, content)
-  await logActivity(userId, "posted")
+
+  await dal.createPost(userId, content)
+  await dal.logActivity(userId, "posted")
   res.send("posted successfully")
 })
 
@@ -249,15 +239,15 @@ app.put('/api/editPostContent', authJwt.verifyToken, async (req, res) => {
   const userId = req.session.userId
   const postId = req.body.postId
   const content = req.body.content
-  let results = await editPostContent(postId, content)
-  await logActivity(userId, "updated post")
+  let results = await dal.editPostContent(postId, content)
+  await dal.logActivity(userId, "updated post")
   res.send(results)
 })
 
 app.get('/api/getPostUpdateTime', authJwt.verifyToken, async (req, res) => {
   console.log(req.query)
   const postId = req.query.postId
-  let results = await getPostUpdateTime(postId)
+  let results = await dal.getPostUpdateTime(postId)
   console.log(results)
   res.send(results)
 })
@@ -265,7 +255,7 @@ app.get('/api/getPostUpdateTime', authJwt.verifyToken, async (req, res) => {
 app.get('/api/getAllUserFollowsPosts', authJwt.verifyToken, async (req, res) => {
   console.log(req.query)
   const userId = req.session.userId
-  let results = await getAllUserFollowsPosts(userId)
+  let results = await dal.getAllUserFollowsPosts(userId)
   console.log(results)
   let posts = []
   results.forEach((item) => {
@@ -283,7 +273,7 @@ app.post('/api/addLike', authJwt.verifyToken, async (req, res) => {
   console.log(req.body)
   const userId = req.session.userId
   const postId = req.body.postId
-  let results = await addLike(userId, postId)
+  let results = await dal.addLike(userId, postId)
   res.send("success")
 })
 
@@ -291,14 +281,14 @@ app.delete('/api/removeLike', authJwt.verifyToken, async (req, res) => {
   console.log(req.body)
   const userId = req.session.userId
   const postId = req.query.postId
-  let results = await removeLike(userId, postId)
+  let results = await dal.removeLike(userId, postId)
   res.send("success")
 })
 
 app.get('/api/getPostLikeNumber', authJwt.verifyToken, async (req, res) => {
   console.log(req.body)
   const postId = req.query.postId
-  let results = await getPostLikeNumber(postId)
+  let results = await dal.getPostLikeNumber(postId)
   console.log(results)
   res.send(results)
 })
@@ -307,7 +297,7 @@ app.get('/api/getPostLikeNumberByUser', authJwt.verifyToken, async (req, res) =>
   console.log(req.body)
   const postId = req.query.postId
   const userId = req.session.userId
-  let results = await getPostLikeNumberByUser(postId, userId)
+  let results = await dal.getPostLikeNumberByUser(postId, userId)
   console.log(results)
   res.send(results)
 })
@@ -315,7 +305,7 @@ app.get('/api/getPostLikeNumberByUser', authJwt.verifyToken, async (req, res) =>
 app.get('/api/getAllUsersNotFollowedByUser', authJwt.verifyToken, async (req, res) => {
   console.log(req.body)
   const userId = req.session.userId
-  let results = await getAllUsersNotFollowedByUser(userId)
+  let results = await dal.getAllUsersNotFollowedByUser(userId)
   console.log(results)
   let users = []
   results.forEach((item) => {
@@ -331,7 +321,7 @@ app.get('/api/getAllUsersNotFollowedByUser', authJwt.verifyToken, async (req, re
 })
 
 app.get('/api/getAllUsers', authJwt.verifyToken, async (req, res) => {
-  let results = await getAllUsers()
+  let results = await dal.getAllUsers()
   let users = []
   results.forEach((item) => {
     users.push(item.id)
@@ -344,11 +334,10 @@ app.get('/api/getAllUsers', authJwt.verifyToken, async (req, res) => {
 })
 
 
-
 app.get('/api/getAllUsersFollowedByUser', authJwt.verifyToken, async (req, res) => {
   console.log(req.body)
   const userId = req.session.userId
-  let results = await getAllUsersFollowedByUser(userId)
+  let results = await dal.getAllUsersFollowedByUser(userId)
   console.log(results)
   let users = []
   results.forEach((item) => {
@@ -368,7 +357,7 @@ app.delete('/api/unfollowUser', authJwt.verifyToken, async (req, res) => {
   console.log(req.body)
   const userId = req.session.userId
   const followedId = req.query.userId
-  let results = await unfollowUser(userId, followedId)
+  let results = await dal.unfollowUser(userId, followedId)
   res.send("success")
 })
 
@@ -376,14 +365,14 @@ app.post('/api/followUser', authJwt.verifyToken, async (req, res) => {
   console.log(req.body)
   const userId = req.session.userId
   const followedId = req.body.userId
-  let results = await followUser(userId, followedId)
-  res.send("success")  
+  let results = await dal.followUser(userId, followedId)
+  res.send("success")
 })
 
 
 app.get('/api/getAllUsersMatchingPrefix', authJwt.verifyToken, async (req, res) => {
   const prefix = req.query.searchContent
-  let results = await getAllUsersMatchingPrefix(prefix)
+  let results = await dal.getAllUsersMatchingPrefix(prefix)
   console.log(results)
   let users = []
   results.forEach((item) => {
@@ -400,11 +389,11 @@ app.get('/api/getAllUsersMatchingPrefix', authJwt.verifyToken, async (req, res) 
 
 app.get('/api/getAllUsersMatchingSubstring', authJwt.verifyToken, async (req, res) => {
   const substring = req.query.searchContent
-  let results = await getAllUsersMatchingSubstring(substring)
+  let results = await dal.getAllUsersMatchingSubstring(substring)
   let users = []
   results.forEach((item) => {
     users.push(
-        item.id
+      item.id
     )
   })
   const indexOfSelf = users.indexOf(req.session.userId)
@@ -418,15 +407,15 @@ app.get('/api/getAllUsersMatchingSubstring', authJwt.verifyToken, async (req, re
 app.get('/api/getIsFollowing', authJwt.verifyToken, async (req, res) => {
   const userId = req.session.userId
   const followedId = req.query.userId
-  let results = (await getIsFollowing(userId, followedId))[0].isFollowing
+  let results = (await dal.getIsFollowing(userId, followedId))[0].isFollowing
   console.log(results)
-  res.send({isFollowing: results!=0})
+  res.send({isFollowing: results != 0})
 })
 
 //deleteUser
 app.delete('/api/deleteUser', authJwt.verifyToken, async (req, res) => {
   const userId = req.query.userId
-  let results = await deleteUser(userId)
+  let results = await dal.deleteUser(userId)
   res.send("success")
 })
 

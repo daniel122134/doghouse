@@ -1,7 +1,6 @@
-const jwt = require("jsonwebtoken");
-const config = require("../config/auth.config.js");
-
-signToken = (id,username, email, rememberMe) => {
+import jwt from 'jsonwebtoken';
+import config from "../config/auth.config.js";
+const signToken = (id,username, email, rememberMe) => {
   return jwt.sign({
       id: id,
       username: username,
@@ -14,7 +13,7 @@ signToken = (id,username, email, rememberMe) => {
     },null);
 }
 
-verifyToken = (req, res, next) => {
+const verifyToken = (req, res, next) => {
   let token = req.session.token;
 
   if (!token) {
@@ -39,7 +38,7 @@ verifyToken = (req, res, next) => {
     });
 };
 
-checkIfTokenAlreadyExistsAndRedirectIntoApp = (req, res, next) => {
+const checkIfTokenAlreadyExistsAndRedirectIntoApp = (req, res, next) => {
   let token = req.session.token;
 
   if (!token) {
@@ -58,7 +57,7 @@ checkIfTokenAlreadyExistsAndRedirectIntoApp = (req, res, next) => {
     });
 };
 
-isAdmin = async (req, res, next) => {
+const isAdmin = async (req, res, next) => {
 
   if (req.session.username === "admin") {
     return next();
@@ -77,4 +76,5 @@ const authJwt = {
   signToken,
   checkIfTokenAlreadyExistsAndRedirectIntoApp
 };
-module.exports = authJwt;
+
+export default authJwt;

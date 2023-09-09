@@ -1,8 +1,7 @@
 
-var md5 = require('md5');
-
-const dayjs = require('dayjs');
-const sqlite3 = require('sqlite3').verbose();
+import md5 from 'md5';
+import dayjs from 'dayjs';
+import sqlite3 from 'sqlite3';
 const db = new sqlite3.Database('./doghouse.db', (err) => {
   if (err) {
     return console.error(err.message);
@@ -384,7 +383,8 @@ async function deleteUser(userId) {
   });
 }
 
-module.exports = {
+
+const dal = {
   getAllUsers,
   getAllUsersNotFollowedByUser,
   updateUserData,
@@ -414,3 +414,7 @@ module.exports = {
   deleteUser,
   db
 };
+
+export {
+  dal
+}
