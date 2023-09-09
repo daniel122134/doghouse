@@ -364,7 +364,17 @@ async function getIsFollowing(userId, followedId) {
 }
 
 async function deleteUser(userId) {
-  return new Promise((resolve, reject) => {
+  //remove all users follows and followed connections
+  await new Promise((resolve, reject) => {
+    db.run(`DELETE FROM follows WHERE followerId = '${userId}' OR followedId = '${userId}'`, (err) => {
+      if (err) {
+        reject(err);
+      }
+      resolve();
+    });
+  });
+  
+  await new Promise((resolve, reject) => {
     db.run(`DELETE FROM users WHERE id = '${userId}'`, (err) => {
       if (err) {
         reject(err);

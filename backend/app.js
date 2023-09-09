@@ -220,7 +220,7 @@ const storage = multer.diskStorage({
   }
 })
 const imageUpload = multer({storage: storage})
-app.put('/image-upload', authJwt.verifyToken, imageUpload.array("my-image-file"), async (req, res) => {
+app.post('/image-upload', authJwt.verifyToken, imageUpload.array("my-image-file"), async (req, res) => {
   let results = await getAllUsers()
   let user = results.find(user => user.id === req.session.userId)
   await updateProfilePicture(user.id, path.join('/', 'public', 'profilePictures', `${req.session.userId}.${req.files[0].originalname.split('.').pop()}`))
@@ -323,6 +323,10 @@ app.get('/api/getAllUsersNotFollowedByUser', authJwt.verifyToken, async (req, re
       userid: item.id
     })
   })
+  const indexOfSelf = users.indexOf(req.session.userId)
+  if (indexOfSelf > -1) {
+    users.splice(indexOfSelf, 1)
+  }
   res.send(users)
 })
 
@@ -332,6 +336,10 @@ app.get('/api/getAllUsers', authJwt.verifyToken, async (req, res) => {
   results.forEach((item) => {
     users.push(item.id)
   })
+  const indexOfSelf = users.indexOf(req.session.userId)
+  if (indexOfSelf > -1) {
+    users.splice(indexOfSelf, 1)
+  }
   res.send(users)
 })
 
@@ -348,6 +356,10 @@ app.get('/api/getAllUsersFollowedByUser', authJwt.verifyToken, async (req, res) 
       item.followedId
     )
   })
+  const indexOfSelf = users.indexOf(req.session.userId)
+  if (indexOfSelf > -1) {
+    users.splice(indexOfSelf, 1)
+  }
   res.send(users)
 })
 
@@ -379,19 +391,26 @@ app.get('/api/getAllUsersMatchingPrefix', authJwt.verifyToken, async (req, res) 
       item.id
     )
   })
+  const indexOfSelf = users.indexOf(req.session.userId)
+  if (indexOfSelf > -1) {
+    users.splice(indexOfSelf, 1)
+  }
   res.send(users)
 })
 
 app.get('/api/getAllUsersMatchingSubstring', authJwt.verifyToken, async (req, res) => {
   const substring = req.query.searchContent
   let results = await getAllUsersMatchingSubstring(substring)
-  console.log(results)
   let users = []
   results.forEach((item) => {
     users.push(
         item.id
     )
   })
+  const indexOfSelf = users.indexOf(req.session.userId)
+  if (indexOfSelf > -1) {
+    users.splice(indexOfSelf, 1)
+  }
   res.send(users)
 })
 

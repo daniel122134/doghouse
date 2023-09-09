@@ -64,7 +64,7 @@ function Post({content, postId, timeStamp, posterId}) {
                   <div className={"thumbnail-container photo-in-post"}>
                     <ProfilePicture image={profilePicture} />
                   </div>
-                  <h3 className={"post-header-publisher"}>Post by: {userName} </h3>
+                  <h3 className={"post-header-publisher"}>{userName} </h3>
                   <h6>Updated at: {postTimeStamp}</h6>
               </div>
               {isEditMode ? (
@@ -73,7 +73,7 @@ function Post({content, postId, timeStamp, posterId}) {
                   />
               ) : (
                   <div className="not-edit">
-                      <h4>{postContent}</h4>
+                      <div className="post-content">{postContent}</div>
                       <div className="edit-button-container">
                           <button className="edit-button" onClick={handleEditClick}>Edit</button>
                       </div>
@@ -90,8 +90,8 @@ function Post({content, postId, timeStamp, posterId}) {
                   </>
               ) : (
                   <div className={"post-actions"}>
-                      <button className="share" disabled={buttonDisabled} onClick={async () => {
-                          window.open(`mailto:?subject=post%20by%20${userName}&body=Post content:%0D${postContent}`);
+                      <button className="share" onClick={async () => {
+                          await handleSharePost()
                       }}>Share</button>
                       <div className="likes-container">
                           {!buttonDisabled && (

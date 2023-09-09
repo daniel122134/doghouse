@@ -5,7 +5,6 @@
 .feed-container {
     width: 85%;
     padding: 20px;
-    border: 1px solid #6e4141;
     border-radius: 10px;
     text-align: center;
     margin: 2vw;
@@ -25,10 +24,10 @@ form {
     height: 70px;
     padding: 10px;
     margin: 5px 0;
-    border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
     resize: none;
+    background-color: #00000008;
 }
 
 .feed-submit {
@@ -50,14 +49,12 @@ button:hover {
 
 .post {
     width: 85%;
-    padding-right: 15px;
-    padding-left: 15px;
-    border: 1px solid #6e4141;
-    border-radius: 3px;
+    border-radius: 10px;
     text-align: left;
     margin: 2vw;
     box-shadow: 0 10px 35px 0 rgba(9, 30, 27, 0.15);
     background-color: #fff;
+    padding: 20px 20px 10px 20px;
 }
 
 h3{
@@ -65,16 +62,22 @@ h3{
 }
 
 h4{
-    width: 96%;
     padding: 10px;
 }
 
 .not-edit{
-    width: 96%;
     border-radius: 3px;
     text-align: left;
     box-shadow: 0 1px 4px 0 rgba(9, 30, 27, 0.15);
     background-color: #fff;
+}
+
+.post-content {
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    font-size: 16px;
+    resize: none;
 }
 
 
@@ -112,7 +115,6 @@ h4{
 }
 
 .edit-text-area {
-    width: 95%;
     height: 70px;
     padding: 10px;
     margin: 5px 0;

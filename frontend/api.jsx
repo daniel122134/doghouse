@@ -154,7 +154,7 @@ async function updateUserData(age, breed, favoriteToy, location, bio) {
 }
 
 async function updateProfilePicture(image) {
-  return await put(HOST + 'image-upload', image, {withCredentials: true})
+  return await axios.post(HOST + 'image-upload', image, {withCredentials: true})
 }
 
 async function createPost(content) {

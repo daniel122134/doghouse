@@ -30,7 +30,7 @@ const Sidebar = (props) => {
            style={{display: shouldEnableMyProfilePage ? 'flex' : 'none'}}
 
       >
-        <Icon icon="fa fa-address-book"></Icon>
+        <Icon icon="fa-solid fa-user"></Icon>
         {"My profile"}
       </div>
 
@@ -39,7 +39,7 @@ const Sidebar = (props) => {
            data-selected={props.currentPage === 'FeedPage'}
 
       >
-        <Icon icon="fa fa-dollar"></Icon>
+        <Icon icon="fa fa-rss"></Icon>
         {"FeedPage"}
       </div>
 
@@ -47,7 +47,7 @@ const Sidebar = (props) => {
            onClick={() => props.onExploreClicked()}
            data-selected={props.currentPage === 'ExplorePage'}
       >
-        <Icon icon="fa fa-dollar"></Icon>
+        <Icon icon="fa fa-address-book"></Icon>
         {"ExplorePage"}
       </div>
 
@@ -65,7 +65,7 @@ const Sidebar = (props) => {
            data-selected={props.currentPage === 'StatsPage'}
            style={{display: shouldEnableStatisticsPage ? 'flex' : 'none'}}
       >
-        <Icon icon="fa fa-dollar"></Icon>
+        <Icon icon="fa fa-chart-line"></Icon>
         {"Statistics"}
       </div>
 
@@ -74,7 +74,7 @@ const Sidebar = (props) => {
            data-selected={props.currentPage === 'DogedexPage'}
            style={{display: shouldEnableDogedexPage ? 'flex' : 'none'}}
       >
-        <Icon icon="fa fa-dollar"></Icon>
+        <Icon icon="fa fa-dog"></Icon>
         {"DogedexPage"}
       </div>
 
