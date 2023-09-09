@@ -19,7 +19,6 @@ const Sidebar = (props) => {
 
   return (
     <div className="sidebar">
-      hello {authService.getCurrentUser().username}
       <button className="logo" onClick={() => props.onLogoClick()}>
         <img src={logo} alt="logo"/>
       </button>
@@ -30,7 +29,7 @@ const Sidebar = (props) => {
            style={{display: shouldEnableMyProfilePage ? 'flex' : 'none'}}
 
       >
-        <Icon icon="fa-solid fa-user"></Icon>
+        <Icon icon="fa fa-user"></Icon>
         {"My profile"}
       </div>
 

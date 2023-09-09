@@ -1,5 +1,5 @@
 import './ExplorePage.css'
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {api} from "../../api.jsx";
 import ExploreDogs from "../ExploreDogs/ExploreDogs.jsx";
 import ToggleButton from '@mui/material/ToggleButton';
@@ -11,6 +11,10 @@ function ExplorePage() {
   const [userList, setUserList] = useState([]);
   const [searchType, setSearchType] = useState("prefix");
 
+  useEffect(() => {
+    findUsers()
+  }, [])
+  
   const handleFocus = () => {
 
   };
@@ -18,6 +22,18 @@ function ExplorePage() {
   const handleBlur = () => {
 
   };
+  
+  async function findUsers(search) {
+    if (search == null || search === "") {
+      api.getAllUsers().then(users => setUserList(users))
+    } else {
+      if (searchType === "substring") {
+        await handleSearchBySubstring(search)
+      } else {
+        await handleSearchByPrefix(search)
+      }
+    }
+  }
 
   const handleSearchByPrefix = async (text) => {
     api.getAllUsersMatchingPrefix(text).then((users) => {
@@ -45,11 +61,7 @@ function ExplorePage() {
                     onChange={async (e) => {
                       let text = e.target.value
                       setSearchContent(text)
-                      if (searchType === "substring") {
-                        await handleSearchBySubstring(text)
-                      } else {
-                        await handleSearchByPrefix(text)
-                      }
+                      findUsers(text)
                     }}
                     required
                     onFocus={handleFocus}
@@ -65,11 +77,7 @@ function ExplorePage() {
               if (newSearchType !== null) {
                 setSearchType(newSearchType)
                 if (searchContent !== "") {
-                  if (newSearchType === "substring") {
-                    await handleSearchBySubstring(searchContent)
-                  } else {
-                    await handleSearchByPrefix(searchContent)
-                  }
+                  findUsers(searchContent)
                 }
               }
             }}
