@@ -57,6 +57,11 @@ app.get('/login', authJwt.checkIfTokenAlreadyExistsAndRedirectIntoApp, (req, res
   res.sendFile(path.join(__dirname, '..', 'frontend', 'dist', 'index.html'))
 })
 
+//serve /signup page
+app.get('/signup', authJwt.checkIfTokenAlreadyExistsAndRedirectIntoApp, (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'frontend', 'dist', 'index.html'))
+})
+
 
 const specs = swaggerJsdoc({
   definition: {

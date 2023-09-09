@@ -25,6 +25,7 @@ const verifyToken = (req, res, next) => {
     {},
     (err, decoded) => {
       if (err) {
+        req.session.token = null;
         // redirect to login page
         return res.redirect('/login')
       }

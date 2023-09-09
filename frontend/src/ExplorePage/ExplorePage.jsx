@@ -23,11 +23,12 @@ function ExplorePage() {
 
   };
   
-  async function findUsers(search) {
+  async function findUsers(search, currentSearchType) {
     if (search == null || search === "") {
       api.getAllUsers().then(users => setUserList(users))
     } else {
-      if (searchType === "substring") {
+      currentSearchType = currentSearchType || searchType
+      if (currentSearchType === "substring") {
         await handleSearchBySubstring(search)
       } else {
         await handleSearchByPrefix(search)
@@ -61,7 +62,7 @@ function ExplorePage() {
                     onChange={async (e) => {
                       let text = e.target.value
                       setSearchContent(text)
-                      findUsers(text)
+                      await findUsers(text)
                     }}
                     required
                     onFocus={handleFocus}
@@ -77,7 +78,7 @@ function ExplorePage() {
               if (newSearchType !== null) {
                 setSearchType(newSearchType)
                 if (searchContent !== "") {
-                  findUsers(searchContent)
+                  await findUsers(searchContent, newSearchType)
                 }
               }
             }}
