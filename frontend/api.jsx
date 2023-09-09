@@ -222,7 +222,7 @@ async function getIsFollowing(userId) {
 }
 
 async function deleteUser(userId) {
-  return await deleteRequest(HOST + 'api/deleteUser', {userId}, {})
+  return await deleteRequest(HOST + `api/user/${userId}`, {}, {})
 }
 
 const api = {

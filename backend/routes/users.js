@@ -81,9 +81,9 @@ router.post('/', async (req, res) => {
  *       200:
  *         description: success message
  */
-router.delete('/{userId}', authJwt.verifyToken, async (req, res) => {
-  const userId = req.query.userId
-  let results = await dal.deleteUser(userId)
+router.delete('/:userId', authJwt.verifyToken, async (req, res) => {
+  const userId = req.params.userId
+  let results = await dal.deleteUser(userId) 
   res.send("success")
 })
 
