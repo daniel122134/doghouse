@@ -14,6 +14,7 @@ import swaggerJsdoc from "swagger-jsdoc"
 import swaggerUi from 'swagger-ui-express';
 import * as url from 'url';
 import pee from "./routes/pee.js";
+import users from "./routes/users.js";
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 const app = express()
@@ -103,6 +104,7 @@ app.use((req, res, next) => {
 })
 
 app.use('/api/pee', pee) // todo do the same for the rest of the routes
+app.use('/api/user', users) // 
 
 
 app.put('/api/setFeatureState', authJwt.verifyToken, authJwt.isAdmin, async (req, res) => {
@@ -158,25 +160,6 @@ app.put('/api/logout', authJwt.verifyToken, async (req, res) => {
   res.send({message: "logout success"})
 })
 
-app.post('/api/signup', async (req, res) => {
-  try {
-    await dal.createUser(req.body.username, req.body.email, req.body.passwordHash);
-    let results = await dal.getAllUsers()
-    let user = results.find(user => user.username === req.body.username)
-    req.session.token = authJwt.signToken(user.id, user.username, user.email)
-
-    await dal.logActivity(user.id, "signup")
-    return res.status(200).send({
-      id: user.id,
-      username: user.username,
-      email: user.email,
-      isAdmin: user.username === "admin",
-    });
-
-  } catch (e) {
-    res.status(500).send({message: e})
-  }
-})
 
 app.get('/api/getEventLogs', authJwt.verifyToken, authJwt.isAdmin, async (req, res) => {
   let results = await dal.getEventLogs()
@@ -425,12 +408,7 @@ app.get('/api/getIsFollowing', authJwt.verifyToken, async (req, res) => {
   res.send({isFollowing: results != 0})
 })
 
-//deleteUser
-app.delete('/api/deleteUser', authJwt.verifyToken, async (req, res) => {
-  const userId = req.query.userId
-  let results = await dal.deleteUser(userId)
-  res.send("success")
-})
+
 
 app.listen(port, () => {
   console.info(`Example app listening on port ${port}`)
