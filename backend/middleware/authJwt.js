@@ -29,10 +29,10 @@ const verifyToken = (req, res, next) => {
         return res.redirect('/login')
       }
       
-      req.body.auth = {};
-      req.body.auth.userId = decoded.id;
-      req.body.auth.username = decoded.username;
-      req.body.auth.email = decoded.email;
+      req.bodyAuth = {};
+      req.bodyAuth.userId = decoded.id;
+      req.bodyAuth.username = decoded.username;
+      req.bodyAuth.email = decoded.email;
       
       next();
     });
@@ -59,7 +59,7 @@ const checkIfTokenAlreadyExistsAndRedirectIntoApp = (req, res, next) => {
 
 const isAdmin = async (req, res, next) => {
 
-  if (req.body.auth.username === "admin") {
+  if (req.bodyAuth.username === "admin") {
     return next();
   }
 
