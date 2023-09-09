@@ -4,9 +4,13 @@ import React, {useEffect, useState} from "react";
 import UserProfileCard from "../UserProfileCard/UserProfileCard.jsx";
 
 
-function ExploreDogs({followedUsers, isFollowedDefault}) {
+function ExploreDogs({followedUsers, isFollowedDefault, mode="follow"}) {
   const [users, setUsers] = useState([]);
 
+  const removeUser = (user_id) => {
+    setUsers(users.filter((item) => item !== user_id));
+  }
+  
   useEffect(() => {
       setUsers(followedUsers);
   }, [followedUsers]);
@@ -15,7 +19,7 @@ function ExploreDogs({followedUsers, isFollowedDefault}) {
       <div className="explore-dogs">
           {
             users.map((item, index) => (
-              <UserProfileCard key={index} user_id={item} isFollowed={isFollowedDefault}></UserProfileCard>
+              <UserProfileCard key={index} user_id={item} isFollowed={isFollowedDefault} mode={mode} removeUserCallBack={removeUser}></UserProfileCard>
           ))}
       </div>
   )

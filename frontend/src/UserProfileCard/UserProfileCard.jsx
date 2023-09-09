@@ -3,7 +3,7 @@ import {api} from "../../api.jsx";
 import "./UserProfileCard.css";
 import ProfilePicture from "../ProfilePicture/ProfilePicture.jsx";
 
-function UserProfileCard({user_id, isFollowed}) {
+function UserProfileCard({user_id, isFollowed, mode, removeUserCallBack}) {
   const [userData, setUserData] = useState(null);
   const [isFollowing, setIsFollowing] = useState(isFollowed);
 
@@ -21,6 +21,15 @@ function UserProfileCard({user_id, isFollowed}) {
     fetchUserData();
   }, [user_id]);
 
+  async function handleDeleteUser() {
+    try {
+      await api.deleteUser(user_id);
+      removeUserCallBack(user_id);
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
+  }
+  
   const handleFollowToggle = async () => {
     try {
       if (isFollowing) {
@@ -43,9 +52,12 @@ function UserProfileCard({user_id, isFollowed}) {
           <ProfilePicture isReadOnly={true} image={userData.profilePicture} />
         </div>
           <h3 className="username">{userData.username}</h3>
-          <button className={isFollowing ? "unfollow-button" : "follow-button"} onClick={handleFollowToggle}>
+          {mode=="follow" ? <button className={isFollowing ? "unfollow-button" : "follow-button"} onClick={handleFollowToggle}>
             {isFollowing ? "Unfollow" : "Follow"}
-          </button>
+          </button>: <button className={"unfollow-button"} onClick={handleDeleteUser}>
+            {"Bad Dog"}
+          </button>}
+          
         </>
       )}
     </div>

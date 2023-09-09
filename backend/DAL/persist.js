@@ -363,6 +363,17 @@ async function getIsFollowing(userId, followedId) {
   });
 }
 
+async function deleteUser(userId) {
+  return new Promise((resolve, reject) => {
+    db.run(`DELETE FROM users WHERE id = '${userId}'`, (err) => {
+      if (err) {
+        reject(err);
+      }
+      resolve();
+    });
+  });
+}
+
 module.exports = {
   getAllUsers,
   getAllUsersNotFollowedByUser,
@@ -390,5 +401,6 @@ module.exports = {
   getAllUsersMatchingPrefix,
   getAllUsersMatchingSubstring,
   getIsFollowing,
+  deleteUser,
   db
 };

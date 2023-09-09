@@ -15,7 +15,7 @@ const {
   getAllPoles, getAllUserFollowsPosts, addLike, getPostLikeNumber, getPostLikeNumberByUser,
   removeLike, editPostContent, getPostUpdateTime, updateUserData, getAllUsersNotFollowedByUser,
   getAllUsersFollowedByUser, unfollowUser, followUser, getAllUsersMatchingPrefix, getAllUsersMatchingSubstring,
-  getIsFollowing
+  getIsFollowing, deleteUser
 } = require("./DAL/persist");
 const cookieSession = require("cookie-session");
 const config = require("./config/auth.config.js");
@@ -402,6 +402,13 @@ app.get('/api/getIsFollowing', authJwt.verifyToken, async (req, res) => {
   let results = (await getIsFollowing(userId, followedId))[0].isFollowing
   console.log(results)
   res.send({isFollowing: results!=0})
+})
+
+//deleteUser
+app.delete('/api/deleteUser', authJwt.verifyToken, async (req, res) => {
+  const userId = req.query.userId
+  let results = await deleteUser(userId)
+  res.send("success")
 })
 
 app.listen(port, () => {

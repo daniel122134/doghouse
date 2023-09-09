@@ -221,6 +221,10 @@ async function getIsFollowing(userId) {
   return await get(HOST + 'api/getIsFollowing', {userId}, {})
 }
 
+async function deleteUser(userId) {
+  return await deleteRequest(HOST + 'api/deleteUser', {userId}, {})
+}
+
 const api = {
   login,
   logout,
@@ -249,7 +253,8 @@ const api = {
   getAllUsersMatchingPrefix,
   getAllUsersMatchingSubstring,
   getAllUsers,
-  getIsFollowing
+  getIsFollowing,
+  deleteUser
 }
 
 export {
