@@ -9,7 +9,9 @@ import cookieSession from 'cookie-session'
 import config from "./config/auth.config.js";
 import authJwt from "./middleware/authJwt.js";
 import multer from 'multer';
+import swaggerJsdoc from "swagger-jsdoc"
 
+import swaggerUi from 'swagger-ui-express';
 import * as url from 'url';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
@@ -54,6 +56,33 @@ app.get('/login', authJwt.checkIfTokenAlreadyExistsAndRedirectIntoApp, (req, res
   res.sendFile(path.join(__dirname, '..', 'frontend', 'dist', 'index.html'))
 })
 
+
+const specs = swaggerJsdoc({
+  definition: {
+    openapi: "3.1.0",
+    info: {
+      title: "Doghouse API",
+      version: "0.1.0",
+      description: "This is the Doghouse API definition.",
+
+      contact: {
+        name: "Doghouse Team",
+        email: "dhaddad96@gmail.com",
+      },
+    },
+    servers: [
+      {
+        url: "http://localhost:8080",
+      },
+    ],
+  },
+  apis: [__dirname + "/*.js"],
+});
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+
+
+
 app.use((req, res, next) => {
   let oldSend = res.send
   res.send = function (data) {
@@ -68,6 +97,16 @@ app.use((req, res, next) => {
 })
 
 
+/**
+ * @swagger
+ * /api/users:
+ *   get:
+ *     summary: Get a list of users
+ *     description: Retrieve a list of users from the database.
+ *     responses:
+ *       200:
+ *         description: A list of users.
+ */
 app.put('/api/setPeePoleOwner', async (req, res) => {
   const poleName = req.body.poleName
   const ownerId = req.body.ownerId
