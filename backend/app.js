@@ -14,7 +14,8 @@ const {
   createPost,
   getAllPoles, getAllUserFollowsPosts, addLike, getPostLikeNumber, getPostLikeNumberByUser,
   removeLike, editPostContent, getPostUpdateTime, updateUserData, getAllUsersNotFollowedByUser,
-  getAllUsersFollowedByUser, unfollowUser, followUser, getAllUsersMatchingPrefix, getAllUsersMatchingSubstring
+  getAllUsersFollowedByUser, unfollowUser, followUser, getAllUsersMatchingPrefix, getAllUsersMatchingSubstring,
+  getIsFollowing
 } = require("./DAL/persist");
 const cookieSession = require("cookie-session");
 const config = require("./config/auth.config.js");
@@ -179,6 +180,7 @@ app.get('/api/getEventLogs', authJwt.verifyToken, authJwt.isAdmin, async (req, r
 })
 
 app.get('/api/getUserData', authJwt.verifyToken, async (req, res) => {
+  //todo move filtering into query
   let results = await getAllUsers()
   let user = results.find(user => user.id.toString() === req.query.userId)
   if (!user) {
@@ -324,6 +326,17 @@ app.get('/api/getAllUsersNotFollowedByUser', authJwt.verifyToken, async (req, re
   res.send(users)
 })
 
+app.get('/api/getAllUsers', authJwt.verifyToken, async (req, res) => {
+  let results = await getAllUsers()
+  let users = []
+  results.forEach((item) => {
+    users.push(item.id)
+  })
+  res.send(users)
+})
+
+
+
 app.get('/api/getAllUsersFollowedByUser', authJwt.verifyToken, async (req, res) => {
   console.log(req.body)
   const userId = req.session.userId
@@ -380,6 +393,15 @@ app.get('/api/getAllUsersMatchingSubstring', authJwt.verifyToken, async (req, re
     )
   })
   res.send(users)
+})
+
+//getIsFollowing
+app.get('/api/getIsFollowing', authJwt.verifyToken, async (req, res) => {
+  const userId = req.session.userId
+  const followedId = req.query.userId
+  let results = (await getIsFollowing(userId, followedId))[0].isFollowing
+  console.log(results)
+  res.send({isFollowing: results!=0})
 })
 
 app.listen(port, () => {

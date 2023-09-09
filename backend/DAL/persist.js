@@ -350,6 +350,19 @@ async function getAllUsersMatchingSubstring(substring) {
   });
 }
 
+//getIsFollowing
+async function getIsFollowing(userId, followedId) {
+  return new Promise((resolve, reject) => {
+    db.all(`SELECT COUNT(*) AS isFollowing FROM follows WHERE followerId = '${userId}' AND followedId = '${followedId}'`,
+        (err, rows) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(rows);
+        });
+  });
+}
+
 module.exports = {
   getAllUsers,
   getAllUsersNotFollowedByUser,
@@ -376,5 +389,6 @@ module.exports = {
   unfollowUser,
   getAllUsersMatchingPrefix,
   getAllUsersMatchingSubstring,
+  getIsFollowing,
   db
 };

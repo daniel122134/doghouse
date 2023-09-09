@@ -1,5 +1,5 @@
 .admin-page{
-    overflow-y: auto;
+    overflow-y: hidden;
 }
 
 .features-section {
@@ -20,6 +20,9 @@
     width: 52%;
     max-width: 650px;
     font-size: 1.15vw;
+    overflow-y: auto;
+    height: 450px;
+
 }
 
 .admin-page-section{

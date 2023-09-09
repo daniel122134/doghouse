@@ -12,6 +12,9 @@ function UserProfileCard({user_id, isFollowed}) {
 
       const response = await api.getUserData(user_id);
       setUserData(response);
+      api.getIsFollowing(user_id).then((response) => {
+        setIsFollowing(response.isFollowing)
+      })
       
     };
 

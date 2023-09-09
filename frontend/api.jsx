@@ -213,6 +213,14 @@ async function getAllUsersMatchingSubstring(searchContent) {
   return await get(HOST + 'api/getAllUsersMatchingSubstring', {searchContent}, {})
 }
 
+async function getAllUsers() {
+  return await get(HOST + 'api/getAllUsers', {}, {})
+}
+
+async function getIsFollowing(userId) {
+  return await get(HOST + 'api/getIsFollowing', {userId}, {})
+}
+
 const api = {
   login,
   logout,
@@ -239,7 +247,9 @@ const api = {
   followUser,
   unfollowUser,
   getAllUsersMatchingPrefix,
-  getAllUsersMatchingSubstring
+  getAllUsersMatchingSubstring,
+  getAllUsers,
+  getIsFollowing
 }
 
 export {
