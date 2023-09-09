@@ -118,15 +118,15 @@ async function setFeatureState(featureName, featureState) {
 }
 
 async function setPeePoleOwner(poleName, ownerId) {
-  return await put(HOST + 'api/setPeePoleOwner', {poleName, ownerId}, {})
+  return await put(HOST + `api/pee/${poleName}/owner`, {ownerId}, {})
 }
 
 async function getPoleOwner(poleName) {
-  return await get(HOST + 'api/getPoleOwner', {poleName}, {})
+  return await get(HOST + `api/pee/${poleName}/owner`, {}, {})
 }
 
 async function getAllPoles() {
-  return await get(HOST + 'api/getAllPoles', {}, {})
+  return await get(HOST + 'api/pee/allPoles', {}, {})
 }
 
 async function login(username, passwordHash, rememberMe) {

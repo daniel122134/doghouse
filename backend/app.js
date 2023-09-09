@@ -97,7 +97,7 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use('', pee) // todo do the same for the rest of the routes
+app.use('/api/pee', pee) // todo do the same for the rest of the routes
 
 
 app.put('/api/setFeatureState', authJwt.verifyToken, authJwt.isAdmin, async (req, res) => {

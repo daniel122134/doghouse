@@ -14,21 +14,20 @@ const router = express.Router()
  *       200:
  *         description: A list of users.
  */
-router.put('/api/setPeePoleOwner', async (req, res) => {
-  const poleName = req.body.poleName
+router.put('/:poleName/owner/', async (req, res) => {
+  const poleName = req.params.poleName
   const ownerId = req.body.ownerId
   let results = await dal.setPeePoleOwner(poleName, ownerId)
   res.send(results)
 })
 
-router.get('/api/getPoleOwner', authJwt.verifyToken, async (req, res) => {
-  console.log(req.query)
-  const poleName = req.query.poleName
+router.get('/:poleName/owner/', authJwt.verifyToken, async (req, res) => {
+  const poleName = req.params.poleName
   let results = await dal.getPoleOwner(poleName)
   res.send(results)
 })
 
-router.get('/api/getAllPoles', authJwt.verifyToken, async (req, res) => {
+router.get('/allPoles', authJwt.verifyToken, async (req, res) => {
   console.log(req.query)
   let results = await dal.getAllPoles()
   let dict = {}
