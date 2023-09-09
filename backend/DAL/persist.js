@@ -245,7 +245,7 @@ async function getPostUpdateTime(postId) {
 
 async function getAllUserFollowsPosts(userId) {
   return new Promise((resolve, reject) => {
-    db.all(`SELECT posts.id, content, updated_at, followedId FROM posts Left JOIN follows ON posts.userId = follows.followedId WHERE follows.followerId = '${userId}' OR posts.userId = '${userId}' ORDER BY posts.created_at DESC`,
+    db.all(`SELECT distinct posts.id, content, updated_at, followedId FROM posts Left JOIN follows ON posts.userId = follows.followedId WHERE follows.followerId = '${userId}' OR posts.userId = '${userId}' ORDER BY posts.created_at DESC`,
         (err, rows) => {
           if (err) {
             reject(err);
