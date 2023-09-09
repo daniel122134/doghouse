@@ -1,14 +1,24 @@
 .statistics-page {
     padding: 20px;
     overflow: auto;
+    height: 100%;
+    display: flex;
 }
 
 .chart {
     margin-bottom: 30px;
-    width:  50%;
+    width:  25%;
 }
 
-.chart h2 {
+.pie {
+    width:  20%;
+}
+
+.graph {
+    margin: 5px;
+}
+
+.chart h2, .pie h2 {
     margin-bottom: 10px;
     font-size: 18px;
 }
