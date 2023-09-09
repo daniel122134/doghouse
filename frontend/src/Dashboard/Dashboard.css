@@ -55,12 +55,6 @@ img.logo {
     padding: 10px 32px;
 }
 
-.pingo-title {
-    color: var(--text-color-on-secondary);
-    opacity: 0.9;
-    font-size: 40px;
-}
-
 @keyframes logo-spin {
     from {
         transform: rotate(0deg);
