@@ -108,7 +108,6 @@ beforeEach(async function () {
   }
 });
 
-
 afterEach(async function () {
   console.log('Teardown Running')
   await clearTestData()
@@ -348,11 +347,12 @@ describe('GET /api/post/:postId/likes', function () {
 describe('GET /api/post/:postId/likes/:userId', function () {
   it('should return a post object', function () {
     return new Promise((resolve, reject) => {
-      apiUtils.getPostLikeNumberByUser(1, 1).then(async (response) => {
+      apiUtils.getPostLikeNumberByUser(testPostId).then(async (response) => {
         assert(response.status === 200)
         const json = await response.json()
-        assert(json.id)
-        assert(json.likes === 0)
+        assert(json[0].likeCount === 0)
+
+
         resolve()
       })
     })
@@ -363,12 +363,12 @@ describe('GET /api/post/:postId/likes/:userId', function () {
 describe('GET /api/user/:userId/notFollowed', function () {
   it('should return a user object', function () {
     return new Promise((resolve, reject) => {
-      apiUtils.getAllUsersNotFollowedByUser(1).then(async (response) => {
+      apiUtils.getAllUsersNotFollowedByUser(testUserId).then(async (response) => {
         assert(response.status === 200)
         const json = await response.json()
         assert(json instanceof Array)
         for (let user of json) {
-          assert(typeof user === "number")
+          assert(typeof user === "object")
         }
         resolve()
       })
@@ -380,7 +380,7 @@ describe('GET /api/user/:userId/notFollowed', function () {
 describe('GET /api/user/:userId/followed', function () {
   it('should return a user object', function () {
     return new Promise((resolve, reject) => {
-      apiUtils.getAllUsersFollowedByUser(1).then(async (response) => {
+      apiUtils.getAllUsersFollowedByUser(testUserId).then(async (response) => {
         assert(response.status === 200)
         const json = await response.json()
         assert(json instanceof Array)
@@ -397,11 +397,11 @@ describe('GET /api/user/:userId/followed', function () {
 describe('PUT /api/follow/:userId', function () {
   it('should return a user object', function () {
     return new Promise((resolve, reject) => {
-      apiUtils.followUser(1, 1).then(async (response) => {
+      apiUtils.followUser(testUserId, unfollowedUserId).then(async (response) => {
         assert(response.status === 200)
         const json = await response.json()
-        assert(json.id)
-        assert(json.following === 1)
+        assert(typeof json === "object");
+        assert(json.status === "success");
         resolve()
       })
     })
@@ -412,11 +412,11 @@ describe('PUT /api/follow/:userId', function () {
 describe('DELETE /api/follow/:userId', function () {
   it('should return a user object', function () {
     return new Promise((resolve, reject) => {
-      apiUtils.unfollowUser(1, 1).then(async (response) => {
+      apiUtils.unfollowUser(followedUserId ).then(async (response) => {
         assert(response.status === 200)
         const json = await response.json()
-        assert(json.id)
-        assert(json.following === 0)
+        assert(typeof json === "object");
+        assert(json.status === "success");
         resolve()
       })
     })
@@ -462,11 +462,10 @@ describe('GET /api/user/:substring', function () {
 describe('GET /api/follow/:userId', function () {
   it('should return a user object', function () {
     return new Promise((resolve, reject) => {
-      apiUtils.getIsFollowing(1, 1).then(async (response) => {
+      apiUtils.getIsFollowing(followedUserId).then(async (response) => {
         assert(response.status === 200)
         const json = await response.json()
-        assert(json.id)
-        assert(json.following === 0)
+        assert(json.isFollowing === true)
         resolve()
       })
     })
@@ -584,20 +583,15 @@ describe('GET /api/pee/allPoles', function () {
   });
 });
 
-//******************
-describe('GET /api/follow/${userId}', function () {
-  it('should return array of posts', function () {
+describe('GET /api/user/all', function() {
+  it('should return array of user ids', function() {
     return new Promise((resolve, reject) => {
-      apiUtils.getAllUserFollowsPosts().then(async (response) => {
+      apiUtils.getAllUsers().then(async (response) => {
         assert.strictEqual(response.status, 200);
-        const posts = await response.json();
-        assert(Array.isArray(posts));
-        for (let post of posts) {
-          assert(typeof post === "object");
-          assert(typeof post.content === "string");
-          assert(typeof post.id === "number");
-          assert(typeof post.timeStamp === "string");
-          assert(typeof post.posterId === "number");
+        const usersId = await response.json();
+        assert(Array.isArray(usersId));
+        for (let userId of usersId) {
+          assert(typeof userId === "number");
         }
         resolve();
       });
@@ -608,7 +602,7 @@ describe('GET /api/follow/${userId}', function () {
 describe('DELETE /api/user/${userId}', function () {
   it('should delete a user', function () {
     return new Promise((resolve, reject) => {
-      apiUtils.deleteUser(1).then(async (response) => {
+      apiUtils.deleteUser(testUserId).then(async (response) => {
         assert.strictEqual(response.status, 200);
         const deletedUser = await response.json();
         assert(typeof deletedUser === "object");
