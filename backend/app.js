@@ -168,35 +168,8 @@ app.get('/api/getEventLogs', authJwt.verifyToken, authJwt.isAdmin, async (req, r
   res.send(results)
 })
 
-app.get('/api/getUserData', authJwt.verifyToken, async (req, res) => {
-  //todo move filtering into query
-  let results = await dal.getAllUsers()
-  let user = results.find(user => user.id.toString() === req.query.userId)
-  if (!user) {
-    return res.status(404).send({message: "User Not found."});
-  }
-  res.send({
-    toy: user.toy || "unknown",
-    age: user.age || "unknown",
-    breed: user.breed || "unknown",
-    location: user.location || "unknown",
-    bio: user.bio || "unknown",
-    profilePicture: user.profilePicture || null,
-    username: user.username
-  })
-})
 
-app.put('/api/updateUserData', authJwt.verifyToken, async (req, res) => {
-  console.log(req.body)
-  const userId = req.bodyAuth.userId
-  const age = req.body.age
-  const breed = req.body.breed
-  const favoriteToy = req.body.favoriteToy
-  const location = req.body.location
-  const bio = req.body.bio
-  let results = await dal.updateUserData(userId, age, breed, favoriteToy, location, bio)
-  res.send(results)
-})
+
 
 const imageUploadPath = path.join(__dirname, '..', 'frontend', 'public', 'profilePictures');
 const storage = multer.diskStorage({

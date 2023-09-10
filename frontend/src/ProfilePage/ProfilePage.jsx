@@ -22,7 +22,7 @@ function ProfilePage() {
   };
 
   const saveProfile = async () => {
-    await api.updateUserData(age, breed, favoriteToy, location, bio);
+    await api.updateUserData(age, breed, favoriteToy, location, bio, authService.getCurrentUser().id);
     setIsEditMode(false);
   };
 

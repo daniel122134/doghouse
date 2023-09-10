@@ -146,11 +146,11 @@ async function getEventLogs() {
 }
 
 async function getUserData(userId) {
-  return await get(HOST + 'api/getUserData', {userId}, {})
+  return await get(HOST + `api/user/${userId}`, {}, {})
 }
 
-async function updateUserData(age, breed, favoriteToy, location, bio) {
-  return await put(HOST + 'api/updateUserData', {age, breed, favoriteToy, location, bio}, {})
+async function updateUserData(age, breed, favoriteToy, location, bio, userId) {
+  return await put(HOST + `api/user/${userId}`, {age, breed, favoriteToy, location, bio}, {})
 }
 
 async function updateProfilePicture(image) {

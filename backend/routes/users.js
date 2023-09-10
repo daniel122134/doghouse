@@ -185,6 +185,100 @@ router.get('/all', authJwt.verifyToken, async (req, res) => {
   res.send(users)
 })
 
+/**
+ * @swagger
+ * /api/user/{userId}:
+ *   get:
+ *     tags:
+ *       - Users
+ *     summary: Get user by ID
+ *     description: Get user details by their ID.
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the user to retrieve.
+ *     responses:
+ *       '200':
+ *         description: User details retrieved successfully.
+ *       '404':
+ *         description: User not found.
+ */
+router.get('/:userId', authJwt.verifyToken, async (req, res) => {
+  //todo move filtering into query
+  let results = await dal.getAllUsers()
+  let user = results.find(user => user.id.toString() === req.params.userId)
+  if (!user) {
+    return res.status(404).send({message: "User Not found."});
+  }
+  res.send({
+    toy: user.toy || "unknown",
+    age: user.age || "unknown",
+    breed: user.breed || "unknown",
+    location: user.location || "unknown",
+    bio: user.bio || "unknown",
+    profilePicture: user.profilePicture || null,
+    username: user.username
+  })
+})
 
+
+/**
+ * @swagger
+ * /api/user/{userId}:
+ *   put:
+ *     tags:
+ *       - Users
+ *     summary: Update user data
+ *     description: Update user data by their ID.
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the user to update.
+ *     requestBody:
+ *       description: User data to update.
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               age:
+ *                 type: string
+ *                 description: The user's age.
+ *               breed:
+ *                 type: string
+ *                 description: The user's breed.
+ *               favoriteToy:
+ *                 type: string
+ *                 description: The user's favorite toy.
+ *               location:
+ *                 type: string
+ *                 description: The user's location.
+ *               bio:
+ *                 type: string
+ *                 description: The user's bio.
+ *     responses:
+ *       '200':
+ *         description: User data updated successfully.
+ *       '404':
+ *         description: User not found.
+ */
+router.put('/:userId', authJwt.verifyToken, async (req, res) => {
+  console.log(req.body)
+  const userId = req.bodyAuth.userId
+  const age = req.body.age
+  const breed = req.body.breed
+  const favoriteToy = req.body.favoriteToy
+  const location = req.body.location
+  const bio = req.body.bio
+  let results = await dal.updateUserData(userId, age, breed, favoriteToy, location, bio)
+  res.send(results)
+})
 
 export default router

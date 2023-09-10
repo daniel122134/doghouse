@@ -93,7 +93,7 @@ router.get('/:userId', authJwt.verifyToken, async (req, res) => {
   const followedId = req.params.userId
   let results = (await dal.getIsFollowing(userId, followedId))[0].isFollowing
   console.log(results)
-  res.send({isFollowing: results != 0})
+  res.send({isFollowing: results !== 0})
 })
 
 
