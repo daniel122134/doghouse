@@ -449,3 +449,57 @@ describe('POST /api/posts', function() {
     });
   });
 });
+
+describe('GET /api/pee/allPoles', function() {
+  it('should return array of pee poles', function() {
+    return new Promise((resolve, reject) => {
+      apiUtils.getAllPoles().then(async (response) => {
+        assert.strictEqual(response.status, 200);
+        const poles = await response.json();
+        assert(Array.isArray(poles));
+        for (let pole of poles) {
+          assert(typeof pole === "object");
+          assert(typeof pole.name === "string");
+          assert(typeof pole.userId === "number");
+          assert(typeof pole.updated_at === "string");
+        }
+        resolve();
+      });
+    });
+  });
+});
+
+//******************
+describe('GET /api/follow/${userId}', function() {
+  it('should return array of posts', function() {
+    return new Promise((resolve, reject) => {
+      apiUtils.getAllUserFollowsPosts().then(async (response) => {
+        assert.strictEqual(response.status, 200);
+        const posts = await response.json();
+        assert(Array.isArray(posts));
+        for (let post of posts) {
+          assert(typeof post === "object");
+          assert(typeof post.content === "string");
+          assert(typeof post.id === "number");
+          assert(typeof post.timeStamp === "string");
+          assert(typeof post.posterId === "number");
+        }
+        resolve();
+      });
+    });
+  });
+});
+
+describe('DELETE /api/user/${userId}', function() {
+  it('should delete a user', function() {
+    return new Promise((resolve, reject) => {
+      apiUtils.deleteUser(1).then(async (response) => {
+        assert.strictEqual(response.status, 200);
+        const deletedUser = await response.json();
+        assert(typeof deletedUser === "object");
+        assert(deletedUser.status === "success");
+        resolve();
+      });
+    });
+  });
+});
