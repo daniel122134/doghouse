@@ -1,15 +1,17 @@
 import './ExplorePage.css'
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {api} from "../../api.jsx";
 import ExploreDogs from "../ExploreDogs/ExploreDogs.jsx";
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import {shouldEnableSearchOptionsContext} from "../Dashboard/Dashboard.jsx";
 
 
 function ExplorePage() {
   const [searchContent, setSearchContent] = useState("");
   const [userList, setUserList] = useState([]);
   const [searchType, setSearchType] = useState("prefix");
+  const [shouldEnableSearchOptions, setShouldEnableSearchOptions] = useContext(shouldEnableSearchOptionsContext)
 
   useEffect(() => {
     findUsers()
@@ -85,7 +87,7 @@ function ExplorePage() {
             aria-label="Platform"
           >
             <ToggleButton value="prefix">Prefix</ToggleButton>
-            <ToggleButton value="substring">Substring</ToggleButton>
+            <ToggleButton value="substring" disabled={!shouldEnableSearchOptions}>Substring</ToggleButton>
           </ToggleButtonGroup>
         </div>
       </div>
