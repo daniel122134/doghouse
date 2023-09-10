@@ -1,8 +1,13 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import './FeedPage.css'
 import {api} from "../../api.jsx";
 import ProfilePicture from "../ProfilePicture/ProfilePicture.jsx";
 import "./Post.css";
+import {
+    shouldEnableEditPostContext,
+    shouldEnableSharePostButtonContext,
+    shouldEnableUnlikePostContext
+} from "../Dashboard/Dashboard.jsx";
 
 function Post({content, postId, timeStamp, posterId}) {
     const [likeNumberText, setLikeNumberText] = useState("0");
@@ -13,6 +18,9 @@ function Post({content, postId, timeStamp, posterId}) {
     const [editedContent, setEditedContent] = useState(content);
     const [profilePicture, setProfilePicture] = useState(null);
     const [userName, setUsername] = useState(null);
+    const [shouldEnableEditPost, setShouldEnableEditPost] = useContext(shouldEnableEditPostContext);
+    const [shouldEnableSharePostButton, setShouldEnableSharePostButton] = useContext(shouldEnableSharePostButtonContext);
+    const [shouldEnableUnlikePost, setShouldEnableUnlikePost] = useContext(shouldEnableUnlikePostContext);
 
     const handleEditClick = () => {
         setIsEditMode(!isEditMode);
@@ -55,7 +63,7 @@ function Post({content, postId, timeStamp, posterId}) {
           setUsername(response.username)
       })
       
-  }, []);
+  }, [shouldEnableEditPost]);
   
   return (
       <div className="posts">
@@ -74,9 +82,10 @@ function Post({content, postId, timeStamp, posterId}) {
               ) : (
                   <div className="not-edit">
                       <div className="post-content">{postContent}</div>
+                      {shouldEnableEditPost ? (
                       <div className="edit-button-container">
                           <button className="edit-button" onClick={handleEditClick}>Edit</button>
-                      </div>
+                      </div>) : null}
                   </div>
 
               )}
@@ -90,9 +99,10 @@ function Post({content, postId, timeStamp, posterId}) {
                   </>
               ) : (
                   <div className={"post-actions"}>
+                      {shouldEnableSharePostButton ? (
                       <button className="share" onClick={async () => {
                           await handleSharePost()
-                      }}>Share</button>
+                      }}>Share</button>) : null}
                       <div className="likes-container">
                           {!buttonDisabled && (
                               <button className="like" disabled={buttonDisabled} onClick={async () => {
@@ -101,13 +111,13 @@ function Post({content, postId, timeStamp, posterId}) {
                                   await loadLikeNumber();
                               }}>Bark</button>
                           )}
-                          {buttonDisabled && (
+                          {buttonDisabled && shouldEnableUnlikePost ? (
                               <button className="like" disabled={!buttonDisabled} onClick={async () => {
                                   setButtonDisabled(false);
                                   await api.removeLike(postId);
                                   await loadLikeNumber();
                               }}>UnBark</button>
-                          )}
+                          ) : null}
                           <p className={"bark-count"}>{likeNumberText} Barks</p>
                       </div>
 

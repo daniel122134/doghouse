@@ -19,7 +19,7 @@ function Feature(props) {
           checked={isFeatureEnabled}
           disabled={false}
           handleColor="white"
-          name={'shouldEnablePeeOnPolePage'}
+          name={'shouldEnableFeature'}
           offColor="white"
           onChange={async () => {
             await api.setFeatureState(props.featureName, !isFeatureEnabled)
