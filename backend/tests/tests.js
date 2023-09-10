@@ -354,11 +354,11 @@ describe('GET /api/user/:userId/followed', function () {
 describe('PUT /api/follow/:userId', function () {
   it('should return a user object', function () {
     return new Promise((resolve, reject) => {
-      apiUtils.followUser(1, 1).then(async (response) => {
+      apiUtils.followUser(follower, tofollow).then(async (response) => {
         assert(response.status === 200)
         const json = await response.json()
-        assert(json.id)
-        assert(json.following === 1)
+        assert(typeof json === "object");
+        assert(json.status === "success");
         resolve()
       })
     })
@@ -369,11 +369,11 @@ describe('PUT /api/follow/:userId', function () {
 describe('DELETE /api/follow/:userId', function () {
   it('should return a user object', function () {
     return new Promise((resolve, reject) => {
-      apiUtils.unfollowUser(1, 1).then(async (response) => {
+      apiUtils.unfollowUser(following, followed).then(async (response) => {
         assert(response.status === 200)
         const json = await response.json()
-        assert(json.id)
-        assert(json.following === 0)
+        assert(typeof json === "object");
+        assert(json.status === "success");
         resolve()
       })
     })
@@ -419,11 +419,10 @@ describe('GET /api/user/:substring', function () {
 describe('GET /api/follow/:userId', function () {
   it('should return a user object', function () {
     return new Promise((resolve, reject) => {
-      apiUtils.getIsFollowing(1, 1).then(async (response) => {
+      apiUtils.getIsFollowing(following, followed).then(async (response) => {
         assert(response.status === 200)
         const json = await response.json()
-        assert(json.id)
-        assert(json.following === 0)
+        assert(json.isFollowing === true)
         resolve()
       })
     })
