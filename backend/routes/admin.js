@@ -7,7 +7,7 @@ const router = express.Router()
 
 /**
  * @swagger
- * /api/setFeatureState:
+ * /api/admin/{featureName}:
  *   put:
  *     summary: Set the state of a feature.
  *     tags:
@@ -38,7 +38,7 @@ router.put('/:featureName', authJwt.verifyToken, authJwt.isAdmin, async (req, re
 
 /**
  * @swagger
- * /api/getFeatures:
+ * /api/admin/features:
  *   get:
  *     summary: Get the state of all features.
  *     tags:
@@ -60,7 +60,7 @@ router.get('/features', authJwt.verifyToken, async (req, res) => {
 
 /**
  * @swagger
- * /api/getEventLogs:
+ * /api/admin/eventLogs:
  *   get:
  *     summary: Get event logs.
  *     tags:
