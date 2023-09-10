@@ -397,7 +397,7 @@ describe('GET /api/user/:userId/followed', function () {
 describe('PUT /api/follow/:userId', function () {
   it('should return a user object', function () {
     return new Promise((resolve, reject) => {
-      apiUtils.followUser(follower, tofollow).then(async (response) => {
+      apiUtils.followUser(testUserId , unfollowedUserId ).then(async (response) => {
         assert(response.status === 200)
         const json = await response.json()
         assert(typeof json === "object");
@@ -412,7 +412,7 @@ describe('PUT /api/follow/:userId', function () {
 describe('DELETE /api/follow/:userId', function () {
   it('should return a user object', function () {
     return new Promise((resolve, reject) => {
-      apiUtils.unfollowUser(following, followed).then(async (response) => {
+      apiUtils.unfollowUser(testUserId , followedUserId ).then(async (response) => {
         assert(response.status === 200)
         const json = await response.json()
         assert(typeof json === "object");
@@ -462,7 +462,7 @@ describe('GET /api/user/:substring', function () {
 describe('GET /api/follow/:userId', function () {
   it('should return a user object', function () {
     return new Promise((resolve, reject) => {
-      apiUtils.getIsFollowing(following, followed).then(async (response) => {
+      apiUtils.getIsFollowing(testUserId, followedUserId).then(async (response) => {
         assert(response.status === 200)
         const json = await response.json()
         assert(json.isFollowing === true)
@@ -602,7 +602,7 @@ describe('GET /api/user/all', function() {
 describe('DELETE /api/user/${userId}', function () {
   it('should delete a user', function () {
     return new Promise((resolve, reject) => {
-      apiUtils.deleteUser(userId).then(async (response) => {
+      apiUtils.deleteUser(testUser).then(async (response) => {
         assert.strictEqual(response.status, 200);
         const deletedUser = await response.json();
         assert(typeof deletedUser === "object");
