@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import md5 from 'md5';
 import authService from "../../authService.jsx";
 import {useNavigate} from "react-router-dom";
+import {api} from "../../api.jsx";
 
 function LogInPage() {
     const [username, setUsername] = useState('');
@@ -26,8 +27,12 @@ function LogInPage() {
     return (
         <div className="login-page">
             <div className="login-page-container">
-                <h2>LogIn</h2>
                 <form onSubmit={handleLogin}>
+                    <button className="return-login" onClick={async () => {
+                        navigate("/");
+                        window.location.reload();
+                    }}>return</button>
+                    <h2>LogIn</h2>
                     <label htmlFor="username">User:</label>
                     <input className="login-inputs"
                         type="text"
@@ -54,6 +59,7 @@ function LogInPage() {
                     </label><br />
 
                     <button type="submit" className="login-submit">LogIn</button>
+
                 </form>
             </div>
         </div>

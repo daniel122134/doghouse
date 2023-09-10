@@ -28,8 +28,12 @@ function SignUpPage() {
     return (
         <div className="signup">
             <div className="signup-container">
-                <h2>Sign Up</h2>
                 <form onSubmit={handleSignup}>
+                    <button className="return-signup" onClick={async () => {
+                        navigate("/");
+                        window.location.reload();
+                    }}>return</button>
+                    <h2>Sign Up</h2>
                     <label htmlFor="username">UserName:</label>
                     <input className="signup-inputs"
                         type="text"
