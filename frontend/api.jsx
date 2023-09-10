@@ -29,7 +29,6 @@ async function handleErrors(response, data) {
   
 }
 
-
 async function post(url, data= {}, headers) {
   try {
     const response = await fetch(url, {
