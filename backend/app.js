@@ -114,7 +114,7 @@ app.use('/api/pee', pee)
 app.use('/api/user', users)  
 app.use('/api/follow', follows)
 app.use('/api/auth', auth)
-app.use('/api/posts', posts)
+app.use('/api', posts)
 app.use('/api/admin', admin)
 
 

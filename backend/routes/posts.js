@@ -111,7 +111,7 @@ router.get('/posts/:postId/updateTime', authJwt.verifyToken, async (req, res) =>
 
 /**
  * @swagger
- * /posts/followed:
+ * /api/posts/list/followed:
  *   get:
  *     tags:
  *       - Posts
@@ -121,7 +121,7 @@ router.get('/posts/:postId/updateTime', authJwt.verifyToken, async (req, res) =>
  *       '200':
  *         description: User's followed posts retrieved successfully.
  */
-router.get('/posts/followed', authJwt.verifyToken, async (req, res) => {
+router.get('/posts/list/followed', authJwt.verifyToken, async (req, res) => {
   console.log(req.query);
   const userId = req.bodyAuth.userId;
   let results = await dal.getAllUserFollowsPosts(userId);
@@ -160,7 +160,7 @@ router.get('/posts/followed', authJwt.verifyToken, async (req, res) => {
 router.post('/likes/:postId', authJwt.verifyToken, async (req, res) => {
   console.log(req.body);
   const userId = req.bodyAuth.userId;
-  const postId = req.body.postId;
+  const postId = req.params.postId;
   let results = await dal.addLike(userId, postId);
   res.send("Success");
 });
@@ -188,7 +188,7 @@ router.post('/likes/:postId', authJwt.verifyToken, async (req, res) => {
 router.delete('/likes/:postId', authJwt.verifyToken, async (req, res) => {
   console.log(req.body);
   const userId = req.bodyAuth.userId;
-  const postId = req.query.postId;
+  const postId = req.params.postId;
   let results = await dal.removeLike(userId, postId);
   res.send("Success");
 });

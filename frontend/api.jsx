@@ -166,7 +166,7 @@ async function getPostUpdateTime(postId) {
 }
 
 async function getAllUserFollowsPosts() {
-  return await get(HOST + 'api/posts/followed', {}, {})
+  return await get(HOST + 'api/posts/list/followed', {}, {})
 }
 
 async function addLike(postId) {
