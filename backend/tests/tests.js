@@ -462,7 +462,7 @@ describe('GET /api/user/:substring', function () {
 describe('GET /api/follow/:userId', function () {
   it('should return a user object', function () {
     return new Promise((resolve, reject) => {
-      apiUtils.getIsFollowing(testUserId, followedUserId).then(async (response) => {
+      apiUtils.getIsFollowing(followedUserId).then(async (response) => {
         assert(response.status === 200)
         const json = await response.json()
         assert(json.isFollowing === true)
