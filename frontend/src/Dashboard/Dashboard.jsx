@@ -2,7 +2,7 @@ import React, {createContext, useEffect, useState} from 'react'
 import './Dashboard.css'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import Sidebar from '../sidebar/Sidebar'
+import Sidebar from '../Si2debar/Sidebar'
 import Icon from "../components/Icon.jsx";
 import ProfilePage from "../ProfilePage/ProfilePage.jsx";
 import ExplorePage from "../ExplorePage/ExplorePage.jsx";
