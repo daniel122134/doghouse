@@ -130,8 +130,8 @@ async function logout() {
   return await put(HOST + 'api/auth/logout', {}, {})
 }
 
-async function signup(username,email, passwordHash) {
-  return await post(HOST + 'api/user', {username, email,passwordHash}, {})
+async function signup(username,email, passwordHash, rememberMe) {
+  return await post(HOST + 'api/user', {username, email,passwordHash, rememberMe}, {})
 }
 
 async function getEventLogs() {
