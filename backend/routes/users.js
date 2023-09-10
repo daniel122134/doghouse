@@ -213,7 +213,6 @@ router.get('/all', authJwt.verifyToken, async (req, res) => {
  *         description: User not found.
  */
 router.get('/:userId', authJwt.verifyToken, async (req, res) => {
-  //todo move filtering into query
   let results = await dal.getAllUsers()
   let user = results.find(user => user.id.toString() === req.params.userId)
   if (!user) {

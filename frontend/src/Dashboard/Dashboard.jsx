@@ -44,7 +44,7 @@ function Dashboard() {
   window.setCurrentPageCache = setCurrentPage
 
   const downloadInitialData = async () => {
-    //todo add loading screen and load stuff
+    //todo add loading screen and loaders if we have time
     api.getFeatures().then(data => {
       setShouldEnablePeeOnPolePage(data['Pee On a Pole Page']===1)
       setShouldEnableMyProfilePage(data['My Profile Page']===1)
