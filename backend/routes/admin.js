@@ -7,7 +7,7 @@ const router = express.Router()
 
 /**
  * @swagger
- * /api/setFeatureState:
+ * /api/admin/{featureName}:
  *   put:
  *     summary: Set the state of a feature.
  *     tags:
@@ -28,9 +28,9 @@ const router = express.Router()
  *       200:
  *         description: The state of the feature has been updated.
  */
-router.put('/api/setFeatureState', authJwt.verifyToken, authJwt.isAdmin, async (req, res) => {
+router.put('/:featureName', authJwt.verifyToken, authJwt.isAdmin, async (req, res) => {
     console.log(req.body)
-    const featureName = req.body.featureName
+    const featureName = req.params.featureName
     const state = req.body.featureState
     let results = await dal.setFeatureState(featureName, state)
     res.send(results)
@@ -38,7 +38,7 @@ router.put('/api/setFeatureState', authJwt.verifyToken, authJwt.isAdmin, async (
 
 /**
  * @swagger
- * /api/getFeatures:
+ * /api/admin/features:
  *   get:
  *     summary: Get the state of all features.
  *     tags:
@@ -47,7 +47,7 @@ router.put('/api/setFeatureState', authJwt.verifyToken, authJwt.isAdmin, async (
  *       200:
  *         description: A dictionary containing feature names and their states.
  */
-router.get('/api/getFeatures', authJwt.verifyToken, async (req, res) => {
+router.get('/features', authJwt.verifyToken, async (req, res) => {
     console.log(req.query)
     let results = await dal.getAllFeatures()
     let dict = {}
@@ -60,7 +60,7 @@ router.get('/api/getFeatures', authJwt.verifyToken, async (req, res) => {
 
 /**
  * @swagger
- * /api/getEventLogs:
+ * /api/admin/eventLogs:
  *   get:
  *     summary: Get event logs.
  *     tags:
@@ -69,7 +69,7 @@ router.get('/api/getFeatures', authJwt.verifyToken, async (req, res) => {
  *       200:
  *         description: An array of event logs.
  */
-router.get('/api/getEventLogs', authJwt.verifyToken, authJwt.isAdmin, async (req, res) => {
+router.get('/eventLogs', authJwt.verifyToken, authJwt.isAdmin, async (req, res) => {
     let results = await dal.getEventLogs()
     res.send(results)
 })

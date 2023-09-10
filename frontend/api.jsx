@@ -104,11 +104,11 @@ async function deleteRequest(url, data, headers) {
 }
 
 async function getFeatures() {
-  return await get(HOST + 'api/getFeatures', {}, {})
+  return await get(HOST + 'api/admin/features', {}, {})
 }
 
 async function setFeatureState(featureName, featureState) {
-  return await put(HOST + 'api/setFeatureState', {featureName, featureState}, {})
+  return await put(HOST + `api/admin/${featureName}`, {featureState}, {})
 }
 
 async function setPeePoleOwner(poleName, ownerId) {
@@ -136,7 +136,7 @@ async function signup(username,email, passwordHash) {
 }
 
 async function getEventLogs() {
-  return await get(HOST + 'api/getEventLogs', {}, {})
+  return await get(HOST + 'api/admin/eventLogs', {}, {})
 }
 
 async function getUserData(userId) {
