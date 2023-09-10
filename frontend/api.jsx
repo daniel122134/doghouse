@@ -124,11 +124,13 @@ async function getAllPoles() {
 }
 
 async function login(username, passwordHash, rememberMe) {
-  return await put(HOST + 'api/login', {username, passwordHash, rememberMe}, {})
+  const res = await put(HOST + 'api/auth/login', {username, passwordHash, rememberMe}, {})
+  debugger
+  return res
 }
 
 async function logout() {
-  return await put(HOST + 'api/logout', {}, {})
+  return await put(HOST + 'api/auth/logout', {}, {})
 }
 
 async function signup(username,email, passwordHash) {
@@ -152,35 +154,35 @@ async function updateProfilePicture(image) {
 }
 
 async function createPost(content) {
-  return await post(HOST + 'api/createPost', {content}, {})
+  return await post(HOST + 'api/posts', {content}, {})
 }
 
 async function editPostContent(postId, content) {
-  return await put(HOST + 'api/editPostContent', {postId, content}, {})
+  return await put(HOST + `api/posts/${postId}`, {content}, {})
 }
 
 async function getPostUpdateTime(postId) {
-  return await get(HOST + 'api/getPostUpdateTime', {postId}, {})
+  return await get(HOST + `api/posts/${postId}/updateTime`, {}, {})
 }
 
 async function getAllUserFollowsPosts() {
-  return await get(HOST + 'api/getAllUserFollowsPosts', {}, {})
+  return await get(HOST + 'api/posts/followed', {}, {})
 }
 
 async function addLike(postId) {
-  return await post(HOST + 'api/addLike', {postId}, {})
+  return await post(HOST + `api/likes/${postId}`, {}, {})
 }
 
 async function removeLike(postId) {
-  return await deleteRequest(HOST + 'api/removeLike', {postId}, {})
+  return await deleteRequest(HOST + `api/likes/${postId}`, {}, {})
 }
 
 async function getPostLikeNumber(postId) {
-  return await get(HOST + 'api/getPostLikeNumber', {postId}, {})
+  return await get(HOST + `api/likes/${postId}`, {}, {})
 }
 
 async function getPostLikeNumberByUser(postId) {
-  return await get(HOST + 'api/getPostLikeNumberByUser', {postId}, {})
+  return await get(HOST + `api/likes/${postId}/userLike`, {}, {})
 }
 
 async function getAllUsersNotFollowedByUser() {

@@ -19,6 +19,8 @@ import follows from "./routes/follows.js";
 // import auth from "./routes/auth.js";
 // import posts from "./routes/posts.js";
 import admin from "./routes/admin.js";
+import auth from "./routes/auth.js";
+import posts from "./routes/posts.js";
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
@@ -111,41 +113,10 @@ app.use((req, res, next) => {
 app.use('/api/pee', pee) 
 app.use('/api/user', users)  
 app.use('/api/follow', follows)
-// app.use('/api/auth', auth)
-// app.use('/api/posts', posts)
+app.use('/api/auth', auth)
+app.use('/api/posts', posts)
 app.use('/api/admin', admin)
 
-
-app.put('/api/login', async (req, res) => {
-
-  // check user password and username and set cookie
-  const username = req.body.username
-  const passwordHash = req.body.passwordHash
-  const rememberMe = req.body.rememberMe
-  let results = await dal.getAllUsers()
-  let user = results.find(user => user.username === username)
-
-  if (!user || user.passwordHash !== passwordHash) {
-    return res.status(404).send({error: "User or password did not match."});
-  }
-
-  req.session.token = authJwt.signToken(user.id, user.username, user.email, rememberMe)
-
-  await dal.logActivity(user.id, "login")
-  return res.status(200).send({
-    id: user.id,
-    username: user.username,
-    email: user.email,
-    isAdmin: username === "admin",
-  });
-
-})
-
-app.put('/api/logout', authJwt.verifyToken, async (req, res) => {
-  await dal.logActivity(req.bodyAuth.userId, "logout")
-  req.session = null
-  res.send({message: "logout success"})
-})
 
 
 const imageUploadPath = path.join(__dirname, '..', 'frontend', 'public', 'profilePictures');
@@ -169,86 +140,6 @@ app.post('/image-upload', authJwt.verifyToken, imageUpload.array("my-image-file"
 })
 
 
-app.post('/api/createPost', authJwt.verifyToken, async (req, res) => {
-  console.log(req.body)
-  const userId = req.bodyAuth.userId
-  const content = req.body.content
-  if (content.length > 300) {
-    return res.status(400).send({error: "post content too long, post must be shorter then 300 characters"})
-  }
-
-  await dal.createPost(userId, content)
-  await dal.logActivity(userId, "posted")
-  res.send("posted successfully")
-})
-
-app.put('/api/editPostContent', authJwt.verifyToken, async (req, res) => {
-  console.log(req.body)
-  const userId = req.bodyAuth.userId
-  const postId = req.body.postId
-  const content = req.body.content
-  let results = await dal.editPostContent(postId, content)
-  await dal.logActivity(userId, "updated post")
-  res.send(results)
-})
-
-app.get('/api/getPostUpdateTime', authJwt.verifyToken, async (req, res) => {
-  console.log(req.query)
-  const postId = req.query.postId
-  let results = await dal.getPostUpdateTime(postId)
-  console.log(results)
-  res.send(results)
-})
-
-app.get('/api/getAllUserFollowsPosts', authJwt.verifyToken, async (req, res) => {
-  console.log(req.query)
-  const userId = req.bodyAuth.userId
-  let results = await dal.getAllUserFollowsPosts(userId)
-  console.log(results)
-  let posts = []
-  results.forEach((item) => {
-    posts.push({
-      id: item.id,
-      content: item.content,
-      timeStamp: item.updated_at,
-      posterId: item.followedId ? item.followedId : userId,
-    })
-  })
-  res.send(posts)
-})
-
-app.post('/api/addLike', authJwt.verifyToken, async (req, res) => {
-  console.log(req.body)
-  const userId = req.bodyAuth.userId
-  const postId = req.body.postId
-  let results = await dal.addLike(userId, postId)
-  res.send("success")
-})
-
-app.delete('/api/removeLike', authJwt.verifyToken, async (req, res) => {
-  console.log(req.body)
-  const userId = req.bodyAuth.userId
-  const postId = req.query.postId
-  let results = await dal.removeLike(userId, postId)
-  res.send("success")
-})
-
-app.get('/api/getPostLikeNumber', authJwt.verifyToken, async (req, res) => {
-  console.log(req.body)
-  const postId = req.query.postId
-  let results = await dal.getPostLikeNumber(postId)
-  console.log(results)
-  res.send(results)
-})
-
-app.get('/api/getPostLikeNumberByUser', authJwt.verifyToken, async (req, res) => {
-  console.log(req.body)
-  const postId = req.query.postId
-  const userId = req.bodyAuth.userId
-  let results = await dal.getPostLikeNumberByUser(postId, userId)
-  console.log(results)
-  res.send(results)
-})
 
 
 
