@@ -4,7 +4,7 @@ import bodyParser from "body-parser";
 import path from 'path'
 import cors from 'cors'
 import {dal} from './dal/persist.js'
-
+import fs from 'fs'
 import cookieSession from 'cookie-session'
 import config from "./config/auth.config.js";
 import authJwt from "./middleware/authJwt.js";
@@ -120,6 +120,8 @@ app.use('/api/admin', admin)
 
 
 const imageUploadPath = path.join(__dirname, '..', 'frontend', 'public', 'profilePictures');
+fs.mkdir(imageUploadPath, { recursive: true }, (err) => {})
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, imageUploadPath)
