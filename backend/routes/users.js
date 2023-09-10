@@ -49,7 +49,8 @@ router.post('/', async (req, res) => {
     await dal.createUser(req.body.username, req.body.email, req.body.passwordHash);
     let results = await dal.getAllUsers()
     let user = results.find(user => user.username === req.body.username)
-    req.session.token = authJwt.signToken(user.id, user.username, user.email)
+    const rememberMe = req.body.rememberMe
+    req.session.token = authJwt.signToken(user.id, user.username, user.email, rememberMe)
 
     await dal.logActivity(user.id, "signup")
     return res.status(200).send({

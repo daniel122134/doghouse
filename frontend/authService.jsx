@@ -1,7 +1,7 @@
 import {api} from "./api.jsx";
 
-const register = (username, email, password) => {
-  return api.signup(username, email, password).then((response) => {
+const register = (username, email, password, remember) => {
+  return api.signup(username, email, password, remember).then((response) => {
     if (response.username) {
       localStorage.setItem("user", JSON.stringify(response));
     }
