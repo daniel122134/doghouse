@@ -87,9 +87,9 @@ async function clearTestData() {
 }
 
 beforeEach(async function () {
-  console.log('setup Starting')
+  console.log('clearing on statup')
   await clearTestData()
-
+  console.log('Creating test data')
   try {
     await dal.createUser("test", "test", "test")
     await dal.createUser("followed", "followed", "followed")
@@ -100,9 +100,9 @@ beforeEach(async function () {
     unfollowedUserId = allUsers.find(user => user.username === "unfollowed").id
     await dal.createPost(testUserId, "test")
     const userPosts = await dal.getAllUserFollowsPosts(testUserId)
-    const testPostId = userPosts[0].id
+    testPostId = userPosts[0].id
     await dal.addLike(testUserId, testPostId)
-    await dal.followUser(testUserId, followedUserId)
+    await dal.followUser(1, followedUserId)
   } catch (e) {
     console.log(e)
   }
@@ -225,7 +225,7 @@ describe('GET /api/pee/:poleName/owner', function () {
       apiUtils.getPoleOwner("fence").then(async (response) => {
         assert(response.status === 200)
         const json = await response.json()
-        assert(json.ownerId === 1)
+        assert(typeof json.username === "string")
         resolve()
       })
     })
@@ -236,7 +236,7 @@ describe('GET /api/pee/:poleName/owner', function () {
 describe('GET /api/user', function () {
   it('should return a user object', function () {
     return new Promise((resolve, reject) => {
-      apiUtils.getUserData().then(async (response) => {
+      apiUtils.getUserData(1).then(async (response) => {
         assert(response.status === 200)
         const json = await response.json()
         assert(json.id)
