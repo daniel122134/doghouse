@@ -23,7 +23,7 @@ const router = express.Router()
  *       200:
  *         description: success message
  */
-router.put('/:poleName/owner/', async (req, res) => {
+router.put('/:poleName/owner/', authJwt.verifyToken, async (req, res) => {
   const poleName = req.params.poleName
   const ownerId = req.body.ownerId
   let results = await dal.setPeePoleOwner(poleName, ownerId)
