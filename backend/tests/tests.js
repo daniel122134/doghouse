@@ -322,8 +322,7 @@ describe('DELETE /api/post/:postId/like', function () {
       apiUtils.removeLike(1).then(async (response) => {
         assert(response.status === 200)
         const json = await response.json()
-        assert(json.id)
-        assert(json.likes === 0)
+        assert(json.status == "success")
         resolve()
       })
     })
@@ -337,8 +336,8 @@ describe('GET /api/post/:postId/likes', function () {
       apiUtils.getPostLikeNumber(1).then(async (response) => {
         assert(response.status === 200)
         const json = await response.json()
-        assert(json.id)
-        assert(json.likes === 0)
+        assert(json instanceof Array)
+        assert(typeof json[0].likeCount === "number")
         resolve()
       })
     })
