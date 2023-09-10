@@ -75,7 +75,7 @@ function AdminPage() {
                 </div>
               </div>
               
-              <ExploreDogs followedUsers={allUsers} mode={"admin"}/>
+              <ExploreDogs userList={allUsers} mode={"admin"}/>
             </div>
           )
       }

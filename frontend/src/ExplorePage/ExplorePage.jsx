@@ -93,7 +93,7 @@ function ExplorePage() {
       </div>
 
       <div>
-        <ExploreDogs followedUsers={userList} isFollowedDefault={false}></ExploreDogs>
+        <ExploreDogs userList={userList} isFollowedDefault={false}></ExploreDogs>
       </div>
     </div>
   )

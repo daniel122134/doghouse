@@ -107,7 +107,7 @@ function ProfilePage() {
 
       <div className="profile-explore">
         <h4 className="friends-headline">friends</h4>
-          <ExploreDogs followedUsers={followedUsers} isFollowedDefault={true}></ExploreDogs>
+          <ExploreDogs userList={followedUsers} isFollowedDefault={true}></ExploreDogs>
       </div>
     </div>
   );
