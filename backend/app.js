@@ -120,6 +120,7 @@ app.use('/api/admin', admin)
 
 
 const imageUploadPath = path.join(__dirname, '..', 'frontend', 'public', 'profilePictures');
+fs.mkdir(imageUploadPath, { recursive: true }, (err) => {})
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -133,7 +134,6 @@ const imageUpload = multer({storage: storage})
 app.post('/image-upload', authJwt.verifyToken, imageUpload.array("my-image-file"), async (req, res) => {
   let results = await dal.getAllUsers()
   let user = results.find(user => user.id === req.bodyAuth.userId)
-  fs.mkdir(imageUploadPath, { recursive: true }, (err) => {})
   await dal.updateProfilePicture(user.id, path.join('/', 'public', 'profilePictures', `${req.bodyAuth.userId}.${req.files[0].originalname.split('.').pop()}`))
 
   console.log('POST request received to /image-upload.');
