@@ -20,8 +20,7 @@ function LogInPage() {
                 window.location.reload();
             }
         })
-        console.log('Logged in');
-        console.log(authService.getCurrentUser());
+
     };
 
     return (

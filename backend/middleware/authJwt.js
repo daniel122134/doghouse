@@ -17,7 +17,7 @@ const verifyToken = (req, res, next) => {
   let token = req.session.token;
 
   if (!token) {
-    return res.redirect('/login')
+    return res.redirect(303, '/login')
   }
 
   jwt.verify(token,
@@ -27,7 +27,7 @@ const verifyToken = (req, res, next) => {
       if (err) {
         req.session.token = null;
         // redirect to login page
-        return res.redirect('/login')
+        return res.redirect(303, '/login')
       }
       
       req.bodyAuth = {};

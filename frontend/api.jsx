@@ -5,9 +5,34 @@ import authService from "./authService.jsx";
 const HOST =
     process.env.NODE_ENV === 'development' ? 'http://localhost:8080/' : ''
 
+async function displayError(errorMessage) {
+  
+  window.notyf.error({
+    message: `${errorMessage}`,
+    duration: 10000,
+    x: 'center',
+    dismissible: true
+  })
+}
+
+async function handleErrors(response, data) {
+  if (data['error'] != null) {
+    await displayError(data['error'])
+  }
+  else{
+    if (response.status === 401) {
+      await authService.logout()
+      window.location.href = '/login'
+    }
+    
+  }
+  
+}
+
+
 async function post(url, data= {}, headers) {
   try {
-    const res = await fetch(url, {
+    const response = await fetch(url, {
       method: 'POST',
       headers: Object.assign({
         'Content-Type': 'application/json; charset=utf-8',
@@ -16,57 +41,34 @@ async function post(url, data= {}, headers) {
       credentials: 'include',
       body: JSON.stringify(data)
     })
-    const response = await res.json()
-    if (response['error'] != null) {
-      if (response['error'] === "out of credits") {
-        window.setCurrentPageCache("pricing")
-      } else {
-        window.notyf.error({
-          message: `${response['error']}`,
-          duration: 10000,
-          x: 'center',
-          dismissible: true
-        })
-        console.log(`Error from server on request ${url}: ${response['error']}`)
-      }
-
-    }
-    return response
+    const result = await response.json()
+    await handleErrors(response, result)
+    return result
   } catch (e) {
-    window.notyf.error({
-      message: `Error sending request: ${e}. Check your internet connection`,
-      duration: 10000,
-      x: 'center',
-      dismissible: true
-    })
-    throw e
+    await displayError(`Error sending request: ${e}. Check your internet connection`)
   }
 }
 
 async function get(url, data, headers) {
   try {
-    const res = await fetch(
+    const response = await fetch(
       url + (data == null ? '' : '?' + new URLSearchParams(data)),
       {
         credentials: 'include',
         headers: headers ?? undefined
       }
     )
-    return res.json()
+    const result = await response.json()
+    await handleErrors(response, result)
+    return result
   } catch (e) {
-    window.notyf.error({
-      message: `Error sending request: ${e}. Check your internet connection`,
-      duration: 10000,
-      x: 'center',
-      dismissible: true
-    })
-    throw e
+    await displayError(`Error sending request: ${e}. Check your internet connection`)
   }
 }
 
 async function put(url, data, headers) {
   try {
-    const res = await fetch(url, {
+    const response = await fetch(url, {
       method: 'PUT',
       headers: Object.assign({
         'Content-Type': 'application/json; charset=utf-8',
@@ -75,21 +77,17 @@ async function put(url, data, headers) {
       credentials: 'include',
       body: JSON.stringify(data)
     })
-    return res.json()
+    const result = await response.json()
+    await handleErrors(response, result)
+    return result
   } catch (e) {
-    window.notyf.error({
-      message: `Error sending request: ${e}. Check your internet connection`,
-      duration: 10000,
-      x: 'center',
-      dismissible: true
-    })
-    throw e
+    await displayError(`Error sending request: ${e}. Check your internet connection`)
   }
 }
 
 async function deleteRequest(url, data, headers) {
   try {
-    const res = await fetch(
+    const response = await fetch(
       url + (data == null ? '' : '?' + new URLSearchParams(data)),
       {
         method: 'DELETE',
@@ -97,15 +95,11 @@ async function deleteRequest(url, data, headers) {
         credentials: 'include'
       }
     )
-    return res.json()
+    const result = await response.json()
+    await handleErrors(response, result)
+    return result
   } catch (e) {
-    window.notyf.error({
-      message: `Error sending request: ${e}. Check your internet connection`,
-      duration: 10000,
-      x: 'center',
-      dismissible: true
-    })
-    throw e
+    await displayError(`Error sending request: ${e}. Check your internet connection`)
   }
 }
 

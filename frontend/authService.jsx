@@ -26,7 +26,11 @@ const logout = () => {
 };
 
 const getCurrentUser = () => {
-  return JSON.parse(localStorage.getItem("user"));
+  const currentUser = JSON.parse(localStorage.getItem("user"));
+  if (currentUser === null){
+    window.location="/"
+  }
+  return currentUser;
 };
 
 const AuthService = {

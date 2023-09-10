@@ -80,7 +80,7 @@ const Sidebar = (props) => {
       <div className="sidebar-button"
            onClick={() => props.onAdminClicked()}
            data-selected={props.currentPage === 'AdminPage'}
-           style={{display: authService.getCurrentUser().isAdmin ? 'flex' : 'none'}}
+           style={{display: authService.getCurrentUser() && authService.getCurrentUser().isAdmin ? 'flex' : 'none'}}
 
       >
         <Icon icon="fa fa-dollar"></Icon>

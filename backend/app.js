@@ -136,12 +136,8 @@ app.put('/api/login', async (req, res) => {
   let results = await dal.getAllUsers()
   let user = results.find(user => user.username === username)
 
-  if (!user) {
-    return res.status(404).send({message: "User Not found."});
-  }
-
-  if (user.passwordHash !== passwordHash) {
-    return res.status(401).send("user not authenticated")
+  if (!user || user.passwordHash !== passwordHash) {
+    return res.status(404).send({error: "User or password did not match."});
   }
 
   req.session.token = authJwt.signToken(user.id, user.username, user.email, rememberMe)

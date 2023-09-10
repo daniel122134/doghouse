@@ -5,6 +5,8 @@
     height: 100vh;
     background-color: #f4f4f4;
     font-family: 'Inter', sans-serif;
+    width: 100%;
+
 }
 
 .login-page-container {

@@ -60,7 +60,13 @@ router.post('/', async (req, res) => {
     });
 
   } catch (e) {
-    res.status(500).send({message: e})
+    let message = "Error creating user"
+    if (e["errno"] === 19) {
+      message = "Username/Email already exists"
+    }else{
+      message = e.message
+    }
+    res.status(500).send({error: message})
   }
 })
 
