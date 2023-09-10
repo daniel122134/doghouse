@@ -28,10 +28,6 @@ function LogInPage() {
         <div className="login-page">
             <div className="login-page-container">
                 <form onSubmit={handleLogin}>
-                    <button className="return-login" onClick={async () => {
-                        navigate("/");
-                        window.location.reload();
-                    }}>return</button>
                     <h2>LogIn</h2>
                     <label htmlFor="username">User:</label>
                     <input className="login-inputs"
@@ -59,7 +55,10 @@ function LogInPage() {
                     </label><br />
 
                     <button type="submit" className="login-submit">LogIn</button>
-
+                    <button className="return-login" onClick={async () => {
+                        navigate("/");
+                        window.location.reload();
+                    }}>return</button>
                 </form>
             </div>
         </div>
