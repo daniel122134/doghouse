@@ -16,6 +16,10 @@ import * as url from 'url';
 import pee from "./routes/pee.js";
 import users from "./routes/users.js";
 import follows from "./routes/follows.js";
+// import auth from "./routes/auth.js";
+// import posts from "./routes/posts.js";
+import admin from "./routes/admin.js";
+
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 const app = express()
@@ -106,26 +110,11 @@ app.use((req, res, next) => {
 
 app.use('/api/pee', pee) 
 app.use('/api/user', users)  
-app.use('/api/follow', follows)  
+app.use('/api/follow', follows)
+// app.use('/api/auth', auth)
+// app.use('/api/posts', posts)
+app.use('/api/admin', admin)
 
-
-app.put('/api/setFeatureState', authJwt.verifyToken, authJwt.isAdmin, async (req, res) => {
-  console.log(req.body)
-  const featureName = req.body.featureName
-  const state = req.body.featureState
-  let results = await dal.setFeatureState(featureName, state)
-  res.send(results)
-})
-
-app.get('/api/getFeatures', authJwt.verifyToken, async (req, res) => {
-  console.log(req.query)
-  let results = await dal.getAllFeatures()
-  let dict = {}
-  results.forEach((item) => {
-    dict[item.name] = item.state
-  })
-  res.send(dict)
-})
 
 app.put('/api/login', async (req, res) => {
 
@@ -161,14 +150,6 @@ app.put('/api/logout', authJwt.verifyToken, async (req, res) => {
   req.session = null
   res.send({message: "logout success"})
 })
-
-
-app.get('/api/getEventLogs', authJwt.verifyToken, authJwt.isAdmin, async (req, res) => {
-  let results = await dal.getEventLogs()
-  res.send(results)
-})
-
-
 
 
 const imageUploadPath = path.join(__dirname, '..', 'frontend', 'public', 'profilePictures');
@@ -272,13 +253,6 @@ app.get('/api/getPostLikeNumberByUser', authJwt.verifyToken, async (req, res) =>
   console.log(results)
   res.send(results)
 })
-
-
-
-
-
-
-
 
 
 
