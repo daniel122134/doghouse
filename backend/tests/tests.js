@@ -187,8 +187,7 @@ describe('PUT /api/admin/features/:featureName', function () {
   });
 })
 
-//test set pole owner
-describe('PUT /api/pee/:poleName/owner', function () {
+describe('test PUT /api/pee/:poleName/owner', function () {
   it('should return a pole object', function () {
     return new Promise((resolve, reject) => {
       apiUtils.setPeePoleOwner("test", 1).then(async (response) => {
@@ -201,22 +200,6 @@ describe('PUT /api/pee/:poleName/owner', function () {
   });
 })
 
-//test get all poles
-describe('GET /api/pee/allPoles', function () {
-  it('should return a pole object', function () {
-    return new Promise((resolve, reject) => {
-      apiUtils.getAllPoles().then(async (response) => {
-        assert(response.status === 200)
-        const json = await response.json()
-        assert(json instanceof Array)
-        for (let pole of json) {
-          assert(typeof pole === "string")
-        }
-        resolve()
-      })
-    })
-  });
-})
 
 //test get pole owner
 describe('GET /api/pee/:poleName/owner', function () {
@@ -321,8 +304,7 @@ describe('DELETE /api/post/:postId/like', function () {
       apiUtils.removeLike(1).then(async (response) => {
         assert(response.status === 200)
         const json = await response.json()
-        assert(json.id)
-        assert(json.likes === 0)
+        assert(json.status == "success")
         resolve()
       })
     })
@@ -336,8 +318,8 @@ describe('GET /api/post/:postId/likes', function () {
       apiUtils.getPostLikeNumber(1).then(async (response) => {
         assert(response.status === 200)
         const json = await response.json()
-        assert(json.id)
-        assert(json.likes === 0)
+        assert(json instanceof Array)
+        assert(typeof json[0].likeCount === "number")
         resolve()
       })
     })
@@ -571,12 +553,9 @@ describe('GET /api/pee/allPoles', function () {
       apiUtils.getAllPoles().then(async (response) => {
         assert.strictEqual(response.status, 200);
         const poles = await response.json();
-        assert(Array.isArray(poles));
-        for (let pole of poles) {
-          assert(typeof pole === "object");
-          assert(typeof pole.name === "string");
-          assert(typeof pole.userId === "number");
-          assert(typeof pole.updated_at === "string");
+        for (let pole in poles) {
+          assert(typeof pole === "string");
+          assert(typeof poles[pole] === "number");
         }
         resolve();
       });

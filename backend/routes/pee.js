@@ -71,9 +71,10 @@ router.get('/allPoles', authJwt.verifyToken, async (req, res) => {
   console.log(req.query)
   let results = await dal.getAllPoles()
   let dict = {}
-  results.forEach((item) => {
-    dict[item.name] = item.state
-  })
+  
+  for (const item of results) {
+    dict[item.name] = item.userId
+  }
   res.send(dict)
 })
 
