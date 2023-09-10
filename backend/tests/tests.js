@@ -2,23 +2,56 @@ import {apiUtils} from "./apiUtils.js";
 import assert from "assert";
 import {dal} from "../DAL/persist.js";
 
+let testUser = {};
+let testUserId = 0;
+
+let followedUser = {};
+let followedUserId = 0;
+
+let unfollowedUser = {};
+let unfollowedUserId = 0;
+
+let testSignUpUser = "";
+let testSignUpUserId = 0;
+
+let testPostId = 0;
+let testPost = {};
+
+
+
 async function clearTestData() {
   try {
     const allUsers = await dal.getAllUsers()
-    const testUserId = allUsers.find(user => user.username === "test").id
-    const followedUserId = allUsers.find(user => user.username === "followed").id
-    const unfollowedUserId = allUsers.find(user => user.username === "unfollowed").id
+    
+    testUser = allUsers.find(user => user.username === "test")
+    if (testUser) {
+      testUserId = testUser.id
+    }
+    followedUser = allUsers.find(user => user.username === "followed")
+    if (followedUser) {
+      followedUserId = followedUser.id
+    }
+    unfollowedUser = allUsers.find(user => user.username === "unfollowed")
+    if (unfollowedUser) {
+      unfollowedUserId = unfollowedUser.id
+    }
+    testSignUpUser = allUsers.find(user => user.username === "testSignUpUser")
+    if (testSignUpUser) {
+      testSignUpUserId = testSignUpUser.id
+    }
 
+    
     const userPosts = await dal.getAllUserFollowsPosts(testUserId)
-    const testPostId = userPosts[0].id
 
     try {
+      const testPostId = userPosts[0].id
       await dal.removeLike(testUserId, testPostId)
     } catch (e) {
       console.log(e)
     }
 
     try {
+      const testPostId = userPosts[0].id
       await dal.deletePost(testPostId)
     } catch (e) {
       console.log(e)
@@ -26,6 +59,12 @@ async function clearTestData() {
 
     try {
       await dal.deleteUser(testUserId)
+    } catch (e) {
+      console.log(e)
+    }
+
+    try {
+      await dal.deleteUser(testSignUpUserId)
     } catch (e) {
       console.log(e)
     }
@@ -49,6 +88,7 @@ async function clearTestData() {
 
 beforeEach(async function () {
   console.log('setup Starting')
+  await clearTestData()
 
   try {
     await dal.createUser("test", "test", "test")
@@ -103,12 +143,13 @@ describe('POST /api/auth/logout', function () {
 describe('POST /api/user', function () {
   it('should return a user object', function () {
     return new Promise((resolve, reject) => {
-      apiUtils.signup("test", "test", "test").then(async (response) => {
+      console.log(testSignUpUser)
+      apiUtils.signup("testSignUpUser", "testSignUpUser", "test").then(async (response) => {
         assert(response.status === 200)
         const json = await response.json()
-        assert(json.id)
-        assert(json.username === "test")
-        assert(json.email === "test")
+        assert(typeof json.id ==="number")
+        assert(json.username === "testSignUpUser")
+        assert(json.email === "testSignUpUser")
         assert(json.isAdmin === false)
         resolve()
       })
@@ -117,14 +158,16 @@ describe('POST /api/user', function () {
 })
 
 //test get feature state
-describe('GET /api/admin/feature/:featureName', function () {
-  it('should return a feature object', function () {
+describe('GET /api/admin/features', function () {
+  it('should return a features object', function () {
     return new Promise((resolve, reject) => {
-      apiUtils.getFeatureState("test").then(async (response) => {
+      apiUtils.getFeatures("Edit Post").then(async (response) => {
         assert(response.status === 200)
         const json = await response.json()
-        assert(json.state === 0)
+        assert(json["Edit Post"] === 1)
         resolve()
+      }).catch((e) => {
+        console.log(e)
       })
     })
   });
@@ -132,13 +175,13 @@ describe('GET /api/admin/feature/:featureName', function () {
 
 
 //test set feature state
-describe('PUT /api/admin/feature/:featureName', function () {
-  it('should return a feature object', function () {
+describe('PUT /api/admin/features/:featureName', function () {
+  it('should set a feature', function () {
     return new Promise((resolve, reject) => {
-      apiUtils.setFeatureState("test", 1).then(async (response) => {
+      apiUtils.setFeatureState("Edit Post", 1).then(async (response) => {
         assert(response.status === 200)
         const json = await response.json()
-        assert(json.state === 1)
+        assert(json.status === "success")
         resolve()
       })
     })
@@ -459,6 +502,8 @@ describe('GET /api/admin/features', function () {
           console.assert(features[feature] === 0 || features[feature] === 1)
         }
         resolve();
+      }).catch((err) => {
+        reject(err);
       });
     });
   });
