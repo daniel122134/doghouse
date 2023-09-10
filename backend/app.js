@@ -140,7 +140,13 @@ app.post('/image-upload', authJwt.verifyToken, imageUpload.array("my-image-file"
 })
 
 
+app.get('/readme-daniel', async (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'frontend', 'public', 'README-Daniel.html'))
+})
 
+app.get('/readme-hadar', async (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'frontend', 'public', 'README-Hadar.html'))
+})
 
 
 app.listen(port, () => {
