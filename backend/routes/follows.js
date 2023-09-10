@@ -99,7 +99,7 @@ router.get('/:userId', authJwt.verifyToken, async (req, res) => {
 
 /**
  * @swagger
- * /api/follow/usersFollowedByMe:
+ * /api/follow/list/usersFollowedByMe:
  *   get:
  *     summary: Get users followed by the authenticated user
  *     description: Get a list of users followed by the authenticated user.
@@ -109,7 +109,7 @@ router.get('/:userId', authJwt.verifyToken, async (req, res) => {
  *       '200':
  *         description: User list retrieved successfully.
  */
-router.get('/usersFollowedByMe', authJwt.verifyToken, async (req, res) => {
+router.get('/list/usersFollowedByMe', authJwt.verifyToken, async (req, res) => {
   console.log(req.body)
   const userId = req.bodyAuth.userId
   let results = await dal.getAllUsersFollowedByUser(userId)
@@ -130,7 +130,7 @@ router.get('/usersFollowedByMe', authJwt.verifyToken, async (req, res) => {
 
 /**
  * @swagger
- * /api/follow/usersNotFollowedByMe:
+ * /api/follow/list/usersNotFollowedByMe:
  *   get:
  *     summary: Get users not followed by the authenticated user
  *     description: Get a list of users not followed by the authenticated user.
@@ -140,7 +140,7 @@ router.get('/usersFollowedByMe', authJwt.verifyToken, async (req, res) => {
  *       '200':
  *         description: User list retrieved successfully.
  */
-router.get('/usersNotFollowedByMe', authJwt.verifyToken, async (req, res) => {
+router.get('/list/usersNotFollowedByMe', authJwt.verifyToken, async (req, res) => {
   console.log(req.body)
   const userId = req.bodyAuth.userId
   let results = await dal.getAllUsersNotFollowedByUser(userId)

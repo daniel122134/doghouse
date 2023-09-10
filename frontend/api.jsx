@@ -190,11 +190,11 @@ async function getPostLikeNumberByUser(postId) {
 }
 
 async function getAllUsersNotFollowedByUser() {
-  return await get(HOST + 'api/follow/usersNotFollowedByMe', {}, {})
+  return await get(HOST + 'api/follow/list/usersNotFollowedByMe', {}, {})
 }
 
 async function getAllUsersFollowedByUser() {
-  return await get(HOST + 'api/follow/usersFollowedByMe', {}, {})
+  return await get(HOST + 'api/follow/list/usersFollowedByMe', {}, {})
 }
 
 async function followUser(userId) {
