@@ -1,6 +1,7 @@
 
 import {apiUtils} from "./apiUtils.js";
 import assert from "assert";
+import {dal} from "../DAL/persist.js";
 
 
 describe('POST /api/auth/login', function() {
@@ -360,22 +361,6 @@ describe('GET /api/follow/:userId', function() {
   });
 })
 
-describe('GET /api/user/all', function() {
-  it('should return array of user ids', function() {
-    return new Promise((resolve, reject) => {
-      apiUtils.getAllUsers().then(async (response) => {
-        assert(response.status === 200)
-        const json = await response.json()
-        assert(json instanceof Array)
-        for (let user of json) {
-          assert(typeof user === "number")
-        }
-        resolve()
-      })
-    })
-  });
-})
-
 describe('GET /api/admin/features', function() {
   it('should return a feature dict', function() {
     return new Promise((resolve, reject) => {
@@ -469,20 +454,15 @@ describe('GET /api/pee/allPoles', function() {
   });
 });
 
-//******************
-describe('GET /api/follow/${userId}', function() {
-  it('should return array of posts', function() {
+describe('GET /api/user/all', function() {
+  it('should return array of user ids', function() {
     return new Promise((resolve, reject) => {
-      apiUtils.getAllUserFollowsPosts().then(async (response) => {
+      apiUtils.getAllUsers().then(async (response) => {
         assert.strictEqual(response.status, 200);
-        const posts = await response.json();
-        assert(Array.isArray(posts));
-        for (let post of posts) {
-          assert(typeof post === "object");
-          assert(typeof post.content === "string");
-          assert(typeof post.id === "number");
-          assert(typeof post.timeStamp === "string");
-          assert(typeof post.posterId === "number");
+        const usersId = await response.json();
+        assert(Array.isArray(usersId));
+        for (let userId of usersId) {
+          assert(typeof userId === "number");
         }
         resolve();
       });
@@ -493,7 +473,7 @@ describe('GET /api/follow/${userId}', function() {
 describe('DELETE /api/user/${userId}', function() {
   it('should delete a user', function() {
     return new Promise((resolve, reject) => {
-      apiUtils.deleteUser(1).then(async (response) => {
+      apiUtils.deleteUser(userId).then(async (response) => {
         assert.strictEqual(response.status, 200);
         const deletedUser = await response.json();
         assert(typeof deletedUser === "object");
