@@ -10,6 +10,7 @@ function SignUpPage() {
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
+    const [remember, setRemember] = useState(false);
     const navigate = useNavigate();
 
     const handleSignup = (e) => {
@@ -61,7 +62,8 @@ function SignUpPage() {
                     /><br />
 
                     <label>
-                        <input type="checkbox" name="remember" /> Remember me
+                        <input className="login-inputs" type="checkbox" name="remember" checked={remember}
+                               onChange={(e) => setRemember(e.target.checked)} />Remember me
                     </label><br />
 
                     <button type="submit" className="signup-submit">Sign Up</button>
