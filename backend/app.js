@@ -139,6 +139,9 @@ app.post('/image-upload', authJwt.verifyToken, imageUpload.array("my-image-file"
   res.send('POST request recieved on server to /image-upload.');
 })
 
+app.get('/readme.html', async (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'frontend', 'public', 'README.html'))
+})
 
 app.get('/readme-daniel', async (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'frontend', 'public', 'README-Daniel.html'))

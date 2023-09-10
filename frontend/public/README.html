@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DogHouse - Social Network for Dogs</title>
+</head>
+<body>
+<h1>This is a General Readme File</h1>
+
+<h2>Personal Readmes can be found here</h2>
+<ul>
+    <li><a href="http://localhost:8080/readme-hadar">Teammate #1 - Hadar</a></li>
+    <li><a href="http://localhost:8080/readme-daniel">Teammate #2 - Daniel</a></li>
+</ul>
+
+<h2>Deployment Instructions</h2>
+inside our project we have 3 package.json files
+
+<ul>
+    <li>frontend/package.json - contains the frontend dependencies and scripts</li>
+    <li>backend/package.json - contains the backend dependencies and scripts</li>
+    <li>package.json - contains the deployment scripts</li>
+</ul>
+
+
+<ul>
+    <li> the first two correspond to the frontend and backend respectively. </li>
+    <li> the third is used for deployment purposes. it contains the following scripts:</li>
+    <ul>
+        <li>npm run test - runs the backend api tests against te localhost server at port 8080</li>
+        <li>npm run all-prod - starts the backend server and builds the frontend at the same time</li>
+        <li>npm run server-prod - runs only the backend - needs to be run before running the tests</li>
+    </ul>    
+</ul>
+
+
+
+<h2>Server Routes</h2>
+<p>
+    Our application supports the following server routes:
+    <a href="http://localhost:8080/api-docs/#/">Server Routes Documentation</a>
+</p>
+</body>
+</html>
