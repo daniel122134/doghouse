@@ -51,7 +51,6 @@ function StatisticsPage() {
         },
       ],
     },
-    // ... (other statistics data)
   };
 
   return (
@@ -75,7 +74,7 @@ function StatisticsPage() {
           <Bar data={statisticsData.generationDistribution}/>
         </div>
       </div>
-      all statistics are from 
+      all statistics are from
       <a href="https://www.researchgate.net/figure/Distribution-of-dog-breeds-represented-in-the-study_fig4_294138981"> researchgate </a>
        and
       <a href="https://financesonline.com/number-of-dogs-in-the-us/"> financesonline</a>
