@@ -15,7 +15,12 @@ const signToken = (id,username, email, rememberMe) => {
 
 const verifyToken = (req, res, next) => {
   let token = req.session.token;
-
+  
+  if (!token) {
+    token = req.headers.Authorization || req.headers.authorization;
+    token = token.split(' ')[1];
+  }
+  
   if (!token) {
     return res.redirect(303, '/login')
   }
