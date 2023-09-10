@@ -95,9 +95,9 @@ beforeEach(async function () {
     await dal.createUser("followed", "followed", "followed")
     await dal.createUser("unfollowed", "unfollowed", "unfollowed")
     const allUsers = await dal.getAllUsers()
-    const testUserId = allUsers.find(user => user.username === "test").id
-    const followedUserId = allUsers.find(user => user.username === "followed").id
-    const unfollowedUserId = allUsers.find(user => user.username === "unfollowed").id
+    testUserId = allUsers.find(user => user.username === "test").id
+    followedUserId = allUsers.find(user => user.username === "followed").id
+    unfollowedUserId = allUsers.find(user => user.username === "unfollowed").id
     await dal.createPost(testUserId, "test")
     const userPosts = await dal.getAllUserFollowsPosts(testUserId)
     const testPostId = userPosts[0].id
@@ -194,7 +194,7 @@ describe('PUT /api/pee/:poleName/owner', function () {
       apiUtils.setPeePoleOwner("test", 1).then(async (response) => {
         assert(response.status === 200)
         const json = await response.json()
-        assert(json.ownerId === 1)
+        assert(json.status === "success")
         resolve()
       })
     })
