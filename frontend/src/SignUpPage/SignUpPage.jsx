@@ -18,7 +18,7 @@ function SignUpPage() {
         console.log('Signing up with:', userName,email, password);
 
         const passwordMd5 = md5(password);
-        authService.register(userName, email, passwordMd5).then((response) => {
+        authService.register(userName, email, passwordMd5, remember).then((response) => {
             if (response.username){
                 navigate("/app");
                 window.location.reload();

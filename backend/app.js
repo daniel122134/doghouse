@@ -61,12 +61,12 @@ app.get('/app', authJwt.verifyToken, (req, res) => {
 })
 
 //serve /login page
-app.get('/login', authJwt.checkIfTokenAlreadyExistsAndRedirectIntoApp, (req, res) => {
+app.get('/login', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'frontend', 'dist', 'index.html'))
 })
 
 //serve /signup page
-app.get('/signup', authJwt.checkIfTokenAlreadyExistsAndRedirectIntoApp, (req, res) => {
+app.get('/signup', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'frontend', 'dist', 'index.html'))
 })
 
