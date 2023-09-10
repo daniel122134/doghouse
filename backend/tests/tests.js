@@ -239,10 +239,13 @@ describe('GET /api/user', function () {
       apiUtils.getUserData(1).then(async (response) => {
         assert(response.status === 200)
         const json = await response.json()
-        assert(json.id)
-        assert(json.username === "test")
-        assert(json.email === "test")
-        assert(json.isAdmin === false)
+        assert(typeof json.toy == "string")
+        assert(typeof json.age === "string")
+        assert(typeof json.breed === "string")
+        assert(typeof json.location === "string")
+        assert(typeof json.bio === "string")
+        assert(typeof json.profilePicture === "string")
+        assert(typeof json.username === "string")
         resolve()
       })
     })
@@ -254,13 +257,10 @@ describe('GET /api/user', function () {
 describe('PUT /api/user', function () {
   it('should return a user object', function () {
     return new Promise((resolve, reject) => {
-      apiUtils.updateUserData("test", "test", "test").then(async (response) => {
+      apiUtils.updateUserData("test", "test", "test","test", "test", 1).then(async (response) => {
         assert(response.status === 200)
         const json = await response.json()
-        assert(json.id)
-        assert(json.username === "test")
-        assert(json.email === "test")
-        assert(json.isAdmin === false)
+        assert(json.status == "success")
         resolve()
       })
     })
@@ -274,8 +274,7 @@ describe('PUT /api/post/:postId', function () {
       apiUtils.editPostContent(1, "test").then(async (response) => {
         assert(response.status === 200)
         const json = await response.json()
-        assert(json.id)
-        assert(json.content === "test")
+        assert(json.status == "success")
         resolve()
       })
     })
@@ -290,8 +289,10 @@ describe('GET /api/post/:postId/updated', function () {
       apiUtils.getPostUpdateTime(1).then(async (response) => {
         assert(response.status === 200)
         const json = await response.json()
-        assert(json.id)
-        assert(json.updated)
+        // assert type is a arrau
+        assert(json instanceof Array)
+        // assert array contains a number
+        assert(typeof json[0].updateTime === "string")
         resolve()
       })
     })
@@ -305,8 +306,7 @@ describe('PUT /api/post/:postId/like', function () {
       apiUtils.addLike(1).then(async (response) => {
         assert(response.status === 200)
         const json = await response.json()
-        assert(json.id)
-        assert(json.likes === 1)
+        assert(json.status == "success")
         resolve()
       })
     })
