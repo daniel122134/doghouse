@@ -124,9 +124,7 @@ async function getAllPoles() {
 }
 
 async function login(username, passwordHash, rememberMe) {
-  const res = await put(HOST + 'api/auth/login', {username, passwordHash, rememberMe}, {})
-  debugger
-  return res
+  return  await put(HOST + 'api/auth/login', {username, passwordHash, rememberMe}, {})
 }
 
 async function logout() {

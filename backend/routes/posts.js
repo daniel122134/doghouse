@@ -6,7 +6,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /posts/:
+ * /api/posts/:
  *   post:
  *     tags:
  *       - Posts
@@ -44,7 +44,7 @@ router.post('/posts/', authJwt.verifyToken, async (req, res) => {
 
 /**
  * @swagger
- * /posts/{postId}:
+ * /api/posts/{postId}:
  *   put:
  *     tags:
  *       - Posts
@@ -84,7 +84,7 @@ router.put('/posts/:postId', authJwt.verifyToken, async (req, res) => {
 
 /**
  * @swagger
- * /posts/{postId}/updateTime:
+ * /api/posts/{postId}/updateTime:
  *   get:
  *     tags:
  *       - Posts
@@ -140,7 +140,7 @@ router.get('/posts/list/followed', authJwt.verifyToken, async (req, res) => {
 
 /**
  * @swagger
- * /likes/{postId}:
+ * /api/likes/{postId}:
  *   post:
  *     tags:
  *       - Likes
@@ -168,7 +168,7 @@ router.post('/likes/:postId', authJwt.verifyToken, async (req, res) => {
 
 /**
  * @swagger
- * /likes/{postId}:
+ * /api/likes/{postId}:
  *   delete:
  *     tags:
  *       - Likes
@@ -195,7 +195,7 @@ router.delete('/likes/:postId', authJwt.verifyToken, async (req, res) => {
 
 /**
  * @swagger
- * /likes/{postId}:
+ * /api/likes/{postId}:
  *   get:
  *     tags:
  *       - Likes
@@ -221,7 +221,7 @@ router.get('/likes/:postId', authJwt.verifyToken, async (req, res) => {
 
 /**
  * @swagger
- * /likes/{postId}/userLike:
+ * /api/likes/{postId}/userLike:
  *   get:
  *     tags:
  *       - Likes
