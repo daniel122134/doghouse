@@ -29,10 +29,6 @@ function SignUpPage() {
         <div className="signup">
             <div className="signup-container">
                 <form onSubmit={handleSignup}>
-                    <button className="return-signup" onClick={async () => {
-                        navigate("/");
-                        window.location.reload();
-                    }}>return</button>
                     <h2>Sign Up</h2>
                     <label htmlFor="username">UserName:</label>
                     <input className="signup-inputs"
@@ -69,6 +65,10 @@ function SignUpPage() {
                     </label><br />
 
                     <button type="submit" className="signup-submit">Sign Up</button>
+                    <button className="return-signup" onClick={async () => {
+                        navigate("/");
+                        window.location.reload();
+                    }}>return</button>
                 </form>
             </div>
         </div>
