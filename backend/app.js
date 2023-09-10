@@ -15,6 +15,7 @@ import swaggerUi from 'swagger-ui-express';
 import * as url from 'url';
 import pee from "./routes/pee.js";
 import users from "./routes/users.js";
+import follows from "./routes/follows.js";
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 const app = express()
@@ -105,6 +106,7 @@ app.use((req, res, next) => {
 
 app.use('/api/pee', pee) // todo do the same for the rest of the routes
 app.use('/api/user', users) // 
+app.use('/api/follow', follows) // 
 
 
 app.put('/api/setFeatureState', authJwt.verifyToken, authJwt.isAdmin, async (req, res) => {
@@ -298,115 +300,12 @@ app.get('/api/getPostLikeNumberByUser', authJwt.verifyToken, async (req, res) =>
   res.send(results)
 })
 
-app.get('/api/getAllUsersNotFollowedByUser', authJwt.verifyToken, async (req, res) => {
-  console.log(req.body)
-  const userId = req.bodyAuth.userId
-  let results = await dal.getAllUsersNotFollowedByUser(userId)
-  console.log(results)
-  let users = []
-  results.forEach((item) => {
-    users.push({
-      userid: item.id
-    })
-  })
-  const indexOfSelf = users.indexOf(req.bodyAuth.userId)
-  if (indexOfSelf > -1) {
-    users.splice(indexOfSelf, 1)
-  }
-  res.send(users)
-})
-
-app.get('/api/getAllUsers', authJwt.verifyToken, async (req, res) => {
-  let results = await dal.getAllUsers()
-  let users = []
-  results.forEach((item) => {
-    users.push(item.id)
-  })
-  const indexOfSelf = users.indexOf(req.bodyAuth.userId)
-  if (indexOfSelf > -1) {
-    users.splice(indexOfSelf, 1)
-  }
-  res.send(users)
-})
 
 
-app.get('/api/getAllUsersFollowedByUser', authJwt.verifyToken, async (req, res) => {
-  console.log(req.body)
-  const userId = req.bodyAuth.userId
-  let results = await dal.getAllUsersFollowedByUser(userId)
-  console.log(results)
-  let users = []
-  results.forEach((item) => {
-    users.push(
-      item.followedId
-    )
-  })
-  const indexOfSelf = users.indexOf(req.bodyAuth.userId)
-  if (indexOfSelf > -1) {
-    users.splice(indexOfSelf, 1)
-  }
-  res.send(users)
-})
-
-//unfollowUser
-app.delete('/api/unfollowUser', authJwt.verifyToken, async (req, res) => {
-  console.log(req.body)
-  const userId = req.bodyAuth.userId
-  const followedId = req.query.userId
-  let results = await dal.unfollowUser(userId, followedId)
-  res.send("success")
-})
-
-app.post('/api/followUser', authJwt.verifyToken, async (req, res) => {
-  console.log(req.body)
-  const userId = req.bodyAuth.userId
-  const followedId = req.body.userId
-  let results = await dal.followUser(userId, followedId)
-  res.send("success")
-})
 
 
-app.get('/api/getAllUsersMatchingPrefix', authJwt.verifyToken, async (req, res) => {
-  const prefix = req.query.searchContent
-  let results = await dal.getAllUsersMatchingPrefix(prefix)
-  console.log(results)
-  let users = []
-  results.forEach((item) => {
-    users.push(
-      item.id
-    )
-  })
-  const indexOfSelf = users.indexOf(req.bodyAuth.userId)
-  if (indexOfSelf > -1) {
-    users.splice(indexOfSelf, 1)
-  }
-  res.send(users)
-})
 
-app.get('/api/getAllUsersMatchingSubstring', authJwt.verifyToken, async (req, res) => {
-  const substring = req.query.searchContent
-  let results = await dal.getAllUsersMatchingSubstring(substring)
-  let users = []
-  results.forEach((item) => {
-    users.push(
-      item.id
-    )
-  })
-  const indexOfSelf = users.indexOf(req.bodyAuth.userId)
-  if (indexOfSelf > -1) {
-    users.splice(indexOfSelf, 1)
-  }
-  res.send(users)
-})
 
-//getIsFollowing
-app.get('/api/getIsFollowing', authJwt.verifyToken, async (req, res) => {
-  const userId = req.bodyAuth.userId
-  const followedId = req.query.userId
-  let results = (await dal.getIsFollowing(userId, followedId))[0].isFollowing
-  console.log(results)
-  res.send({isFollowing: results != 0})
-})
 
 
 

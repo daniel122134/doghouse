@@ -21,6 +21,8 @@ const router = express.Router()
  * paths:
  *   /api/user:
  *     post:
+ *       tags:
+ *         - Users
  *       summary: Add a new pet
  *       requestBody:
  *         description: Optional description in *Markdown*
@@ -67,7 +69,7 @@ router.post('/', async (req, res) => {
  * /api/user/{userId}:
  *   delete:
  *     tags:
- *       - users
+ *       - Users
  *     summary: deletes the user
  *     description: deletes the user
  *     parameters:
@@ -86,5 +88,103 @@ router.delete('/:userId', authJwt.verifyToken, async (req, res) => {
   let results = await dal.deleteUser(userId) 
   res.send("success")
 })
+
+/**
+ * @swagger
+ * /api/user/search/prefix/{searchContent}:
+ *   get:
+ *     tags:
+ *       - Users
+ *     summary: Get users by prefix search
+ *     description: Get a list of users whose usernames start with a specific prefix.
+ *     parameters:
+ *       - in: path
+ *         name: searchContent
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The prefix to search for in usernames.
+ *     responses:
+ *       '200':
+ *         description: User list retrieved successfully.
+ */
+router.get('/search/prefix/:searchContent', authJwt.verifyToken, async (req, res) => {
+  const prefix = req.params.searchContent
+  let results = await dal.getAllUsersMatchingPrefix(prefix)
+  console.log(results)
+  let users = []
+  results.forEach((item) => {
+    users.push(
+      item.id
+    )
+  })
+  const indexOfSelf = users.indexOf(req.bodyAuth.userId)
+  if (indexOfSelf > -1) {
+    users.splice(indexOfSelf, 1)
+  }
+  res.send(users)
+})
+
+/**
+ * @swagger
+ * /api/user/search/substring/{searchContent}:
+ *   get:
+ *     tags:
+ *       - Users
+ *     summary: Get users by substring search
+ *     description: Get a list of users whose usernames contain a specific substring.
+ *     parameters:
+ *       - in: path
+ *         name: searchContent
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The substring to search for in usernames.
+ *     responses:
+ *       '200':
+ *         description: User list retrieved successfully.
+ */
+router.get('/search/substring/:searchContent', authJwt.verifyToken, async (req, res) => {
+  const substring = req.params.searchContent
+  let results = await dal.getAllUsersMatchingSubstring(substring)
+  let users = []
+  results.forEach((item) => {
+    users.push(
+      item.id
+    )
+  })
+  const indexOfSelf = users.indexOf(req.bodyAuth.userId)
+  if (indexOfSelf > -1) {
+    users.splice(indexOfSelf, 1)
+  }
+  res.send(users)
+})
+
+/**
+ * @swagger
+ * /api/user/all:
+ *   get:
+ *     tags:
+ *       - Users
+ *     summary: Get all users
+ *     description: Get a list of all users except the authenticated user.
+ *     responses:
+ *       '200':
+ *         description: User list retrieved successfully.
+ */
+router.get('/all', authJwt.verifyToken, async (req, res) => {
+  let results = await dal.getAllUsers()
+  let users = []
+  results.forEach((item) => {
+    users.push(item.id)
+  })
+  const indexOfSelf = users.indexOf(req.bodyAuth.userId)
+  if (indexOfSelf > -1) {
+    users.splice(indexOfSelf, 1)
+  }
+  res.send(users)
+})
+
+
 
 export default router

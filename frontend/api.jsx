@@ -190,35 +190,35 @@ async function getPostLikeNumberByUser(postId) {
 }
 
 async function getAllUsersNotFollowedByUser() {
-  return await get(HOST + 'api/getAllUsersNotFollowedByUser', {}, {})
+  return await get(HOST + 'api/follow/usersNotFollowedByMe', {}, {})
 }
 
 async function getAllUsersFollowedByUser() {
-  return await get(HOST + 'api/getAllUsersFollowedByUser', {}, {})
+  return await get(HOST + 'api/follow/usersFollowedByMe', {}, {})
 }
 
 async function followUser(userId) {
-  return await post(HOST + 'api/followUser', {userId}, {})
+  return await post(HOST + `api/follow/${userId}`, {}, {})
 }
 
 async function unfollowUser(userId) {
-  return await deleteRequest(HOST + 'api/unfollowUser', {userId}, {})
+  return await deleteRequest(HOST + `api/follow/${userId}`, {}, {})
 }
 
 async function getAllUsersMatchingPrefix(searchContent) {
-  return await get(HOST + 'api/getAllUsersMatchingPrefix', {searchContent}, {})
+  return await get(HOST + `api/user/search/prefix/${searchContent}`, {searchContent}, {})
 }
 
 async function getAllUsersMatchingSubstring(searchContent) {
-  return await get(HOST + 'api/getAllUsersMatchingSubstring', {searchContent}, {})
+  return await get(HOST + `api/user/search/substring/${searchContent}`, {}, {})
 }
 
 async function getAllUsers() {
-  return await get(HOST + 'api/getAllUsers', {}, {})
+  return await get(HOST + 'api/user/all', {}, {})
 }
 
 async function getIsFollowing(userId) {
-  return await get(HOST + 'api/getIsFollowing', {userId}, {})
+  return await get(HOST + `api/follow/${userId}`, {}, {})
 }
 
 async function deleteUser(userId) {
